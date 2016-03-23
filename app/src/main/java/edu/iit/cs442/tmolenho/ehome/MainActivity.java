@@ -1,5 +1,6 @@
 package edu.iit.cs442.tmolenho.ehome;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -30,11 +32,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // display DashboardFragment initially
         Fragment dashboard = DashboardFragment.newInstance("", "");
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
                 .replace(R.id.contentFragment, dashboard)
                 .commit();
+
+        navigationView.setCheckedItem(R.id.nav_dashboard);
     }
 
     @Override
@@ -69,24 +74,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (!item.isChecked()) {
+            switch (item.getItemId()) {
+                case R.id.nav_dashboard:
+                    break;
+                case R.id.nav_admin_add:
+                    break;
+                case R.id.nav_search_offline:
+                    break;
+                case R.id.nav_search_online:
+                    break;
+                case R.id.nav_search_options:
+                    break;
+                case R.id.nav_account_setttings:
+                    break;
+                case R.id.nav_logout:
+                    // TODO handle other logout tasks, clear backstack etc
+                    Intent logout = new Intent(this, LoginActivity.class);
+                    startActivity(logout);
+                    break;
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
