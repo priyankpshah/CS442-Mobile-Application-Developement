@@ -1,6 +1,5 @@
 package edu.iit.cs442.tmolenho.ehome;
 
-// changes made by vedant
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
