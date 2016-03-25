@@ -14,7 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DashboardFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        AccountSettingsFragment.OnFragmentInteractionListener,
+        DashboardFragment.OnFragmentInteractionListener,
+        SearchOfflineFragment.OnFragmentInteractionListener,
+        SearchOnlineFragment.OnFragmentInteractionListener,
+        SearchOptionsFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +82,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         if (!item.isChecked()) {
+            FragmentManager fm = getSupportFragmentManager();
+
             switch (item.getItemId()) {
                 case R.id.nav_dashboard:
+                    Fragment dashboard = DashboardFragment.newInstance("", "");
+                    fm.beginTransaction()
+                            .replace(R.id.contentFragment, dashboard)
+                            .commit();
                     break;
                 case R.id.nav_admin_add:
+                    // TODO
                     break;
                 case R.id.nav_search_offline:
+                    Fragment searchOffline = SearchOfflineFragment.newInstance("", "");
+                    fm.beginTransaction()
+                            .replace(R.id.contentFragment, searchOffline)
+                            .commit();
                     break;
                 case R.id.nav_search_online:
+                    Fragment searchOnline = SearchOfflineFragment.newInstance("", "");
+                    fm.beginTransaction()
+                            .replace(R.id.contentFragment, searchOnline)
+                            .commit();
                     break;
                 case R.id.nav_search_options:
+                    Fragment searchOptions = SearchOfflineFragment.newInstance("", "");
+                    fm.beginTransaction()
+                            .replace(R.id.contentFragment, searchOptions)
+                            .commit();
                     break;
                 case R.id.nav_account_setttings:
+                    Fragment accountSettings = AccountSettingsFragment.newInstance("", "");
+                    fm.beginTransaction()
+                            .replace(R.id.contentFragment, accountSettings)
+                            .commit();
                     break;
                 case R.id.nav_logout:
                     // TODO handle other logout tasks, clear backstack etc
