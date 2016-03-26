@@ -1,4 +1,4 @@
-package edu.iit.cs442.tmolenho.ehome;
+package edu.iit.cs442.team15.ehome;
 
 import android.content.Intent;
 import android.os.Bundle;

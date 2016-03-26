@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.iit.cs442.tmolenho.ehome">
+    package="edu.iit.cs442.team15.ehome">
 
     <application
         android:allowBackup="true"

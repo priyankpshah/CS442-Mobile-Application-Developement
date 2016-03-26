@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "edu.iit.cs442.tmolenho.ehome"
+        applicationId "edu.iit.cs442.team15.ehome"
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1

@@ -1,4 +1,4 @@
-package edu.iit.cs442.tmolenho.ehome;
+package edu.iit.cs442.team15.ehome;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

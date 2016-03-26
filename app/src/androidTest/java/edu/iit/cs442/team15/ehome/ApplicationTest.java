@@ -1,4 +1,4 @@
-package edu.iit.cs442.tmolenho.ehome;
+package edu.iit.cs442.team15.ehome;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
