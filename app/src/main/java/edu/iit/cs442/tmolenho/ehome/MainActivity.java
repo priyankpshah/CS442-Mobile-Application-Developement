@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Fragment dashboard = DashboardFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, dashboard)
+                            .addToBackStack(null)
                             .commit();
                     break;
                 case R.id.nav_admin_add:
@@ -96,24 +97,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Fragment searchOffline = SearchOfflineFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, searchOffline)
+                            .addToBackStack(null)
                             .commit();
                     break;
                 case R.id.nav_search_online:
                     Fragment searchOnline = SearchOnlineFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, searchOnline)
+                            .addToBackStack(null)
                             .commit();
                     break;
                 case R.id.nav_search_options:
                     Fragment searchOptions = SearchOptionsFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, searchOptions)
+                            .addToBackStack(null)
                             .commit();
                     break;
                 case R.id.nav_account_setttings:
                     Fragment accountSettings = AccountSettingsFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, accountSettings)
+                            .addToBackStack(null)
                             .commit();
                     break;
                 case R.id.nav_logout:
