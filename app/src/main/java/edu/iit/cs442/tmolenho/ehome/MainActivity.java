@@ -99,13 +99,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .commit();
                     break;
                 case R.id.nav_search_online:
-                    Fragment searchOnline = SearchOfflineFragment.newInstance("", "");
+                    Fragment searchOnline = SearchOnlineFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, searchOnline)
                             .commit();
                     break;
                 case R.id.nav_search_options:
-                    Fragment searchOptions = SearchOfflineFragment.newInstance("", "");
+                    Fragment searchOptions = SearchOptionsFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, searchOptions)
                             .commit();
