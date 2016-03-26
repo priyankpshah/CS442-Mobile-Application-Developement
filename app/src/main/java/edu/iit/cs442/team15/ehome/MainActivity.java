@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // display DashboardFragment initially
         fm = getSupportFragmentManager();
-        Fragment dashboard = DashboardFragment.newInstance("", "");
+        Fragment dashboard = DashboardFragment.newInstance();
         fm.beginTransaction().replace(R.id.contentFragment, dashboard).commit();
 
         navigationView.setCheckedItem(R.id.nav_dashboard);
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             switch (item.getItemId()) {
                 // TODO convert to only one beginTransaction() if possible in future
                 case R.id.nav_dashboard:
-                    Fragment dashboard = DashboardFragment.newInstance("", "");
+                    Fragment dashboard = DashboardFragment.newInstance();
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, dashboard)
                             .addToBackStack(null)
