@@ -12,18 +12,18 @@
         android:layout_weight="1">
 
         <TextView
-            android:id="@+id/favHeader"
+            android:id="@+id/favoritesHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Favorites"
-            android:textColor="#111"
+            android:textColor="@color/dashboard_header_text"
             android:textSize="16sp" />
 
         <View
-            android:id="@+id/favDivider"
+            android:id="@+id/divider0"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/favHeader"
+            android:layout_below="@id/favoritesHeader"
             android:background="#111" />
 
         <TextView
@@ -32,9 +32,9 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/favDivider"
+            android:layout_below="@id/divider0"
             android:gravity="center"
-            android:text="You have no favorites!" />
+            android:text="You have no favorites." />
 
     </RelativeLayout>
 
@@ -49,11 +49,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recently Viewed"
-            android:textColor="#111"
+            android:textColor="@color/dashboard_header_text"
             android:textSize="16sp" />
 
         <View
-            android:id="@+id/recentDivider"
+            android:id="@+id/divider1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/recentHeader"
@@ -65,9 +65,9 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/recentDivider"
+            android:layout_below="@id/divider1"
             android:gravity="center"
-            android:text="You have no recently viewed items!" />
+            android:text="You have no recently viewed items." />
     </RelativeLayout>
 
     <RelativeLayout
@@ -80,25 +80,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recommendations"
-            android:textColor="#333"
+            android:textColor="@color/dashboard_header_text"
             android:textSize="16sp" />
 
         <View
-            android:id="@+id/recDivider"
+            android:id="@+id/divider2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/recommendationHeader"
             android:background="#111" />
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/recDivider"
+            android:layout_below="@id/divider2"
             android:gravity="center"
-            android:paddingTop="8dp" />
+            android:text="No recommendations available." />
 
     </RelativeLayout>
 

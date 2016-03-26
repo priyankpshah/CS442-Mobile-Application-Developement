@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SearchOnlineFragment.OnFragmentInteractionListener,
         SearchOptionsFragment.OnFragmentInteractionListener {
 
+    private FragmentManager fm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +33,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // display DashboardFragment initially
+        fm = getSupportFragmentManager();
         Fragment dashboard = DashboardFragment.newInstance("", "");
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-                .replace(R.id.contentFragment, dashboard)
-                .commit();
+        fm.beginTransaction().replace(R.id.contentFragment, dashboard).commit();
 
         navigationView.setCheckedItem(R.id.nav_dashboard);
     }
@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         if (!item.isChecked()) {
-            FragmentManager fm = getSupportFragmentManager();
-
             switch (item.getItemId()) {
                 case R.id.nav_dashboard:
                     Fragment dashboard = DashboardFragment.newInstance("", "");
