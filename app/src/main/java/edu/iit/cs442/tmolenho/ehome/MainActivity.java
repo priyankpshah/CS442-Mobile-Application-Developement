@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SearchOnlineFragment.OnFragmentInteractionListener,
         SearchOptionsFragment.OnFragmentInteractionListener {
 
+    private DrawerLayout drawer;
     private FragmentManager fm;
 
     @Override
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         if (!item.isChecked()) {
             switch (item.getItemId()) {
+                // TODO convert to only one beginTransaction() if possible in future
                 case R.id.nav_dashboard:
                     Fragment dashboard = DashboardFragment.newInstance("", "");
                     fm.beginTransaction()
@@ -129,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
