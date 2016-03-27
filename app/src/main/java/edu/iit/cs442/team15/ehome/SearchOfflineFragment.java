@@ -3,7 +3,6 @@ package edu.iit.cs442.team15.ehome;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,15 +58,6 @@ public class SearchOfflineFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        // update selected item in nav drawer
-        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(R.id.nav_search_offline);
     }
 
     @Override

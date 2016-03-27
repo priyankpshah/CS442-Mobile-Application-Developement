@@ -37,11 +37,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // display DashboardFragment initially
         fm = getSupportFragmentManager();
+        fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (fm.getBackStackEntryCount() > 0) {
+                    FragmentManager.BackStackEntry top = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1);
+
+                    switch (top.getName()) {
+                        case "dashboard":
+                            navigationView.setCheckedItem(R.id.nav_dashboard);
+                            break;
+                        case "search_offline":
+                            navigationView.setCheckedItem(R.id.nav_search_offline);
+                            break;
+                        case "search_online":
+                            navigationView.setCheckedItem(R.id.nav_search_online);
+                            break;
+                        case "search_options":
+                            navigationView.setCheckedItem(R.id.nav_search_options);
+                            break;
+                        case "account_settings":
+                            navigationView.setCheckedItem(R.id.nav_account_setttings);
+                            break;
+                    }
+                }
+            }
+        });
         Fragment dashboard = DashboardFragment.newInstance();
         fm.beginTransaction().replace(R.id.contentFragment, dashboard).commit();
 
@@ -88,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Fragment dashboard = DashboardFragment.newInstance();
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, dashboard)
-                            .addToBackStack(null)
+                            .addToBackStack("dashboard")
                             .commit();
                     break;
                 case R.id.nav_admin_add:
@@ -98,28 +124,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Fragment searchOffline = SearchOfflineFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, searchOffline)
-                            .addToBackStack(null)
+                            .addToBackStack("search_offline")
                             .commit();
                     break;
                 case R.id.nav_search_online:
                     Fragment searchOnline = SearchOnlineFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, searchOnline)
-                            .addToBackStack(null)
+                            .addToBackStack("search_online")
                             .commit();
                     break;
                 case R.id.nav_search_options:
                     Fragment searchOptions = SearchOptionsFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, searchOptions)
-                            .addToBackStack(null)
+                            .addToBackStack("search_options")
                             .commit();
                     break;
                 case R.id.nav_account_setttings:
                     Fragment accountSettings = AccountSettingsFragment.newInstance("", "");
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, accountSettings)
-                            .addToBackStack(null)
+                            .addToBackStack("account_settings")
                             .commit();
                     break;
                 case R.id.nav_logout:
