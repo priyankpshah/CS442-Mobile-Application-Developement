@@ -67,12 +67,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // User exists
             user = new User();
             user.id = result.getInt(result.getColumnIndex(Users.KEY_ID));
-            user.passwordHint = result.getString(result.getColumnIndex(Users.KEY_HINT));
             user.name = result.getString(result.getColumnIndex(Users.KEY_NAME));
             user.address = result.getString(result.getColumnIndex(Users.KEY_ADDRESS));
             user.phone = result.getString(result.getColumnIndex(Users.KEY_PHONE));
         }
         result.close();
+        db.close();
 
         return user;
     }

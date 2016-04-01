@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class ApartmentDatabaseHelper extends SQLiteOpenHelper {
+public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "offline_apartments";
     private static final int DB_VERSION = 1;
