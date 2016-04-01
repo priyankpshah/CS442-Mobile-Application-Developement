@@ -1,4 +1,4 @@
-package edu.iit.cs442.team15.ehome;
+package edu.iit.cs442.team15.ehome.util;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

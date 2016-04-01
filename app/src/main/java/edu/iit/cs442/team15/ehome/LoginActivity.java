@@ -9,8 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import edu.iit.cs442.team15.ehome.ApartmentDatabaseHelper.Users;
 import edu.iit.cs442.team15.ehome.model.User;
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Users;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 User user = login(email, password);
 
-                // TODO error feedback, pw hint, pass user data to MainActivity
+                // TODO error feedback, pw hint, pass User data to MainActivity
                 if (user != null) {
                     Intent login = new Intent(this, MainActivity.class);
                     startActivity(login);
@@ -63,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         User user = null;
 
         if (result.moveToFirst()) {
-            // user exists
+            // User exists
             user = new User();
             user.id = result.getInt(result.getColumnIndex(Users.KEY_ID));
             user.passwordHint = result.getString(result.getColumnIndex(Users.KEY_HINT));
