@@ -1,19 +1,22 @@
 package edu.iit.cs442.team15.ehome;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import edu.iit.cs442.team15.ehome.model.User;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Users;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String SAVED_LOGIN_PREFS = "saved_login_prefs";
+    public static final String EXTRA_LOGOUT = "logout";
 
     EditText emailEditText;
     EditText passwordEditText;
@@ -31,6 +34,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
         registerButton.setOnClickListener(this);
+
+        SharedPreferences savedLoginPrefs = getSharedPreferences(SAVED_LOGIN_PREFS, MODE_PRIVATE);
+
+        if (getIntent().getBooleanExtra(EXTRA_LOGOUT, false)) {
+            // remove saved user login
+            savedLoginPrefs.edit()
+                    .remove(Users.KEY_EMAIL)
+                    .remove(Users.KEY_PASSWORD)
+                    .apply();
+        } else {
+            // check if user is already signed in, and sign them in if they are
+            String savedEmail = savedLoginPrefs.getString(Users.KEY_EMAIL, null);
+            String savedPassword = savedLoginPrefs.getString(Users.KEY_PASSWORD, null);
+
+            if (savedEmail != null && savedPassword != null)
+                login(savedEmail, savedPassword);
+        }
     }
 
     @Override
@@ -40,13 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
-                User user = login(email, password);
-
-                // TODO error feedback, pw hint, pass User data to MainActivity
-                if (user != null) {
-                    Intent login = new Intent(this, MainActivity.class);
-                    startActivity(login);
-                }
+                login(email, password);
                 break;
             case R.id.registerButton:
                 Intent register = new Intent(this, CreateAccountActivity.class);
@@ -55,26 +69,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private User login(String email, String password) {
-        SQLiteDatabase db = ApartmentDatabaseHelper.getInstance(this).getReadableDatabase();
+    private void login(String email, String password) {
+        User user = ApartmentDatabaseHelper.getInstance(this).getUser(email, password);
 
-        final String sqlQuery = "SELECT * FROM " + Users.TABLE_NAME + " WHERE " + Users.KEY_EMAIL + "=? AND " + Users.KEY_PASSWORD + "=?";
-        Cursor result = db.rawQuery(sqlQuery, new String[]{email, password});
+        // TODO better error feedback, pass User data to MainActivity
+        if (user != null) {
+            // save login info
+            SharedPreferences savedLoginPrefs = getSharedPreferences(SAVED_LOGIN_PREFS, MODE_PRIVATE);
+            savedLoginPrefs.edit()
+                    .putString(Users.KEY_EMAIL, email)
+                    .putString(Users.KEY_PASSWORD, password)
+                    .apply();
 
-        User user = null;
-
-        if (result.moveToFirst()) {
-            // User exists
-            user = new User();
-            user.id = result.getInt(result.getColumnIndex(Users.KEY_ID));
-            user.name = result.getString(result.getColumnIndex(Users.KEY_NAME));
-            user.address = result.getString(result.getColumnIndex(Users.KEY_ADDRESS));
-            user.phone = result.getString(result.getColumnIndex(Users.KEY_PHONE));
+            Intent login = new Intent(this, MainActivity.class);
+            startActivity(login);
+            finish();
+        } else {
+            Toast.makeText(this, "Login failed.", Toast.LENGTH_LONG).show();
         }
-        result.close();
-        db.close();
-
-        return user;
     }
 
 }
