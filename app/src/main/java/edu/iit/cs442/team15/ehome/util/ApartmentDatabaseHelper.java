@@ -37,22 +37,25 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void setupDatabase() {
-        getReadableDatabase(); // creates an empty database file
+        // check if database already exists
+        if (!context.getDatabasePath(DB_NAME).exists()) {
+            getReadableDatabase(); // creates an empty database file
 
-        try {
-            InputStream input = context.getAssets().open(DB_NAME + ".db");
-            OutputStream output = new FileOutputStream(context.getDatabasePath(DB_NAME));
+            try {
+                InputStream input = context.getAssets().open(DB_NAME + ".db");
+                OutputStream output = new FileOutputStream(context.getDatabasePath(DB_NAME));
 
-            //copy bytes from the input file to the output file
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = input.read(buffer)) > 0)
-                output.write(buffer, 0, length);
+                //copy bytes from the input file to the output file
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = input.read(buffer)) > 0)
+                    output.write(buffer, 0, length);
 
-            output.close();
-            input.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+                output.close();
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
