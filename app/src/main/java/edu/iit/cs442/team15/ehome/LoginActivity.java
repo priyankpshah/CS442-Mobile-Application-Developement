@@ -15,8 +15,9 @@ import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Users;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String SAVED_LOGIN_PREFS = "saved_login_prefs";
     public static final String EXTRA_LOGOUT = "logout";
+
+    public static final String SAVED_LOGIN_PREFS = "saved_login_prefs";
 
     EditText loginEmail;
     EditText loginPassword;
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             savedLoginPrefs.edit()
                     .remove(Users.KEY_EMAIL)
                     .remove(Users.KEY_PASSWORD)
+                    .remove(Users.KEY_NAME)
                     .apply();
         } else {
             // check if user is already signed in, and sign them in if they are
@@ -72,13 +74,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void login(String email, String password) {
         User user = ApartmentDatabaseHelper.getInstance(this).getUser(email, password);
 
-        // TODO better error feedback, pass User data to MainActivity
+        // TODO better error feedback
         if (user != null) {
             // save login info
             SharedPreferences savedLoginPrefs = getSharedPreferences(SAVED_LOGIN_PREFS, MODE_PRIVATE);
             savedLoginPrefs.edit()
-                    .putString(Users.KEY_EMAIL, email)
-                    .putString(Users.KEY_PASSWORD, password)
+                    .putString(Users.KEY_EMAIL, user.email)
+                    .putString(Users.KEY_PASSWORD, user.password)
+                    .putString(Users.KEY_NAME, user.name)
                     .apply();
 
             Intent login = new Intent(this, MainActivity.class);

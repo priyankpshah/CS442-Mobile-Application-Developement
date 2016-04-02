@@ -1,6 +1,7 @@
 package edu.iit.cs442.team15.ehome;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,6 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Users;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         AccountSettingsFragment.OnFragmentInteractionListener,
@@ -40,11 +45,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // display DashboardFragment initially
+        // display user Name and Email in nav header
+        SharedPreferences savedLoginPrefs = getSharedPreferences(LoginActivity.SAVED_LOGIN_PREFS, MODE_PRIVATE);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navHeaderName = (TextView) headerView.findViewById(R.id.navHeaderName);
+        TextView navHeaderEmail = (TextView) headerView.findViewById(R.id.navHeaderEmail);
+        navHeaderName.setText(savedLoginPrefs.getString(Users.KEY_NAME, null));
+        navHeaderEmail.setText(savedLoginPrefs.getString(Users.KEY_EMAIL, null));
+
         fm = getSupportFragmentManager();
         fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
+                // select correct menu entry on back pressed
                 if (fm.getBackStackEntryCount() > 0) {
                     FragmentManager.BackStackEntry top = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1);
 
@@ -68,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+        // display DashboardFragment initially
         Fragment dashboard = DashboardFragment.newInstance();
         fm.beginTransaction().replace(R.id.contentFragment, dashboard).commit();
 
