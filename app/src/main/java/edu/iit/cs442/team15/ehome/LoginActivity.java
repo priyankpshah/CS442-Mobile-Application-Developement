@@ -15,9 +15,12 @@ import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Users;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String EXTRA_LOGOUT = "logout";
+    public static final String EXTRA_EMAIL = "extra_email";
+    public static final String EXTRA_LOGOUT = "extra_logout";
 
     public static final String SAVED_LOGIN_PREFS = "saved_login_prefs";
+
+    public static final int CREATE_ACCOUNT_REQUEST = 10;
 
     EditText loginEmail;
     EditText loginPassword;
@@ -56,6 +59,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case CREATE_ACCOUNT_REQUEST:
+                if (resultCode == RESULT_OK)
+                    loginEmail.setText(data.getStringExtra(EXTRA_EMAIL));
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginButton:
@@ -66,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.registerButton:
                 Intent register = new Intent(this, RegisterActivity.class);
-                startActivity(register);
+                startActivityForResult(register, CREATE_ACCOUNT_REQUEST);
                 break;
         }
     }
