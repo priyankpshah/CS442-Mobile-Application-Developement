@@ -18,16 +18,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String SAVED_LOGIN_PREFS = "saved_login_prefs";
     public static final String EXTRA_LOGOUT = "logout";
 
-    EditText emailEditText;
-    EditText passwordEditText;
+    EditText loginEmail;
+    EditText loginPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        emailEditText = (EditText) findViewById(R.id.emailEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+        loginEmail = (EditText) findViewById(R.id.loginEmail);
+        loginPassword = (EditText) findViewById(R.id.loginPassword);
 
         Button loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
@@ -57,13 +57,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginButton:
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+                String email = loginEmail.getText().toString();
+                String password = loginPassword.getText().toString();
 
                 login(email, password);
                 break;
             case R.id.registerButton:
-                Intent register = new Intent(this, CreateAccountActivity.class);
+                Intent register = new Intent(this, RegisterActivity.class);
                 startActivity(register);
                 break;
         }

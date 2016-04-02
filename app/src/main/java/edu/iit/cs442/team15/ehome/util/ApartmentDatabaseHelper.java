@@ -1,5 +1,6 @@
 package edu.iit.cs442.team15.ehome.util;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -67,8 +68,21 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public long addUser(User newUser) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Users.KEY_EMAIL, newUser.email);
+        values.put(Users.KEY_PASSWORD, newUser.password);
+        values.put(Users.KEY_NAME, newUser.name);
+        values.put(Users.KEY_ADDRESS, newUser.address);
+        values.put(Users.KEY_PHONE, newUser.phone);
+
+        return db.insert(Users.TABLE_NAME, null, values);
+    }
+
     @Nullable
-    public User getUser(String email, String password) {
+    public User getUser(final String email, final String password) {
         SQLiteDatabase db = getReadableDatabase();
 
         final String sqlQuery = "SELECT * FROM " + Users.TABLE_NAME + " WHERE " + Users.KEY_EMAIL + "=? AND " + Users.KEY_PASSWORD + "=?";
@@ -78,13 +92,13 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
         if (result.moveToFirst()) {
             // User exists
-            user = new User();
-            user.id = result.getInt(result.getColumnIndex(Users.KEY_ID));
-            user.email = email;
-            user.password = password;
-            user.name = result.getString(result.getColumnIndex(Users.KEY_NAME));
-            user.address = result.getString(result.getColumnIndex(Users.KEY_ADDRESS));
-            user.phone = result.getString(result.getColumnIndex(Users.KEY_PHONE));
+            user = new User()
+                    .setId(result.getInt(result.getColumnIndex(Users.KEY_ID)))
+                    .setEmail(email)
+                    .setPassword(password)
+                    .setName(result.getString(result.getColumnIndex(Users.KEY_NAME)))
+                    .setAddress(result.getString(result.getColumnIndex(Users.KEY_ADDRESS)))
+                    .setPhone(result.getString(result.getColumnIndex(Users.KEY_PHONE)));
         }
 
         result.close();

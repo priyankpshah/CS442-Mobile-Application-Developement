@@ -16,4 +16,11 @@
     <string name="nav_search_options">Search Options</string>
     <string name="nav_account_settings">Account Settings</string>
     <string name="nav_logout">Logout</string>
+
+    <string name="input_email">Email</string>
+    <string name="input_password">Password</string>
+    <string name="input_confirm_password">Confirm Password</string>
+    <string name="input_name">Name</string>
+    <string name="input_address">Address</string>
+    <string name="input_phone">Phone</string>
 </resources>
