@@ -1,13 +1,96 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.iit.cs442.team15.ehome.AccountSettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Account Settings" />
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/accountHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_account" />
+
+        <EditText
+            android:id="@+id/accountEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accountHeader"
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/accountNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accountEmail"
+            android:hint="@string/hint_new_password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/accountConfirmNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accountNewPassword"
+            android:hint="@string/hint_confirm_new_password"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/contactHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accountConfirmNewPassword"
+            android:text="@string/header_contact" />
+
+        <EditText
+            android:id="@+id/accountName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contactHeader"
+            android:hint="@string/hint_name" />
+
+        <EditText
+            android:id="@+id/accountAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accountName"
+            android:hint="@string/hint_address" />
+
+        <EditText
+            android:id="@+id/accountPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accountAddress"
+            android:hint="@string/hint_phone"
+            android:inputType="phone" />
+
+        <TextView
+            android:id="@+id/confirmHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accountPhone"
+            android:text="@string/header_confirm" />
+
+        <EditText
+            android:id="@+id/accountCurrentPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/confirmHeader"
+            android:hint="@string/hint_current_password"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/updateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/accountCurrentPassword"
+            android:enabled="false"
+            android:text="@string/button_update" />
+
+    </RelativeLayout>
+
+</ScrollView>

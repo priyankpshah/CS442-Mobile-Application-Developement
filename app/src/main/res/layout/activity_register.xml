@@ -15,14 +15,14 @@
             android:id="@+id/accountGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Account" />
+            android:text="@string/header_account" />
 
         <EditText
             android:id="@+id/registerEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/accountGroup"
-            android:hint="@string/input_email"
+            android:hint="@string/hint_email"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerEmail"
-            android:hint="@string/input_password"
+            android:hint="@string/hint_password"
             android:inputType="textPassword" />
 
         <EditText
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerPassword"
-            android:hint="@string/input_confirm_password"
+            android:hint="@string/hint_confirm_password"
             android:inputType="textPassword" />
 
         <TextView
@@ -46,28 +46,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerConfirmPassword"
-            android:text="Contact" />
+            android:text="@string/header_contact" />
 
         <EditText
             android:id="@+id/registerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/contactGroup"
-            android:hint="@string/input_name" />
+            android:hint="@string/hint_name" />
 
         <EditText
             android:id="@+id/registerAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerName"
-            android:hint="@string/input_address" />
+            android:hint="@string/hint_address" />
 
         <EditText
             android:id="@+id/registerPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerAddress"
-            android:hint="@string/input_phone"
+            android:hint="@string/hint_phone"
             android:inputType="phone" />
 
         <Button
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerPhone"
-            android:text="Submit" />
+            android:text="@string/button_submit" />
 
     </RelativeLayout>
 
