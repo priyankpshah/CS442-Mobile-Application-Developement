@@ -1,5 +1,6 @@
 package edu.iit.cs442.team15.ehome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -50,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (ApartmentDatabaseHelper.getInstance(this).addUser(newUser) > 0) {
                     // success
                     Toast.makeText(this, "Account successfully created", Toast.LENGTH_LONG).show();
+                    setResult(RESULT_OK, new Intent().putExtra(LoginActivity.EXTRA_EMAIL, newUser.email));
                     finish();
                 } else {
                     // failure
