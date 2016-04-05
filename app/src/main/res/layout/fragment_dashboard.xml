@@ -16,15 +16,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Favorites"
-            android:textColor="@color/dashboard_header_text"
+            android:textColor="@color/header_text"
             android:textSize="16sp" />
 
         <View
             android:id="@+id/divider0"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/favoritesHeader"
-            android:background="#111" />
+            style="@style/divider"
+            android:layout_below="@id/favoritesHeader" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,15 +47,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recently Viewed"
-            android:textColor="@color/dashboard_header_text"
+            android:textColor="@color/header_text"
             android:textSize="16sp" />
 
         <View
             android:id="@+id/divider1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/recentHeader"
-            android:background="#111" />
+            style="@style/divider"
+            android:layout_below="@id/recentHeader" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,15 +76,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recommendations"
-            android:textColor="@color/dashboard_header_text"
+            android:textColor="@color/header_text"
             android:textSize="16sp" />
 
         <View
             android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/recommendationHeader"
-            android:background="#111" />
+            style="@style/divider"
+            android:layout_below="@id/recommendationHeader" />
 
         <TextView
             android:layout_width="wrap_content"

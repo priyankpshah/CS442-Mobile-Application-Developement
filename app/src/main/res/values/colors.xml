@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="dashboard_header_text">#111</color>
+    <color name="header_text">#111</color>
+    <color name="header_divider">#DDD</color>
 </resources>

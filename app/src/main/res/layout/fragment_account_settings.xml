@@ -7,24 +7,34 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
         <TextView
             android:id="@+id/accountHeader"
+            style="@style/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/header_account" />
+
+        <View
+            android:id="@+id/accountDivider"
+            style="@style/divider"
+            android:layout_below="@id/accountHeader" />
 
         <EditText
             android:id="@+id/accountEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/accountHeader"
+            android:layout_below="@id/accountDivider"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/accountNewPassword"
+            style="@style/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/accountEmail"
@@ -41,16 +51,22 @@
 
         <TextView
             android:id="@+id/contactHeader"
+            style="@style/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/accountConfirmNewPassword"
             android:text="@string/header_contact" />
 
+        <View
+            android:id="@+id/contactDivider"
+            style="@style/divider"
+            android:layout_below="@id/contactHeader" />
+
         <EditText
             android:id="@+id/accountName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/contactHeader"
+            android:layout_below="@id/contactDivider"
             android:hint="@string/hint_name" />
 
         <EditText
@@ -70,16 +86,22 @@
 
         <TextView
             android:id="@+id/confirmHeader"
+            style="@style/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/accountPhone"
             android:text="@string/header_confirm" />
 
+        <View
+            android:id="@+id/confirmDivider"
+            style="@style/divider"
+            android:layout_below="@id/confirmHeader" />
+
         <EditText
             android:id="@+id/accountCurrentPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/confirmHeader"
+            android:layout_below="@id/confirmDivider"
             android:hint="@string/hint_current_password"
             android:inputType="textPassword" />
 
