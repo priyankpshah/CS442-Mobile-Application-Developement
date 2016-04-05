@@ -6,6 +6,8 @@ public final class Validation {
     private Validation() {
     }
 
+    public static final int MIN_PASSWORD_LENGTH = 6;
+
     public static boolean isEmail(String email) {
         return (email != null) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -17,4 +19,9 @@ public final class Validation {
     public static boolean isPhoneNumber(String phone) {
         return (phone != null) && Patterns.PHONE.matcher(phone).matches();
     }
+
+    public static boolean isPassword(String password) {
+        return (password != null) && password.length() >= MIN_PASSWORD_LENGTH;
+    }
+
 }

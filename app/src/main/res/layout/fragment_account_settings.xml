@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/accountCurrentPassword"
             android:enabled="false"
-            android:text="@string/button_update" />
+            android:text="@string/button_update_account" />
 
     </RelativeLayout>
 
