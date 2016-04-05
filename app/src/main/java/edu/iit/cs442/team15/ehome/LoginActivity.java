@@ -22,8 +22,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public static final int CREATE_ACCOUNT_REQUEST = 10;
 
-    EditText loginEmail;
-    EditText loginPassword;
+    private EditText loginEmail;
+    private EditText loginPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
