@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .commit();
                     break;
                 case R.id.nav_account_setttings:
-                    Fragment accountSettings = AccountSettingsFragment.newInstance("", "");
+                    Fragment accountSettings = AccountSettingsFragment.newInstance();
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, accountSettings)
                             .addToBackStack("account_settings")
