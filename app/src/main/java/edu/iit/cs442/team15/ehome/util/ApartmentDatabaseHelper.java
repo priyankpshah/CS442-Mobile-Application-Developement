@@ -30,9 +30,14 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         setupDatabase();
     }
 
-    public static synchronized ApartmentDatabaseHelper getInstance(Context context) {
+    public static synchronized void initialize(Context context) {
         if (sInstance == null)
             sInstance = new ApartmentDatabaseHelper(context.getApplicationContext());
+    }
+
+    public static synchronized ApartmentDatabaseHelper getInstance() {
+        if (sInstance == null)
+            throw new RuntimeException("ApartmentDatabaseHelper not initialized");
         return sInstance;
     }
 
