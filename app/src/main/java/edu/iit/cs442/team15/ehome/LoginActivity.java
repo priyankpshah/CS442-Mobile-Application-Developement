@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // initialize singletons
         SavedLogin.initialize(this);
+        ApartmentDatabaseHelper.initialize(this);
 
         loginEmail = (EditText) findViewById(R.id.loginEmail);
         loginPassword = (EditText) findViewById(R.id.loginPassword);
@@ -81,9 +82,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void login(String email, String password) {
-        User user = ApartmentDatabaseHelper.getInstance(this).getUser(email, password);
+        User user = ApartmentDatabaseHelper.getInstance().getUser(email, password);
 
-        // TODO better error feedback
         if (user != null) {
             // save login info
             SavedLogin.getInstance().saveLogin(user.email, user.password, user.name);

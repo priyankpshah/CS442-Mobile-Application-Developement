@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             .setAddress(rAddress.getText().toString())
                             .setPhone(rPhone.getText().toString());
 
-                    if (ApartmentDatabaseHelper.getInstance(this).addUser(newUser) > 0) {
+                    if (ApartmentDatabaseHelper.getInstance().addUser(newUser) > 0) {
                         // success
                         Toast.makeText(this, "Account successfully created", Toast.LENGTH_LONG).show();
                         setResult(RESULT_OK, new Intent().putExtra(LoginActivity.EXTRA_EMAIL, newUser.email));
