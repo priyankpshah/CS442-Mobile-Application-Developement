@@ -34,4 +34,7 @@
     <string name="alert_password_match">Passwords do not match.</string>
     <string name="alert_invalid_name">Please enter a valid name.</string>
     <string name="alert_invalid_phone">Please enter a valid phone number.</string>
+
+    <string name="error_missing_field">This field is required.</string>
+    <string name="toast_login_failed">Email and password do not match.</string>
 </resources>

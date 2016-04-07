@@ -72,7 +72,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String email = loginEmail.getText().toString();
                 String password = loginPassword.getText().toString();
 
-                login(email, password);
+                boolean validInput = true;
+
+                if (email.trim().isEmpty()) {
+                    loginEmail.setError(getString(R.string.error_missing_field));
+                    validInput = false;
+                }
+
+                if (password.trim().isEmpty()) {
+                    loginPassword.setError(getString(R.string.error_missing_field));
+                    validInput = false;
+                }
+
+                if (validInput)
+                    login(email, password);
                 break;
             case R.id.registerButton:
                 Intent register = new Intent(this, RegisterActivity.class);
@@ -90,9 +103,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             Intent login = new Intent(this, MainActivity.class);
             startActivity(login);
-            finish();
+            finish(); // don't add to back stack
         } else {
-            Toast.makeText(this, "Login failed.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toast_login_failed, Toast.LENGTH_LONG).show();
         }
     }
 

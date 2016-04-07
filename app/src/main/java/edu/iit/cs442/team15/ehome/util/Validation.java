@@ -13,7 +13,7 @@ public final class Validation {
     }
 
     public static boolean isName(String name) {
-        return (name != null) && !name.isEmpty() && !name.matches("\\s+");
+        return (name != null) && !name.trim().isEmpty();
     }
 
     public static boolean isPhoneNumber(String phone) {
