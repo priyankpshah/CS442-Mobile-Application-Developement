@@ -8,7 +8,7 @@ import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Users;
 
 public final class SavedLogin {
 
-    public static final String SAVED_LOGIN_PREFS = "saved_login_prefs";
+    private static final String SAVED_LOGIN_PREFS = "saved_login_prefs";
     private static SavedLogin sInstance; // singleton instance
 
     private SharedPreferences savedLoginPrefs;

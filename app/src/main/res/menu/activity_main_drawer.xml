@@ -38,7 +38,7 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_account_setttings"
+            android:id="@+id/nav_account_settings"
             android:title="@string/nav_account_settings" />
         <item
             android:id="@+id/nav_logout"

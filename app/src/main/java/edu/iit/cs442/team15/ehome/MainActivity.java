@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             navigationView.setCheckedItem(R.id.nav_search_options);
                             break;
                         case "account_settings":
-                            navigationView.setCheckedItem(R.id.nav_account_setttings);
+                            navigationView.setCheckedItem(R.id.nav_account_settings);
                             break;
                     }
                 }
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .addToBackStack("search_options")
                             .commit();
                     break;
-                case R.id.nav_account_setttings:
+                case R.id.nav_account_settings:
                     Fragment accountSettings = AccountSettingsFragment.newInstance();
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, accountSettings)
