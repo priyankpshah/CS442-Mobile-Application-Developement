@@ -1,7 +1,6 @@
 package edu.iit.cs442.team15.ehome;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Users;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         AccountSettingsFragment.OnFragmentInteractionListener,
@@ -45,12 +44,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         // display user Name and Email in nav header
-        SharedPreferences savedLoginPrefs = getSharedPreferences(LoginActivity.SAVED_LOGIN_PREFS, MODE_PRIVATE);
         View headerView = navigationView.getHeaderView(0);
         TextView navHeaderName = (TextView) headerView.findViewById(R.id.navHeaderName);
         TextView navHeaderEmail = (TextView) headerView.findViewById(R.id.navHeaderEmail);
-        navHeaderName.setText(savedLoginPrefs.getString(Users.KEY_NAME, null));
-        navHeaderEmail.setText(savedLoginPrefs.getString(Users.KEY_EMAIL, null));
+        navHeaderName.setText(SavedLogin.getInstance().getName());
+        navHeaderEmail.setText(SavedLogin.getInstance().getEmail());
 
         fm = getSupportFragmentManager();
         fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {

@@ -1,7 +1,6 @@
 package edu.iit.cs442.team15.ehome;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,14 +10,12 @@ import android.widget.Toast;
 
 import edu.iit.cs442.team15.ehome.model.User;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
-import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Users;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String EXTRA_EMAIL = "extra_email";
     public static final String EXTRA_LOGOUT = "extra_logout";
-
-    public static final String SAVED_LOGIN_PREFS = "saved_login_prefs";
 
     public static final int CREATE_ACCOUNT_REQUEST = 10;
 
@@ -30,6 +27,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // initialize singletons
+        SavedLogin.initialize(this);
+
         loginEmail = (EditText) findViewById(R.id.loginEmail);
         loginPassword = (EditText) findViewById(R.id.loginPassword);
 
@@ -39,19 +39,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Button registerButton = (Button) findViewById(R.id.registerButton);
         registerButton.setOnClickListener(this);
 
-        SharedPreferences savedLoginPrefs = getSharedPreferences(SAVED_LOGIN_PREFS, MODE_PRIVATE);
-
         if (getIntent().getBooleanExtra(EXTRA_LOGOUT, false)) {
             // remove saved user login
-            savedLoginPrefs.edit()
-                    .remove(Users.KEY_EMAIL)
-                    .remove(Users.KEY_PASSWORD)
-                    .remove(Users.KEY_NAME)
-                    .apply();
+            SavedLogin.getInstance().logout();
         } else {
             // check if user is already signed in, and sign them in if they are
-            String savedEmail = savedLoginPrefs.getString(Users.KEY_EMAIL, null);
-            String savedPassword = savedLoginPrefs.getString(Users.KEY_PASSWORD, null);
+            String savedEmail = SavedLogin.getInstance().getEmail();
+            String savedPassword = SavedLogin.getInstance().getPassword();
 
             if (savedEmail != null && savedPassword != null)
                 login(savedEmail, savedPassword);
@@ -92,12 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // TODO better error feedback
         if (user != null) {
             // save login info
-            SharedPreferences savedLoginPrefs = getSharedPreferences(SAVED_LOGIN_PREFS, MODE_PRIVATE);
-            savedLoginPrefs.edit()
-                    .putString(Users.KEY_EMAIL, user.email)
-                    .putString(Users.KEY_PASSWORD, user.password)
-                    .putString(Users.KEY_NAME, user.name)
-                    .apply();
+            SavedLogin.getInstance().saveLogin(user.email, user.password, user.name);
 
             Intent login = new Intent(this, MainActivity.class);
             startActivity(login);
