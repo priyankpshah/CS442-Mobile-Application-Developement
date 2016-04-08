@@ -21,7 +21,7 @@
     <style name="header">
         <item name="android:paddingTop">8dp</item>
         <item name="android:textColor">@color/header_text</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
     <style name="divider">

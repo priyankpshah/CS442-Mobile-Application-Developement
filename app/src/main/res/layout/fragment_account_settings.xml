@@ -35,7 +35,6 @@
 
         <EditText
             android:id="@+id/accountNewPassword"
-            style="@style/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/accountEmail"
@@ -50,7 +49,8 @@
             android:layout_below="@id/accountNewPassword"
             android:hint="@string/hint_confirm_new_password"
             android:inputType="textPassword"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/contactHeader"
@@ -89,34 +89,12 @@
             android:inputType="phone"
             android:maxLines="1" />
 
-        <TextView
-            android:id="@+id/confirmHeader"
-            style="@style/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/accountPhone"
-            android:text="@string/header_confirm" />
-
-        <View
-            android:id="@+id/confirmDivider"
-            style="@style/divider"
-            android:layout_below="@id/confirmHeader" />
-
-        <EditText
-            android:id="@+id/accountCurrentPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/confirmDivider"
-            android:hint="@string/hint_current_password"
-            android:inputType="textPassword"
-            android:maxLines="1" />
-
         <Button
             android:id="@+id/updateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/accountCurrentPassword"
-            android:enabled="false"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/accountPhone"
             android:text="@string/button_update_account" />
 
     </RelativeLayout>
