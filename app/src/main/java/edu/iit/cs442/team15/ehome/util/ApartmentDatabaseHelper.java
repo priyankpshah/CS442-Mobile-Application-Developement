@@ -114,6 +114,23 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
         return user;
     }
+    public Cursor getAptNames(){
+        Cursor cur = getReadableDatabase().query(Aptinfo.TABLE_NAME,new String[]{"id","address"},null,null,null,null,null);
+        return cur;
+    }
+
+    public static class Aptinfo{
+        public static final String TABLE_NAME = "apartments";
+        public static final String KEY_ID = "id";
+        public static final String KEY_APTADDRESS = "address";
+        public static final String KEY_ZIPCODE = "zipcode";
+        public static final String KEY_BEDROOMS = "bedrooms";
+        public static final String KEY_AREA = "square_feet";
+        public static final String KEY_RENT = "rent";
+        public static final String OWNERID = "owner_id";
+
+    }
+
 
     public static class Users {
         public static final String TABLE_NAME = "users";
