@@ -18,7 +18,6 @@ import android.widget.TextView;
 import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        AccountSettingsFragment.OnFragmentInteractionListener,
         DashboardFragment.OnFragmentInteractionListener,
         SearchOfflineFragment.OnFragmentInteractionListener,
         SearchOnlineFragment.OnFragmentInteractionListener,
