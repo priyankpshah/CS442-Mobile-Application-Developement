@@ -6,13 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 import edu.iit.cs442.team15.ehome.model.User;
 
@@ -25,7 +23,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     private final Context context;
 
-    public ApartmentDatabaseHelper(Context context) {
+    private ApartmentDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
 
@@ -116,27 +114,9 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
         return user;
     }
-    public ArrayList<String> getAptNames(){
-        SQLiteDatabase db = getWritableDatabase();
-       final String query = "SELECT "+Aptinfo.KEY_APTADDRESS+" FROM "+Aptinfo.TABLE_NAME;
-      /*  Cursor cur = db.rawQuery(query,null);
-*/
-        Cursor cur=db.rawQuery(query,null);
-        ArrayList<String> aptnames = new ArrayList<String>();
-
-//        cur.moveToFirst();
-        while(cur.moveToNext())
-        {
-            int temp = cur.getColumnIndex(Aptinfo.KEY_APTADDRESS);
-            aptnames.add(cur.getString(0));
-
-        }
-
-
-        //Cursor cur = db.query(Aptinfo.TABLE_NAME,new String[]{Aptinfo.KEY_APTADDRESS},null,null,null,null,null);
-        cur.close();
-        db.close();
-        return aptnames;
+    public Cursor getAptNames(){
+        Cursor cur = getReadableDatabase().query(Aptinfo.TABLE_NAME,new String[]{"id","address"},null,null,null,null,null);
+        return cur;
     }
 
     public static class Aptinfo{

@@ -28,6 +28,7 @@
     <string name="header_confirm">Confirm Changes</string>
 
     <string name="error_missing_field">This field is required.</string>
+    <string name="error_password_short_match">Passwords must be at least %d characters long and match each other.</string>
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
@@ -35,7 +36,7 @@
     <string name="hint_name">Name</string>
     <string name="hint_address">Address</string>
     <string name="hint_phone">Phone</string>
-    <string name="hint_new_password">New Password</string>
+    <string name="hint_new_password">New Password (Optional)</string>
     <string name="hint_confirm_new_password">Confirm New Password</string>
     <string name="hint_current_password">Current Password</string>
 

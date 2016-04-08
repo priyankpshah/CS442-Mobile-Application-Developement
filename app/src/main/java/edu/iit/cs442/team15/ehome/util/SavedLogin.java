@@ -34,6 +34,11 @@ public final class SavedLogin {
         return savedLoginPrefs.getString(Users.KEY_EMAIL, null);
     }
 
+    public boolean checkPassword(final String password) {
+        return password != null && password.equals(savedLoginPrefs.getString(Users.KEY_PASSWORD, null));
+    }
+
+    @Deprecated
     @Nullable
     public String getPassword() {
         return savedLoginPrefs.getString(Users.KEY_PASSWORD, null);
