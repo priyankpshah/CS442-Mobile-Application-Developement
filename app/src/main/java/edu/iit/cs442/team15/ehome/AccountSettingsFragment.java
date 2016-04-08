@@ -16,14 +16,6 @@ import edu.iit.cs442.team15.ehome.util.SavedLogin;
 import edu.iit.cs442.team15.ehome.util.SimpleTextWatcher;
 import edu.iit.cs442.team15.ehome.util.Validation;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AccountSettingsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AccountSettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AccountSettingsFragment extends Fragment implements View.OnClickListener {
 
     private User user;
