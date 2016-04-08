@@ -137,10 +137,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .commit();
                     break;
                 case R.id.nav_logout:
-                    // TODO handle other logout tasks, clear backstack etc
                     Intent logout = new Intent(this, LoginActivity.class);
                     logout.putExtra(LoginActivity.EXTRA_LOGOUT, true);
                     startActivity(logout);
+                    finish();
                     break;
             }
         }
