@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import edu.iit.cs442.team15.ehome.model.User;
-
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,17 +41,6 @@ public class AccountSettingsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account_settings, container, false);
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -57,6 +48,36 @@ public class AccountSettingsFragment extends Fragment {
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SavedLogin sl = SavedLogin.getInstance();
+        user = ApartmentDatabaseHelper.getInstance().getUser(sl.getEmail(), sl.getPassword());
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_account_settings, container, false);
+
+        EditText accountEmail = (EditText) view.findViewById(R.id.accountEmail);
+        accountEmail.setText(user.email);
+
+        EditText accountNewPassword = (EditText) view.findViewById(R.id.accountNewPassword);
+        EditText accountConfirmNewPassword = (EditText) view.findViewById(R.id.accountConfirmNewPassword);
+
+        EditText accountName = (EditText) view.findViewById(R.id.accountName);
+        accountName.setText(user.name);
+
+        EditText accountAddress = (EditText) view.findViewById(R.id.accountAddress);
+        accountAddress.setText(user.address);
+
+        EditText accountPhone = (EditText) view.findViewById(R.id.accountPhone);
+        accountPhone.setText(user.phone);
+
+        return view;
     }
 
     @Override
