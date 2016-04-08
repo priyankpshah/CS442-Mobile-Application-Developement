@@ -53,9 +53,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SavedLogin sl = SavedLogin.getInstance();
-        // TODO require user enter password to view this page
-        user = ApartmentDatabaseHelper.getInstance().getUser(sl.getEmail(), sl.getPassword());
+        user = ApartmentDatabaseHelper.getInstance().getUser(SavedLogin.getInstance().getEmail());
     }
 
     @Override

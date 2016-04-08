@@ -90,11 +90,11 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Nullable
-    public User getUser(final String email, final String password) {
+    public User getUser(final String email) {
         SQLiteDatabase db = getReadableDatabase();
 
-        final String sqlQuery = "SELECT * FROM " + Users.TABLE_NAME + " WHERE " + Users.KEY_EMAIL + "=? AND " + Users.KEY_PASSWORD + "=?";
-        Cursor result = db.rawQuery(sqlQuery, new String[]{email, password});
+        final String sqlQuery = "SELECT * FROM " + Users.TABLE_NAME + " WHERE " + Users.KEY_EMAIL + "=?";
+        Cursor result = db.rawQuery(sqlQuery, new String[]{email});
 
         User user = null;
 
@@ -103,7 +103,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
             user = new User()
                     .setId(result.getInt(result.getColumnIndex(Users.KEY_ID)))
                     .setEmail(email)
-                    .setPassword(password)
+                    .setPassword(result.getString(result.getColumnIndex(Users.KEY_PASSWORD)))
                     .setName(result.getString(result.getColumnIndex(Users.KEY_NAME)))
                     .setAddress(result.getString(result.getColumnIndex(Users.KEY_ADDRESS)))
                     .setPhone(result.getString(result.getColumnIndex(Users.KEY_PHONE)));
