@@ -114,12 +114,13 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
         return user;
     }
-    public Cursor getAptNames(){
-        Cursor cur = getReadableDatabase().query(Aptinfo.TABLE_NAME,new String[]{"id","address"},null,null,null,null,null);
+
+    public Cursor getAptNames() {
+        Cursor cur = getReadableDatabase().query(Aptinfo.TABLE_NAME, new String[]{"id", "address"}, null, null, null, null, null);
         return cur;
     }
 
-    public static class Aptinfo{
+    public static final class Aptinfo {
         public static final String TABLE_NAME = "apartments";
         public static final String KEY_ID = "id";
         public static final String KEY_APTADDRESS = "address";
@@ -131,8 +132,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-
-    public static class Users {
+    public static final class Users {
         public static final String TABLE_NAME = "users";
         public static final String KEY_ID = "id";
         public static final String KEY_EMAIL = "email";
