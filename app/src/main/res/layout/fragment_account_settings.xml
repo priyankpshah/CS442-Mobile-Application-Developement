@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/accountEmail"
+            android:fontFamily="sans-serif"
             android:hint="@string/hint_new_password"
             android:inputType="textPassword"
             android:maxLines="1" />
@@ -47,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/accountNewPassword"
+            android:fontFamily="sans-serif"
             android:hint="@string/hint_confirm_new_password"
             android:inputType="textPassword"
             android:maxLines="1"

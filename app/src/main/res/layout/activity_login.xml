@@ -24,6 +24,7 @@
         android:id="@+id/loginPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
         android:hint="@string/hint_password"
         android:inputType="textPassword"
         android:maxLines="1" />
