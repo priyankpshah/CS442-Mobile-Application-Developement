@@ -95,6 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/accountPhone"
+            android:enabled="false"
             android:text="@string/button_update_account" />
 
     </RelativeLayout>
