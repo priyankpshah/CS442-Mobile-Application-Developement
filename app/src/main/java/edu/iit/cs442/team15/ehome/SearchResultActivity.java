@@ -106,17 +106,17 @@ public class SearchResultActivity extends Activity {
                 TextView tv0 = (TextView)tr.getChildAt(0);
                 tv0.setText(result.get(i).id);
                 TextView tv1 = (TextView)tr.getChildAt(1);
-                tv0.setText(result.get(i).zipcode);
+                tv1.setText(result.get(i).zipcode);
                 TextView tv2 = (TextView)tr.getChildAt(2);
-                tv0.setText(result.get(i).address);
+                tv2.setText(result.get(i).address);
                 TextView tv3 = (TextView)tr.getChildAt(3);
-                tv0.setText(result.get(i).bedrooms);
+                tv3.setText(result.get(i).bedrooms);
                 TextView tv4 = (TextView)tr.getChildAt(4);
-                tv0.setText(result.get(i).bathrooms);
+                tv4.setText(result.get(i).bathrooms);
                 TextView tv5 = (TextView)tr.getChildAt(5);
-                tv0.setText(Double.toString(result.get(i).square_feet));
+                tv5.setText(Double.toString(result.get(i).square_feet));
                 TextView tv6 = (TextView)tr.getChildAt(6);
-                tv0.setText(result.get(i).rent);
+                tv6.setText(result.get(i).rent);
             }
 
         }
