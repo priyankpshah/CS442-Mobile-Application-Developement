@@ -3,6 +3,7 @@ package edu.iit.cs442.team15.ehome;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 import android.content.*;
@@ -15,6 +16,7 @@ import edu.iit.cs442.team15.ehome.model.Apartment;
 public class SearchResultActivity extends Activity {
 
     private ArrayList<Apartment> result = new ArrayList<>();
+    private TableLayout table;
     private Spinner orderSpinner;
     private ArrayAdapter<CharSequence> orderadapter;
     private Button back;
@@ -26,19 +28,8 @@ public class SearchResultActivity extends Activity {
 
         result = (ArrayList<Apartment>) getIntent().getSerializableExtra("Searching Result");
 
-        TableLayout table = (TableLayout)findViewById(R.id.table);
-        for(Apartment apt : result){
-            TableRow tr = new TableRow(this);
-            tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-            addTextView(tr, Integer.toString(apt.id));
-            addTextView(tr,Integer.toString(apt.zipcode));
-            addTextView(tr,apt.address);
-            addTextView(tr,Integer.toString(apt.bedrooms));
-            addTextView(tr,Integer.toString(apt.bathrooms));
-            addTextView(tr,Double.toString(apt.square_feet));
-            addTextView(tr,Integer.toString(apt.rent));
-            table.addView(tr);
-        }
+        table = (TableLayout)findViewById(R.id.table);
+        addData();
 
         orderSpinner = (Spinner) findViewById(R.id.orderSpinner);
         orderadapter = ArrayAdapter.createFromResource(this, R.array.order_method, android.R.layout.simple_spinner_item);
@@ -50,7 +41,7 @@ public class SearchResultActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 order_method = orderSpinner.getSelectedItemPosition();
                 sort();
-                orderadapter.notifyDataSetChanged();
+                updateTable();
             }
 
             @Override
@@ -79,10 +70,56 @@ public class SearchResultActivity extends Activity {
         }
     }
 
+    public void addData(){
+        for(int i=0 ; i<result.size(); i++){
+            Apartment apt = result.get(i);
+            TableRow tr = new TableRow(this);
+            tr.setId(i);
+            tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+            addTextView(tr, Integer.toString(apt.id));
+            addTextView(tr,Integer.toString(apt.zipcode));
+            addTextView(tr,apt.address);
+            addTextView(tr,Integer.toString(apt.bedrooms));
+            addTextView(tr,Integer.toString(apt.bathrooms));
+            addTextView(tr,Double.toString(apt.square_feet));
+            addTextView(tr,Integer.toString(apt.rent));
+            table.addView(tr);
+        }
+    }
+
     public void addTextView(TableRow tr,String text){
         TextView tv = new TextView(this);
+
         tv.setText(text);
         tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+        tv.setLines(2);
+        tv.setSingleLine(false);
+        tv.setEllipsize(TextUtils.TruncateAt.END);
         tr.addView(tv);
+    }
+
+    public void updateTable(){
+        for(int i=0 ; i<result.size(); i++){
+            View view = table.getChildAt(i+2);
+            if(view instanceof TableRow){
+                TableRow tr = (TableRow) view;
+                TextView tv0 = (TextView)tr.getChildAt(0);
+                tv0.setText(result.get(i).id);
+                TextView tv1 = (TextView)tr.getChildAt(1);
+                tv0.setText(result.get(i).zipcode);
+                TextView tv2 = (TextView)tr.getChildAt(2);
+                tv0.setText(result.get(i).address);
+                TextView tv3 = (TextView)tr.getChildAt(3);
+                tv0.setText(result.get(i).bedrooms);
+                TextView tv4 = (TextView)tr.getChildAt(4);
+                tv0.setText(result.get(i).bathrooms);
+                TextView tv5 = (TextView)tr.getChildAt(5);
+                tv0.setText(Double.toString(result.get(i).square_feet));
+                TextView tv6 = (TextView)tr.getChildAt(6);
+                tv0.setText(result.get(i).rent);
+            }
+
+        }
+
     }
 }
