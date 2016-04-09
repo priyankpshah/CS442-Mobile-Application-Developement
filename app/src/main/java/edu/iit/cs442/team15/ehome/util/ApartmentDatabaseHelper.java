@@ -115,6 +115,19 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return user;
     }
 
+    public int updateUser(final String currentEmail, final User updatedUser) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Users.KEY_EMAIL, updatedUser.email);
+        values.put(Users.KEY_PASSWORD, updatedUser.password);
+        values.put(Users.KEY_NAME, updatedUser.name);
+        values.put(Users.KEY_ADDRESS, updatedUser.address);
+        values.put(Users.KEY_PHONE, updatedUser.phone);
+
+        return db.update(Users.TABLE_NAME, values, Users.KEY_EMAIL + "=?", new String[]{currentEmail});
+    }
+
     public Cursor getAptNames() {
         Cursor cur = getReadableDatabase().query(Aptinfo.TABLE_NAME, new String[]{"id", "address"}, null, null, null, null, null);
         return cur;

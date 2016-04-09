@@ -41,6 +41,8 @@
     <string name="hint_current_password">Current Password</string>
 
     <string name="toast_login_failed">Email and password do not match.</string>
+    <string name="toast_account_updated">Account successfully updated.</string>
+    <string name="toast_account_not_updated">Error: account update failed.</string>
 
     <!-- PasswordDialog -->
     <string name="password_dialog_title">Authentication</string>
