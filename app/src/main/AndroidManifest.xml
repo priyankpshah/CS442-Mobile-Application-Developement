@@ -25,6 +25,11 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBWISmIAoGEuGwN28toHkeRA5oGAGppN4M" />
+
+        <activity
+            android:name=".searchoffline_details"
+            android:label="@string/title_activity_searchoffline_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

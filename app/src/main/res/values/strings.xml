@@ -41,25 +41,4 @@
     <string name="hint_current_password">Current Password</string>
 
     <string name="toast_login_failed">Email and password do not match.</string>
-
-    <string-array name="select_beds">
-        <item>Any</item>
-        <item>1+</item>
-        <item>2+</item>
-        <item>3+</item>
-        <item>4+</item>
-    </string-array>
-
-    <string-array name="select_baths">
-        <item>Any</item>
-        <item>1+</item>
-        <item>2+</item>
-        <item>3+</item>
-    </string-array>
-
-    <string-array name="order_result">
-        <item>Rent(low to high)</item>
-        <item>Area(high to low)</item>
-    </string-array>
-
 </resources>

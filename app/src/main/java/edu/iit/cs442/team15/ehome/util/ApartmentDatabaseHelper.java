@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import edu.iit.cs442.team15.ehome.model.User;
 
@@ -23,6 +24,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     private final Context context;
 
+    // Priyank, this is private for a reason - Tom
     private ApartmentDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
@@ -91,11 +93,11 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Nullable
-    public User getUser(final String email, final String password) {
+    public User getUser(final String email) {
         SQLiteDatabase db = getReadableDatabase();
 
-        final String sqlQuery = "SELECT * FROM " + Users.TABLE_NAME + " WHERE " + Users.KEY_EMAIL + "=? AND " + Users.KEY_PASSWORD + "=?";
-        Cursor result = db.rawQuery(sqlQuery, new String[]{email, password});
+        final String sqlQuery = "SELECT * FROM " + Users.TABLE_NAME + " WHERE " + Users.KEY_EMAIL + "=?";
+        Cursor result = db.rawQuery(sqlQuery, new String[]{email});
 
         User user = null;
 
@@ -104,7 +106,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
             user = new User()
                     .setId(result.getInt(result.getColumnIndex(Users.KEY_ID)))
                     .setEmail(email)
-                    .setPassword(password)
+                    .setPassword(result.getString(result.getColumnIndex(Users.KEY_PASSWORD)))
                     .setName(result.getString(result.getColumnIndex(Users.KEY_NAME)))
                     .setAddress(result.getString(result.getColumnIndex(Users.KEY_ADDRESS)))
                     .setPhone(result.getString(result.getColumnIndex(Users.KEY_PHONE)));
@@ -130,9 +132,30 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public Cursor getAptNames() {
-        Cursor cur = getReadableDatabase().query(Aptinfo.TABLE_NAME, new String[]{"id", "address"}, null, null, null, null, null);
-        return cur;
+    public int updateUser(final String currentEmail, final User updatedUser) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Users.KEY_EMAIL, updatedUser.email);
+        values.put(Users.KEY_PASSWORD, updatedUser.password);
+        values.put(Users.KEY_NAME, updatedUser.name);
+        values.put(Users.KEY_ADDRESS, updatedUser.address);
+        values.put(Users.KEY_PHONE, updatedUser.phone);
+
+        return db.update(Users.TABLE_NAME, values, Users.KEY_EMAIL + "=?", new String[]{currentEmail});
+    }
+
+    public ArrayList<String> getAptNames(){
+        SQLiteDatabase db = getWritableDatabase();
+        final String query = "SELECT "+Aptinfo.KEY_APTADDRESS+" FROM " + Aptinfo.TABLE_NAME;
+        Cursor cur = db.rawQuery(query, null);
+        ArrayList<String> aptinfo = new ArrayList<String>();
+        while(cur.moveToNext())
+        {
+            aptinfo.add(cur.getString(0));
+        }
+        cur.close();
+        return aptinfo;
     }
 
     public static final class Aptinfo {
