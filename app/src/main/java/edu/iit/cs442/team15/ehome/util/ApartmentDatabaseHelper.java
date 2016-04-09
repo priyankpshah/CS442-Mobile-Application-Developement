@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
-import android.widget.ArrayAdapter;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -130,9 +129,6 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return db.update(Users.TABLE_NAME, values, Users.KEY_EMAIL + "=?", new String[]{currentEmail});
     }
 
-    public Cursor getAptNames() {
-        Cursor cur = getReadableDatabase().query(Aptinfo.TABLE_NAME, new String[]{"id", "address"}, null, null, null, null, null);
-        return cur;
     public ArrayList<String> getAptNames(){
         SQLiteDatabase db = getWritableDatabase();
         final String query = "SELECT "+Aptinfo.KEY_APTADDRESS+" FROM " + Aptinfo.TABLE_NAME;
