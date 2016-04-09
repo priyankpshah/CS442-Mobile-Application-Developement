@@ -1,24 +1,114 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="edu.iit.cs442.team15.ehome.searchoffline_details">
-
-    <GridLayout
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:columnCount="8"
-        android:rowCount="8">
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/imagedisplay"
-                android:layout_rowSpan="4">
-            </HorizontalScrollView>
+        android:scrollbars="vertical"
 
-        
+        android:layout_alignParentStart="true"
+        android:id="@+id/scrollView">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Address"
+                android:text="Address: "
+                android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Apartment_name"
+                android:text="Apartment: "
+                android:layout_below="@+id/Address"
+                android:layout_alignParentStart="true" />
 
-    </GridLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rent"
+                android:text="Rent: "
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/Apartment_name"/>
 
-</ScrollView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Bedroom"
+                android:text="Bedroom: "
+                android:layout_below="@+id/rent"
+                android:layout_alignParentStart="true" />
+
+            <CheckedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gas"
+                android:text="Gas: "
+                android:layout_above="@+id/thermostate"
+                android:layout_alignEnd="@+id/gym" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Bathroom"
+                android:text="Bathroom: "
+                android:layout_above="@+id/parking"
+                android:layout_alignParentStart="true" />
+
+            <CheckedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/thermostate"
+                android:text="Heat: "
+                android:layout_below="@+id/parking"
+                android:layout_alignParentStart="true" />
+
+            <CheckedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gym"
+                android:text="Gym: "
+                android:layout_below="@+id/squarefoot"
+                android:layout_toEndOf="@+id/parking"
+                android:layout_marginStart="93dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/squarefoot"
+                android:text="Area: "
+                android:layout_alignTop="@+id/Bedroom"
+                android:layout_alignEnd="@+id/gym" />
+
+            <CheckedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/parking"
+                android:text="Parking Space: "
+                android:layout_below="@+id/gym"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+     </ScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Call"
+        android:text="Call"
+        android:src="@drawable/call"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/sms"
+        android:background="@color/common_google_signin_btn_text_dark_pressed"
+        />
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sms"
+        android:text="Send Text"
+        android:src="@drawable/text"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/common_google_signin_btn_text_dark_pressed"/>
+
+</RelativeLayout>
