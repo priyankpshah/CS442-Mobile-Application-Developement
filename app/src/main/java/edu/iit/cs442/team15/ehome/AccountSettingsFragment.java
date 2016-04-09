@@ -1,11 +1,8 @@
 package edu.iit.cs442.team15.ehome;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +12,7 @@ import android.widget.EditText;
 
 import edu.iit.cs442.team15.ehome.model.User;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.PasswordDialog;
 import edu.iit.cs442.team15.ehome.util.SavedLogin;
 import edu.iit.cs442.team15.ehome.util.SimpleTextWatcher;
 import edu.iit.cs442.team15.ehome.util.Validation;
@@ -147,21 +145,12 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
 
                 if (validInput) {
                     // prompt user to enter current password
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("Authentication")
-                            .setMessage("Please enter your current password:")
-                            .setView(R.layout.dialog_authenticate)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    EditText currentPassword = (EditText) ((Dialog) dialog).findViewById(R.id.currentPassword);
-                                    // TODO check entered password
-                                    // TODO execute update
-                                }
-                            })
-                            .setNegativeButton(android.R.string.cancel, null)
-                            .create()
-                            .show();
+                    PasswordDialog.showDialog(getActivity(), new PasswordDialog.OnAuthenticationListener() {
+                        @Override
+                        public void onAuthentication() {
+                            // TODO execute update
+                        }
+                    });
                 }
                 break;
             default:
