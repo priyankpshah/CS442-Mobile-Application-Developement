@@ -162,10 +162,10 @@ public class SearchOptionsFragment extends Fragment implements OnClickListener {
                                     result.getColumnIndex("rent"), result.getColumnIndex("owner_id")));
                         } while (result.moveToNext());
                     }
+                    Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+                    intent.putExtra("Searching Result", search_result);
+                    startActivityForResult(intent, 1);
                 }
-                Intent intent = new Intent(getActivity(), SearchResultActivity.class);
-                intent.putExtra("Searching Result", search_result);
-                startActivityForResult(intent, 1);
                 break;
 
             case R.id.SaveFilter:
