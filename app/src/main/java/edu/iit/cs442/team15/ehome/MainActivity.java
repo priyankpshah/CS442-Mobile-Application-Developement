@@ -18,6 +18,7 @@ import android.widget.TextView;
 import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        AccountSettingsFragment.OnAccountUpdatedListener,
         DashboardFragment.OnFragmentInteractionListener,
         SearchOfflineFragment.OnFragmentInteractionListener,
         SearchOnlineFragment.OnFragmentInteractionListener,
@@ -42,12 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // display user Name and Email in nav header
-        View headerView = navigationView.getHeaderView(0);
-        TextView navHeaderName = (TextView) headerView.findViewById(R.id.navHeaderName);
-        TextView navHeaderEmail = (TextView) headerView.findViewById(R.id.navHeaderEmail);
-        navHeaderName.setText(SavedLogin.getInstance().getName());
-        navHeaderEmail.setText(SavedLogin.getInstance().getEmail());
+        this.onAccountUpdated(); // display user Name and Email in nav header
 
         fm = getSupportFragmentManager();
         fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
@@ -83,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setCheckedItem(R.id.nav_dashboard);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -147,6 +144,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onAccountUpdated() {
+        // display user Name and Email in nav header
+        View headerView = ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0);
+        ((TextView) headerView.findViewById(R.id.navHeaderName)).setText(SavedLogin.getInstance().getName());
+        ((TextView) headerView.findViewById(R.id.navHeaderEmail)).setText(SavedLogin.getInstance().getEmail());
     }
 
     @Override

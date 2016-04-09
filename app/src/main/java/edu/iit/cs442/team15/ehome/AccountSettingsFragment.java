@@ -20,6 +20,8 @@ import edu.iit.cs442.team15.ehome.util.Validation;
 
 public class AccountSettingsFragment extends Fragment implements View.OnClickListener {
 
+    private OnAccountUpdatedListener mListener;
+
     private User user;
 
     private EditText aEmail;
@@ -47,6 +49,11 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof OnAccountUpdatedListener) {
+            mListener = (OnAccountUpdatedListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnAccountUpdatedListener");
+        }
     }
 
     @Override
@@ -167,6 +174,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                             else {
                                 // update saved login info
                                 SavedLogin.getInstance().saveLogin(newInfo.email, newInfo.password, newInfo.name);
+                                mListener.onAccountUpdated(); // notify activity that account settings have changed
 
                                 Toast.makeText(getActivity(), R.string.toast_account_updated, Toast.LENGTH_SHORT).show();
                             }
@@ -176,6 +184,10 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                 break;
             default:
         }
+    }
+
+    public interface OnAccountUpdatedListener {
+        public void onAccountUpdated();
     }
 
 }
