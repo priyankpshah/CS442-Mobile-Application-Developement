@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.iit.cs442.team15.ehome">
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
     <permission
         android:name="edu.iit.cs442.team15.ehome.permission.MAPS_RECEIVE"
@@ -43,6 +45,10 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBWISmIAoGEuGwN28toHkeRA5oGAGppN4M" />
 
-           </application>
+        <activity
+            android:name=".searchoffline_details"
+            android:label="@string/title_activity_searchoffline_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
 
 </manifest>
