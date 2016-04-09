@@ -13,12 +13,6 @@
     <string name="nav_logout">Logout</string>
 
     <!-- Account forms in LoginActivity, RegisterActivity and AccountSettingsFragment -->
-    <string name="alert_invalid_email">Please enter a valid email address.</string>
-    <string name="alert_password_short">Password must be at least %d characters long.</string>
-    <string name="alert_password_match">Passwords do not match.</string>
-    <string name="alert_invalid_name">Please enter a valid name.</string>
-    <string name="alert_invalid_phone">Please enter a valid phone number.</string>
-
     <string name="button_create_account">Create Account</string>
     <string name="button_login">Login</string>
     <string name="button_update_account">Update Account</string>
@@ -28,7 +22,13 @@
     <string name="header_confirm">Confirm Changes</string>
 
     <string name="error_missing_field">This field is required.</string>
+    <string name="error_invalid_email">Please enter a valid email address.</string>
+    <string name="error_email_not_unique">An account with this email already exists.</string>
+    <string name="error_password_short">Password must be at least %d characters long.</string>
+    <string name="error_password_match">Passwords do not match.</string>
     <string name="error_password_short_match">Passwords must be at least %d characters long and match each other.</string>
+    <string name="error_invalid_name">Please enter a valid name.</string>
+    <string name="error_invalid_phone">Please enter a valid phone number.</string>
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
@@ -41,5 +41,36 @@
     <string name="hint_current_password">Current Password</string>
 
     <string name="toast_login_failed">Email and password do not match.</string>
+    <string name="toast_account_created">Account successfully created.</string>
+    <string name="toast_account_updated">Account successfully updated.</string>
+    <string name="toast_account_not_updated">Error: account update failed.</string>
+
+    <!-- PasswordDialog -->
+    <string name="password_dialog_title">Authentication</string>
+    <string name="password_dialog_message">Please enter your current password:</string>
+    <string name="password_dialog_retry_title">Error</string>
+    <string name="password_dialog_retry_message">The password was incorrect.\nPlease try again.</string>
+    <string name="password_dialog_retry_positive">Retry</string>
+
     <string name="title_activity_searchoffline_details">searchoffline_details</string>
+
+    <string-array name="select_beds">
+        <item>Any</item>
+        <item>1+</item>
+        <item>2+</item>
+        <item>3+</item>
+        <item>4+</item>
+    </string-array>
+
+    <string-array name="select_baths">
+        <item>Any</item>
+        <item>1+</item>
+        <item>2+</item>
+        <item>3+</item>
+    </string-array>
+
+    <string-array name="order_method">
+        <item>Rent(low to high)</item>
+        <item>Area(high to low)</item>
+    </string-array>
 </resources>

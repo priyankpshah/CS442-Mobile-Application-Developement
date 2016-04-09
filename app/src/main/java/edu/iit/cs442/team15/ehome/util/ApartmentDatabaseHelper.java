@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
-import android.widget.ArrayAdapter;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,7 +24,8 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     private final Context context;
 
-    public ApartmentDatabaseHelper(Context context) {
+    // Priyank, this is private for a reason - Tom
+    private ApartmentDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
 
@@ -68,6 +68,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
     }
 
     @Override
@@ -92,11 +93,11 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Nullable
-    public User getUser(final String email, final String password) {
+    public User getUser(final String email) {
         SQLiteDatabase db = getReadableDatabase();
 
-        final String sqlQuery = "SELECT * FROM " + Users.TABLE_NAME + " WHERE " + Users.KEY_EMAIL + "=? AND " + Users.KEY_PASSWORD + "=?";
-        Cursor result = db.rawQuery(sqlQuery, new String[]{email, password});
+        final String sqlQuery = "SELECT * FROM " + Users.TABLE_NAME + " WHERE " + Users.KEY_EMAIL + "=?";
+        Cursor result = db.rawQuery(sqlQuery, new String[]{email});
 
         User user = null;
 
@@ -105,7 +106,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
             user = new User()
                     .setId(result.getInt(result.getColumnIndex(Users.KEY_ID)))
                     .setEmail(email)
-                    .setPassword(password)
+                    .setPassword(result.getString(result.getColumnIndex(Users.KEY_PASSWORD)))
                     .setName(result.getString(result.getColumnIndex(Users.KEY_NAME)))
                     .setAddress(result.getString(result.getColumnIndex(Users.KEY_ADDRESS)))
                     .setPhone(result.getString(result.getColumnIndex(Users.KEY_PHONE)));
@@ -116,6 +117,34 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
         return user;
     }
+    
+    public Cursor getApartments(final int zipcode, final int bedrooms, final int bathrooms, final int min_rent, final int max_rent){
+        SQLiteDatabase db = getReadableDatabase();
+        
+        final String sqlQuery;
+        if(zipcode==0)
+            sqlQuery = "SELECT * FROM " + Aptinfo.TABLE_NAME + " WHERE " + Aptinfo.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Aptinfo.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Aptinfo.KEY_RENT + ">=" +min_rent + " AND " +Aptinfo.KEY_RENT + "<=" + max_rent + " ORDER BY " + Aptinfo.KEY_RENT + " ASC";
+        
+            else sqlQuery = "SELECT * FROM " + Aptinfo.TABLE_NAME + " WHERE " + Aptinfo.KEY_ZIPCODE + "=" + zipcode + " AND " + Aptinfo.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Aptinfo.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Aptinfo.KEY_RENT + ">=" +min_rent + " AND " +Aptinfo.KEY_RENT + "<=" + max_rent + " ORDER BY " + Aptinfo.KEY_RENT + " ASC";
+        
+        Cursor result = db.rawQuery(sqlQuery,null);
+
+        return result;
+    }
+
+    public int updateUser(final String currentEmail, final User updatedUser) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Users.KEY_EMAIL, updatedUser.email);
+        values.put(Users.KEY_PASSWORD, updatedUser.password);
+        values.put(Users.KEY_NAME, updatedUser.name);
+        values.put(Users.KEY_ADDRESS, updatedUser.address);
+        values.put(Users.KEY_PHONE, updatedUser.phone);
+
+        return db.update(Users.TABLE_NAME, values, Users.KEY_EMAIL + "=?", new String[]{currentEmail});
+    }
+
     public ArrayList<String> getAptNames(){
         SQLiteDatabase db = getWritableDatabase();
         final String query = "SELECT "+Aptinfo.KEY_APTADDRESS+" FROM " + Aptinfo.TABLE_NAME;
@@ -129,20 +158,20 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return aptinfo;
     }
 
-    public static class Aptinfo{
+    public static final class Aptinfo {
         public static final String TABLE_NAME = "apartments";
         public static final String KEY_ID = "id";
         public static final String KEY_APTADDRESS = "address";
         public static final String KEY_ZIPCODE = "zipcode";
         public static final String KEY_BEDROOMS = "bedrooms";
+        public static final String KEY_BATHROOMS = "bathrooms";
         public static final String KEY_AREA = "square_feet";
         public static final String KEY_RENT = "rent";
         public static final String OWNERID = "owner_id";
 
     }
 
-
-    public static class Users {
+    public static final class Users {
         public static final String TABLE_NAME = "users";
         public static final String KEY_ID = "id";
         public static final String KEY_EMAIL = "email";

@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void login(String email, String password) {
-        User user = ApartmentDatabaseHelper.getInstance().getUser(email, password);
+        User user = ApartmentDatabaseHelper.getInstance().getUser(email);
 
         if (user != null) {
             // save login info

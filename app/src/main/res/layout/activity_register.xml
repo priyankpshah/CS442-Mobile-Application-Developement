@@ -40,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerEmail"
+            android:fontFamily="sans-serif"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:maxLines="1" />
@@ -49,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerPassword"
+            android:fontFamily="sans-serif"
             android:hint="@string/hint_confirm_password"
             android:inputType="textPassword"
             android:maxLines="1" />
