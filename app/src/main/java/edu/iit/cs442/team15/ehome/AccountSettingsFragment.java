@@ -104,6 +104,13 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.updateButton:
+                aEmail.setError(null);
+                aNewPassword.setError(null);
+                aConfirmNewPassword.setError(null);
+                aName.setError(null);
+                aAddress.setError(null);
+                aPhone.setError(null);
+
                 // get current status of EditTexts
                 final User newInfo = new User()
                         .setEmail(aEmail.getText().toString())
