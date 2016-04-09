@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     tools:context="edu.iit.cs442.team15.ehome.SearchOfflineFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/offline_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/aptname"
-        android:text="Search Offline1" />
+        android:clickable="true"/>
 
-</FrameLayout>
+
+    </FrameLayout>

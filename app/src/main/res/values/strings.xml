@@ -50,4 +50,6 @@
     <string name="password_dialog_retry_title">Error</string>
     <string name="password_dialog_retry_message">The password was incorrect.\nPlease try again.</string>
     <string name="password_dialog_retry_positive">Retry</string>
+
+    <string name="title_activity_searchoffline_details">searchoffline_details</string>
 </resources>
