@@ -1,32 +1,35 @@
 package edu.iit.cs442.team15.ehome;
 
 import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
 
 
 /**
@@ -129,8 +132,6 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap map) {
-        // do stuff to map
-        locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -139,27 +140,45 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.d("SearchOnlineFragment", "Location permissions not available.");
             return;
         }
+
+        locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         lastLoc = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-        double lat = lastLoc.getLatitude();
-        double lng = lastLoc.getLongitude();
-        LatLng lastLatLng = new LatLng(lat, lng);
+        if (lastLoc != null) {
+            double lat = lastLoc.getLatitude();
+            double lng = lastLoc.getLongitude();
+            LatLng lastLatLng = new LatLng(lat, lng);
 
+            //  if (userMarker != null) userMarker.remove();
 
+            userMarker = map.addMarker(new MarkerOptions()
+                    .position(lastLatLng)
+                    .title("You are here")
+                    .icon(BitmapDescriptorFactory.fromResource(userIcon))
+                    .snippet("Your last recorded location"));
 
+            map.setMyLocationEnabled(true);
+        } else {
+            // get Chicago's location
+            Address chicago = null;
+            try {
+                chicago = new Geocoder(getActivity()).getFromLocationName("Chicago", 1).get(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        //  if (userMarker != null) userMarker.remove();
+            userMarker = map.addMarker(new MarkerOptions()
+                    .position(new LatLng(chicago.getLatitude(), chicago.getLongitude()))
+                    .title("Chicago")
+                    .icon(BitmapDescriptorFactory.fromResource(userIcon))
+                    .snippet("Chicago"));
+        }
 
-        userMarker = map.addMarker(new MarkerOptions()
-                .position(lastLatLng)
-                .title("You are here")
-                .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("Your last recorded location"));
-
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 3000, null);
-        map.setMyLocationEnabled(true);
+        // zoom in on user location or Chicago
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 12.5f), 100, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -172,9 +191,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .title("Lake Meadows Apartments")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
                 .snippet("500 East 33rd Street, Chicago, IL 60616\n" +
-                        "Phn.: (312) 842-7333\n"+"Email ID: lakemeadowsleasing@dklivingapts.com\n"+"Cost: $1,865"));
+                        "Phn.: (312) 842-7333\n" + "Email ID: lakemeadowsleasing@dklivingapts.com\n" + "Cost: $1,865"));
         LatLng lastLatLng1 = new LatLng(41.8348969, -87.6142183);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng1), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng1), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -188,9 +207,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .title("Prairie Shores Apartments")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
                 .snippet("2851 S King Dr., Chicago, IL 60616\n" +
-                        "Phn.: (312) 842-7333\n"+"Email ID: prairieshoresleasing@dklivingapts.com\n"+"Cost: $1,865"));
+                        "Phn.: (312) 842-7333\n" + "Email ID: prairieshoresleasing@dklivingapts.com\n" + "Cost: $1,865"));
         LatLng lastLatLng2 = new LatLng(41.8426694, -87.6162544);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng2), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng2), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -203,9 +222,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .position(new LatLng(41.835314, -87.62671))
                 .title("Illinois Institute of Technology")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("3222-3262 S State St, Chicago, IL 60616\n"+"Phn.: (312) 842-7333\n"+"Email ID: vedu16@gmail.com\n"+"Cost: $1,865"));
+                .snippet("3222-3262 S State St, Chicago, IL 60616\n" + "Phn.: (312) 842-7333\n" + "Email ID: vedu16@gmail.com\n" + "Cost: $1,865"));
         LatLng lastLatLng3 = new LatLng(41.835314, -87.62671);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng3), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng3), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -218,9 +237,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .position(new LatLng(41.836544, -87.649508))
                 .title("Bridgeport")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("920 W 32nd St, Chicago, IL 60608\n"+"Phn.: (312) 842-7333\n"+"Email ID: vedu16@gmail.com\n"+"Cost: $1,865"));
+                .snippet("920 W 32nd St, Chicago, IL 60608\n" + "Phn.: (312) 842-7333\n" + "Email ID: vedu16@gmail.com\n" + "Cost: $1,865"));
         LatLng lastLatLng4 = new LatLng(41.836544, -87.649508);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng4), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng4), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -232,9 +251,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .position(new LatLng(41.8348975, -87.6142175))
                 .title("Allure Apartments")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("1401 S State St Chicago, IL, 60605\n"+"Phn.: (314) 842-7333\n"+"Email ID: allureapartments@gmail.com"));
+                .snippet("1401 S State St Chicago, IL, 60605\n" + "Phn.: (314) 842-7333\n" + "Email ID: allureapartments@gmail.com"));
         LatLng lastLatLng5 = new LatLng(41.8348969, -87.6142183);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng5), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng5), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -246,9 +265,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .position(new LatLng(41.837550, -87.648515))
                 .title("Catalyst Apartments")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("123 N Des Plaines St Chicago 60661\n"+"Phn.: (312) 942-7333\n"+"Email ID: catalystpartments@gmail.com"));
+                .snippet("123 N Des Plaines St Chicago 60661\n" + "Phn.: (312) 942-7333\n" + "Email ID: catalystpartments@gmail.com"));
         LatLng lastLatLng6 = new LatLng(41.837550, -87.648515);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng6), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng6), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -261,9 +280,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .position(new LatLng(41.835565, -87.644525))
                 .title("Lake Shore Drive")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("500 N Lake Shore Dr Chicago 60611\n"+"Phn.: (312) 842-7443\n"+"Email ID: lakeshoredrive@gmail.com"));
+                .snippet("500 N Lake Shore Dr Chicago 60611\n" + "Phn.: (312) 842-7443\n" + "Email ID: lakeshoredrive@gmail.com"));
         LatLng lastLatLng7 = new LatLng(41.835565, -87.644525);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng7), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng7), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
