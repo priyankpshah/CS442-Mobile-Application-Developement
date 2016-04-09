@@ -24,6 +24,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     private final Context context;
 
+    // Priyank, this is private for a reason - Tom
     private ApartmentDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
