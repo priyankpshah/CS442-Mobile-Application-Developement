@@ -1,16 +1,25 @@
 package edu.iit.cs442.team15.ehome;
 
-import android.content.*;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.*;
-import android.view.View.*;
-import android.widget.*;
-import android.database.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
-import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.model.Apartment;
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 
 public class SearchOptionsFragment extends Fragment implements OnClickListener {
 
@@ -138,24 +147,25 @@ public class SearchOptionsFragment extends Fragment implements OnClickListener {
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Zip Code and Rent must be Integer", Toast.LENGTH_LONG).show();
                 }
-                if(min_rent>max_rent) {
-                    Toast.makeText(getActivity(), "Maxmum rent must be greater than minimum rent!", Toast.LENGTH_LONG).show();
+                if (min_rent > max_rent) {
+                    Toast.makeText(getActivity(), "Maximum rent must be greater than minimum rent!", Toast.LENGTH_LONG).show();
                     break;
                 }
-                Cursor result = ApartmentDatabaseHelper.getInstance().getApartments(zipcode,beds,baths,min_rent,max_rent);
-                if(result.getCount()==0)
-                    Toast.makeText(getActivity(),"No apartments found!",Toast.LENGTH_LONG).show();
-                else{
-                    result.moveToFirst();
-                    while(result.moveToFirst()){
-                        search_result.add(new Apartment(result.getColumnIndex("id"),result.getString(result.getColumnIndex("address")),result.getColumnIndex("zipcode"),
-                                result.getColumnIndex("bedrooms"),result.getColumnIndex("bathrooms"),result.getColumnIndex("square_feet"),
-                                result.getColumnIndex("rent"),result.getColumnIndex("owner_id")));
+                Cursor result = ApartmentDatabaseHelper.getInstance().getApartments(zipcode, beds, baths, min_rent, max_rent);
+                if (result.getCount() == 0)
+                    Toast.makeText(getActivity(), "No apartments found!", Toast.LENGTH_LONG).show();
+                else {
+                    if (result.moveToFirst()) {
+                        do {
+                            search_result.add(new Apartment(result.getColumnIndex("id"), result.getString(result.getColumnIndex("address")), result.getColumnIndex("zipcode"),
+                                    result.getColumnIndex("bedrooms"), result.getColumnIndex("bathrooms"), result.getColumnIndex("square_feet"),
+                                    result.getColumnIndex("rent"), result.getColumnIndex("owner_id")));
+                        } while (result.moveToNext());
                     }
                 }
-                Intent intent = new Intent(getActivity(),SearchResultActivity.class);
-                intent.putExtra("Searching Result",search_result);
-                startActivityForResult(intent,1);
+                Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+                intent.putExtra("Searching Result", search_result);
+                startActivityForResult(intent, 1);
                 break;
 
             case R.id.SaveFilter:
