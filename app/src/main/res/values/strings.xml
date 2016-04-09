@@ -41,6 +41,17 @@
     <string name="hint_current_password">Current Password</string>
 
     <string name="toast_login_failed">Email and password do not match.</string>
+    <string name="toast_account_updated">Account successfully updated.</string>
+    <string name="toast_account_not_updated">Error: account update failed.</string>
+
+    <!-- PasswordDialog -->
+    <string name="password_dialog_title">Authentication</string>
+    <string name="password_dialog_message">Please enter your current password:</string>
+    <string name="password_dialog_retry_title">Error</string>
+    <string name="password_dialog_retry_message">The password was incorrect.\nPlease try again.</string>
+    <string name="password_dialog_retry_positive">Retry</string>
+
+    <string name="title_activity_searchoffline_details">searchoffline_details</string>
 
     <string-array name="select_beds">
         <item>Any</item>
