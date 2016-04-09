@@ -20,8 +20,7 @@ import edu.iit.cs442.team15.ehome.util.SavedLogin;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         DashboardFragment.OnFragmentInteractionListener,
         SearchOfflineFragment.OnFragmentInteractionListener,
-        SearchOnlineFragment.OnFragmentInteractionListener,
-        SearchOptionsFragment.OnFragmentInteractionListener {
+        SearchOnlineFragment.OnFragmentInteractionListener{
 
     private DrawerLayout drawer;
     private FragmentManager fm;
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .commit();
                     break;
                 case R.id.nav_search_options:
-                    Fragment searchOptions = SearchOptionsFragment.newInstance("", "");
+                    Fragment searchOptions = SearchOptionsFragment.newInstance();
                     fm.beginTransaction()
                             .replace(R.id.contentFragment, searchOptions)
                             .addToBackStack("search_options")

@@ -66,6 +66,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
     }
 
     @Override
@@ -114,6 +115,20 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
         return user;
     }
+    
+    public Cursor getApartments(final int zipcode, final int bedrooms, final int bathrooms, final int min_rent, final int max_rent){
+        SQLiteDatabase db = getReadableDatabase();
+        
+        final String sqlQuery;
+        if(zipcode==0)
+            sqlQuery = "SELECT * FROM " + Aptinfo.TABLE_NAME + " WHERE " + Aptinfo.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Aptinfo.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Aptinfo.KEY_RENT + ">=" +min_rent + " AND " +Aptinfo.KEY_RENT + "<=" + max_rent + " ORDER BY " + Aptinfo.KEY_RENT + " ASC";
+        
+            else sqlQuery = "SELECT * FROM " + Aptinfo.TABLE_NAME + " WHERE " + Aptinfo.KEY_ZIPCODE + "=" + zipcode + " AND " + Aptinfo.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Aptinfo.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Aptinfo.KEY_RENT + ">=" +min_rent + " AND " +Aptinfo.KEY_RENT + "<=" + max_rent + " ORDER BY " + Aptinfo.KEY_RENT + " ASC";
+        
+        Cursor result = db.rawQuery(sqlQuery,null);
+
+        return result;
+    }
 
     public Cursor getAptNames() {
         Cursor cur = getReadableDatabase().query(Aptinfo.TABLE_NAME, new String[]{"id", "address"}, null, null, null, null, null);
@@ -126,6 +141,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         public static final String KEY_APTADDRESS = "address";
         public static final String KEY_ZIPCODE = "zipcode";
         public static final String KEY_BEDROOMS = "bedrooms";
+        public static final String KEY_BATHROOMS = "bathrooms";
         public static final String KEY_AREA = "square_feet";
         public static final String KEY_RENT = "rent";
         public static final String OWNERID = "owner_id";
