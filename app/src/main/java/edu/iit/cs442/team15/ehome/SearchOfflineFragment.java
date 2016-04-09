@@ -3,6 +3,7 @@ package edu.iit.cs442.team15.ehome;
 import android.annotation.TargetApi;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -34,9 +35,8 @@ public class SearchOfflineFragment extends Fragment implements AdapterView.OnIte
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    List<String> Aptname = null;
 
-    TextView tv;
+    List<String> Aptname = null;
     static ApartmentDatabaseHelper db;
     ListView lv = null;
 
@@ -60,8 +60,6 @@ public class SearchOfflineFragment extends Fragment implements AdapterView.OnIte
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
             db = new ApartmentDatabaseHelper(getContext());
-
-
         }
     }
 
@@ -89,6 +87,8 @@ public class SearchOfflineFragment extends Fragment implements AdapterView.OnIte
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getActivity(),searchoffline_details.class);
+                startActivity(i);
 
             }
         });
