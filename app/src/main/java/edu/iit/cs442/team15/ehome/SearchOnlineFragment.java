@@ -8,9 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -18,6 +20,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.widget.TextView;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -127,14 +130,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap map) {
         // do stuff to map
-        locMan = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lastLoc = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-        double lat = lastLoc.getLatitude();
-        double lng = lastLoc.getLongitude();
-        LatLng lastLatLng = new LatLng(lat, lng);
-
-
+        locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -143,10 +139,16 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-
-
             return;
         }
+        lastLoc = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        double lat = lastLoc.getLatitude();
+        double lng = lastLoc.getLongitude();
+        LatLng lastLatLng = new LatLng(lat, lng);
+
+
+
 
         //  if (userMarker != null) userMarker.remove();
 
