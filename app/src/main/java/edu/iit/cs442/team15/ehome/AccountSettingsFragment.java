@@ -127,7 +127,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                     if (newInfo.phone.trim().isEmpty())
                         aPhone.setError(getString(R.string.error_missing_field));
                     else
-                        aPhone.setError(getString(R.string.alert_invalid_phone));
+                        aPhone.setError(getString(R.string.error_invalid_phone));
                     validInput = false;
                 }
 
@@ -138,7 +138,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                     if (newInfo.name.trim().isEmpty())
                         aName.setError(getString(R.string.error_missing_field));
                     else
-                        aName.setError(getString(R.string.alert_invalid_name));
+                        aName.setError(getString(R.string.error_invalid_name));
                     validInput = false;
                 }
 
@@ -153,9 +153,9 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                         if (isShort && !isMatch)
                             aNewPassword.setError(getString(R.string.error_password_short_match, Validation.MIN_PASSWORD_LENGTH));
                         else if (isShort)
-                            aNewPassword.setError(getString(R.string.alert_password_short, Validation.MIN_PASSWORD_LENGTH));
+                            aNewPassword.setError(getString(R.string.error_password_short, Validation.MIN_PASSWORD_LENGTH));
                         else // if (!isMatch)
-                            aNewPassword.setError(getString(R.string.alert_password_match));
+                            aNewPassword.setError(getString(R.string.error_password_match));
                     }
                 } else {
                     newInfo.setPassword(user.password); // don't change password
@@ -166,7 +166,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                     if (newInfo.email.trim().isEmpty())
                         aEmail.setError(getString(R.string.error_missing_field));
                     else
-                        aEmail.setError(getString(R.string.alert_invalid_email));
+                        aEmail.setError(getString(R.string.error_invalid_email));
                     validInput = false;
                 }
 

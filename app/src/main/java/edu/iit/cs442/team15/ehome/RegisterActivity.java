@@ -1,9 +1,7 @@
 package edu.iit.cs442.team15.ehome;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +16,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private EditText rEmail;
     private EditText rPassword;
-    private EditText rConfirm;
+    private EditText rConfirmPassword;
     private EditText rName;
     private EditText rAddress;
     private EditText rPhone; // TODO autofill with user's phone
@@ -30,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         rEmail = (EditText) findViewById(R.id.registerEmail);
         rPassword = (EditText) findViewById(R.id.registerPassword);
-        rConfirm = (EditText) findViewById(R.id.registerConfirmPassword);
+        rConfirmPassword = (EditText) findViewById(R.id.registerConfirmPassword);
         rName = (EditText) findViewById(R.id.registerName);
         rAddress = (EditText) findViewById(R.id.registerAddress);
         rPhone = (EditText) findViewById(R.id.registerPhone);
@@ -43,77 +41,85 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submitButton:
-                if (validateInput()) {
-                    User newUser = new User()
-                            .setEmail(rEmail.getText().toString())
-                            .setPassword(rPassword.getText().toString())
-                            .setName(rName.getText().toString())
-                            .setAddress(rAddress.getText().toString())
-                            .setPhone(rPhone.getText().toString());
+                // clear any existing errors
+                rEmail.setError(null);
+                rPassword.setError(null);
+                rConfirmPassword.setError(null);
+                rName.setError(null);
+                rAddress.setError(null);
+                rPhone.setError(null);
 
+                // get user input
+                User newUser = new User()
+                        .setEmail(rEmail.getText().toString())
+                        .setPassword(rPassword.getText().toString())
+                        .setName(rName.getText().toString())
+                        .setAddress(rAddress.getText().toString())
+                        .setPhone(rPhone.getText().toString());
+
+                // validate input
+                boolean validInput = true;
+
+                // check Phone
+                if (!Validation.isPhoneNumber(newUser.phone)) {
+                    if (newUser.phone.trim().isEmpty())
+                        rPhone.setError(getString(R.string.error_missing_field));
+                    else
+                        rPhone.setError(getString(R.string.error_invalid_phone));
+                    validInput = false;
+                }
+
+                // TODO check Address?
+
+                // check Name
+                if (!Validation.isName(newUser.name)) {
+                    if (newUser.name.trim().isEmpty())
+                        rName.setError(getString(R.string.error_missing_field));
+                    else
+                        rName.setError(getString(R.string.error_invalid_name));
+                    validInput = false;
+                }
+
+                // check Password
+                boolean isShort = !Validation.isPassword(newUser.password);
+                boolean isMatch = newUser.password.equals(rConfirmPassword.getText().toString());
+
+                if (isShort || !isMatch) {
+                    validInput = false;
+
+                    if (isShort && !isMatch)
+                        rPassword.setError(getString(R.string.error_password_short_match, Validation.MIN_PASSWORD_LENGTH));
+                    else if (isShort) {
+                        if (newUser.password.isEmpty())
+                            rPassword.setError(getString(R.string.error_missing_field));
+                        else
+                            rPassword.setError(getString(R.string.error_password_short, Validation.MIN_PASSWORD_LENGTH));
+                    } else // if (!isMatch)
+                        rPassword.setError(getString(R.string.error_password_match));
+                }
+
+                // check Email
+                if (!Validation.isEmail(newUser.email)) {
+                    if (newUser.email.trim().isEmpty())
+                        rEmail.setError(getString(R.string.error_missing_field));
+                    else
+                        rEmail.setError(getString(R.string.error_invalid_email));
+                    validInput = false;
+                }
+
+                if (validInput) {
                     if (ApartmentDatabaseHelper.getInstance().addUser(newUser) > 0) {
                         // success
-                        Toast.makeText(this, "Account successfully created", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.toast_account_created, Toast.LENGTH_LONG).show();
                         setResult(RESULT_OK, new Intent().putExtra(LoginActivity.EXTRA_EMAIL, newUser.email));
                         finish();
                     } else {
-                        Toast.makeText(this, "Error: Failed to create account.", Toast.LENGTH_LONG).show();
+                        // email already in use, account not created
+                        rEmail.setError(getString(R.string.error_email_not_unique));
                     }
                 }
                 break;
         }
-    }
-
-    private boolean validateInput() {
-        // check Email
-        if (!Validation.isEmail(rEmail.getText().toString())) {
-            getAlertDialog(R.string.alert_invalid_email, rEmail).show();
-            return false;
-        }
-
-        // check Passwords
-        if (!Validation.isPassword(rPassword.getText().toString())) {
-            getAlertDialog(getString(R.string.alert_password_short, Validation.MIN_PASSWORD_LENGTH), rPassword).show();
-            return false;
-        }
-        if (!rPassword.getText().toString().equals(rConfirm.getText().toString())) {
-            getAlertDialog(R.string.alert_password_match, rConfirm).show();
-            return false;
-        }
-
-        // check Name
-        if (!Validation.isName(rName.getText().toString())) {
-            getAlertDialog(R.string.alert_invalid_name, rName).show();
-            return false;
-        }
-
-        // TODO check Address?
-
-        // check Phone
-        if (!Validation.isPhoneNumber(rPhone.getText().toString())) {
-            getAlertDialog(R.string.alert_invalid_phone, rPhone).show();
-            return false;
-        }
-
-        return true; // all tests passed
-    }
-
-    private AlertDialog getAlertDialog(int messageId, final EditText target) {
-        return getAlertDialog(getString(messageId), target);
-    }
-
-    private AlertDialog getAlertDialog(CharSequence message, final EditText target) {
-        return new AlertDialog.Builder(this)
-                .setTitle(android.R.string.dialog_alert_title)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (target != null)
-                            target.requestFocus();
-                    }
-                })
-                .create();
     }
 
 }
