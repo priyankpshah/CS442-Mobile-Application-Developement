@@ -173,6 +173,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                                 Toast.makeText(getActivity(), R.string.toast_account_not_updated, Toast.LENGTH_SHORT).show();
                             else {
                                 // update saved login info
+                                user = newInfo; // update this fragment's cached user info
                                 SavedLogin.getInstance().saveLogin(newInfo.email, newInfo.password, newInfo.name);
                                 mListener.onAccountUpdated(); // notify activity that account settings have changed
 
