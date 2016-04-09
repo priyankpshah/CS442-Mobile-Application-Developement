@@ -1,10 +1,8 @@
 package edu.iit.cs442.team15.ehome;
 
 import android.annotation.TargetApi;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,9 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
@@ -59,7 +55,6 @@ public class SearchOfflineFragment extends Fragment implements AdapterView.OnIte
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            db = new ApartmentDatabaseHelper(getContext());
         }
     }
 
@@ -68,8 +63,7 @@ public class SearchOfflineFragment extends Fragment implements AdapterView.OnIte
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search_offline, container, false);
         lv = (ListView)v.findViewById(R.id.offline_list);
-        db = new ApartmentDatabaseHelper(getActivity().getApplicationContext());
-        Aptname = db.getAptNames();
+        Aptname = ApartmentDatabaseHelper.getInstance().getAptNames();
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,
                 android.R.id.text1, Aptname){
             @Override
