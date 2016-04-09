@@ -21,7 +21,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AccountSettingsFragment.OnAccountUpdatedListener,
         DashboardFragment.OnFragmentInteractionListener,
         SearchOfflineFragment.OnFragmentInteractionListener,
-        SearchOnlineFragment.OnFragmentInteractionListener{
+        SearchOnlineFragment.OnFragmentInteractionListener {
+
+    // key for storing nav item id that corresponds to a Fragment
+    private static final String NAV_ID = "nav_id";
 
     private DrawerLayout drawer;
     private FragmentManager fm;
@@ -48,37 +51,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-                // select correct menu entry on back pressed
-                if (fm.getBackStackEntryCount() > 0) {
-                    FragmentManager.BackStackEntry top = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1);
+                // select correct menu entry
+                Fragment displayed = fm.findFragmentById(R.id.contentFragment);
 
-                    switch (top.getName()) {
-                        case "dashboard":
-                            navigationView.setCheckedItem(R.id.nav_dashboard);
-                            break;
-                        case "search_offline":
-                            navigationView.setCheckedItem(R.id.nav_search_offline);
-                            break;
-                        case "search_online":
-                            navigationView.setCheckedItem(R.id.nav_search_online);
-                            break;
-                        case "search_options":
-                            navigationView.setCheckedItem(R.id.nav_search_options);
-                            break;
-                        case "account_settings":
-                            navigationView.setCheckedItem(R.id.nav_account_settings);
-                            break;
-                    }
-                }
+                if (displayed instanceof DashboardFragment)
+                    navigationView.setCheckedItem(R.id.nav_dashboard);
+                else if (displayed instanceof SearchOfflineFragment)
+                    navigationView.setCheckedItem(R.id.nav_search_offline);
+                else if (displayed instanceof SearchOnlineFragment)
+                    navigationView.setCheckedItem(R.id.nav_search_online);
+                else if (displayed instanceof SearchOptionsFragment)
+                    navigationView.setCheckedItem(R.id.nav_search_options);
+                else if (displayed instanceof AccountSettingsFragment)
+                    navigationView.setCheckedItem(R.id.nav_account_settings);
             }
         });
-        // display DashboardFragment initially
-        Fragment dashboard = DashboardFragment.newInstance();
-        fm.beginTransaction().replace(R.id.contentFragment, dashboard).commit();
 
+        // display DashboardFragment initially
+        fm.beginTransaction()
+                .replace(R.id.contentFragment, DashboardFragment.newInstance())
+                .commit();
         navigationView.setCheckedItem(R.id.nav_dashboard);
     }
-
 
     @Override
     public void onBackPressed() {
@@ -91,46 +85,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Fragment newFragment = null; // new Fragment to be displayed
+
         if (!item.isChecked()) {
             switch (item.getItemId()) {
-                // TODO convert to only one beginTransaction() if possible in future
                 case R.id.nav_dashboard:
-                    Fragment dashboard = DashboardFragment.newInstance();
-                    fm.beginTransaction()
-                            .replace(R.id.contentFragment, dashboard)
-                            .addToBackStack("dashboard")
-                            .commit();
-                    break;
+                    newFragment = DashboardFragment.newInstance();
                 case R.id.nav_admin_add:
-                    // TODO
+                    // TODO if this ever gets implemented
                     break;
                 case R.id.nav_search_offline:
-                    Fragment searchOffline = SearchOfflineFragment.newInstance("", "");
-                    fm.beginTransaction()
-                            .replace(R.id.contentFragment, searchOffline)
-                            .addToBackStack("search_offline")
-                            .commit();
+                    newFragment = SearchOfflineFragment.newInstance("", "");
                     break;
                 case R.id.nav_search_online:
-                    Fragment searchOnline = SearchOnlineFragment.newInstance("", "");
-                    fm.beginTransaction()
-                            .replace(R.id.contentFragment, searchOnline)
-                            .addToBackStack("search_online")
-                            .commit();
+                    newFragment = SearchOnlineFragment.newInstance("", "");
                     break;
                 case R.id.nav_search_options:
-                    Fragment searchOptions = SearchOptionsFragment.newInstance();
-                    fm.beginTransaction()
-                            .replace(R.id.contentFragment, searchOptions)
-                            .addToBackStack("search_options")
-                            .commit();
+                    newFragment = SearchOptionsFragment.newInstance();
                     break;
                 case R.id.nav_account_settings:
-                    Fragment accountSettings = AccountSettingsFragment.newInstance();
-                    fm.beginTransaction()
-                            .replace(R.id.contentFragment, accountSettings)
-                            .addToBackStack("account_settings")
-                            .commit();
+                    newFragment = AccountSettingsFragment.newInstance();
                     break;
                 case R.id.nav_logout:
                     Intent logout = new Intent(this, LoginActivity.class);
@@ -139,6 +113,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     finish();
                     break;
             }
+        }
+
+        if (newFragment != null) {
+            fm.beginTransaction()
+                    .replace(R.id.contentFragment, newFragment)
+                    .addToBackStack(null)
+                    .commit();
         }
 
         drawer.closeDrawer(GravityCompat.START);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +105,17 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         map.getMapAsync(this);
 
         return v;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // destroy embedded fragment
+        FragmentManager cfm = getChildFragmentManager();
+        cfm.beginTransaction()
+                .remove(cfm.findFragmentById(R.id.map))
+                .commitAllowingStateLoss();
     }
 
     @Override
