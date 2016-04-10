@@ -19,95 +19,6 @@
         android:layout_alignParentStart="true"
         >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/scrollView"
-            android:layout_alignParentStart="true">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/Address"
-                android:text="Address: "
-                android:layout_alignParentStart="true" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/Apartment_name"
-                android:text="Apartment: "
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/Address"
-                android:layout_alignParentLeft="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rent"
-                android:text="Rent: "
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/Bedroom"
-                android:layout_alignParentLeft="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/Bedroom"
-                android:text="Bedroom: "
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/Apartment_name"
-                android:layout_alignParentLeft="true" />
-
-            <CheckedTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/gas"
-                android:text="Gas: "
-                android:layout_below="@+id/thermostate"
-                android:layout_alignParentLeft="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/Bathroom"
-                android:text="Bathroom: "
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/rent"
-                android:layout_alignParentLeft="true" />
-
-            <CheckedTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/thermostate"
-                android:text="Heat: "
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/parking"
-                android:layout_alignParentLeft="true" />
-
-            <CheckedTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/gym"
-                android:text="Gym: "
-                android:layout_below="@+id/gas"
-                android:layout_alignParentLeft="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/squarefoot"
-                android:text="Area: "
-                android:layout_below="@+id/gym"
-                android:layout_alignParentLeft="true" />
-
-            <CheckedTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/parking"
-                android:text="Parking Space: "
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/Bathroom"
-                android:layout_alignParentLeft="true" />
-        </RelativeLayout>
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
@@ -129,5 +40,111 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:background="@color/common_google_signin_btn_text_dark_pressed"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/scrollView"
+        android:layout_alignEnd="@+id/sms">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Address"
+            android:text="Address: "
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Apartment_name"
+            android:text="Apartment: "
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/Address"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rent"
+            android:text="Rent: "
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/Bedroom"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Bedroom"
+            android:text="Bedroom: "
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/Apartment_name"
+            android:layout_alignParentLeft="true" />
+
+        <CheckedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gas"
+            android:text="Gas: "
+            android:layout_below="@+id/thermostate"
+            android:layout_alignParentLeft="true"
+            android:checked="false"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Bathroom"
+            android:text="Bathroom: "
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/rent"
+            android:layout_alignParentLeft="true" />
+
+        <CheckedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/thermostate"
+            android:text="Heat: "
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/squarefoot"
+            android:layout_alignParentLeft="true"
+            android:checked="false"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"/>
+
+        <CheckedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gym"
+            android:text="Gym: "
+            android:layout_below="@+id/gas"
+            android:layout_alignParentLeft="true"
+            android:checked="false"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/squarefoot"
+            android:text="Area: "
+            android:layout_below="@+id/gym"
+            android:layout_alignParentLeft="true" />
+
+        <CheckedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/parking"
+            android:text="Parking Space: "
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/Bathroom"
+            android:layout_alignParentLeft="true"
+            android:checked="false"/>
+
+        <!--<CheckedTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/Electricity"-->
+            <!--android:text="Electricity: "-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_below="@+id/parking"-->
+            <!--android:layout_alignParentLeft="true" />-->
+    </RelativeLayout>
 
 </RelativeLayout>
