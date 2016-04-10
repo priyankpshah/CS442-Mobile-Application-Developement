@@ -43,11 +43,11 @@ public class searchoffline_details extends AppCompatActivity {
         bthroom= (TextView)findViewById(R.id.Bathroom);
         bdroom= (TextView)findViewById(R.id.Bedroom);
         rent = (TextView)findViewById(R.id.rent);
-        address.setText(aptinfo.get(0));
-        area.setText(aptinfo.get(1));
-        bdroom.setText(aptinfo.get(2));
-        bthroom.setText(aptinfo.get(3));
-        rent.setText(aptinfo.get(4));
+        address.setText("Address: "+aptinfo.get(0));
+        area.setText("Area: "+aptinfo.get(1)+"sq. ft.");
+        bdroom.setText("Bedrooms: "+aptinfo.get(2));
+        bthroom.setText("Bathrooms: "+aptinfo.get(3));
+        rent.setText("Rent: $"+aptinfo.get(4));
 
         pspace= (CheckedTextView)findViewById(R.id.parking);
         heat= (CheckedTextView)findViewById(R.id.thermostate);
@@ -61,7 +61,8 @@ public class searchoffline_details extends AppCompatActivity {
 //        {
 //            cable.setChecked(true);
 //        }
-        if(ammenitiesinfo.get(1)=="1")
+        String flag1 = "1";
+        if(String.valueOf(ammenitiesinfo.get(1))== flag1)
         {
             electricity.setChecked(true);
         }
