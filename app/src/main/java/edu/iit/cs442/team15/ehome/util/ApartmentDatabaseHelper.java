@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import edu.iit.cs442.team15.ehome.model.User;
@@ -25,7 +26,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     private final Context context;
 
     // Priyank, this is private for a reason - Tom
-    private ApartmentDatabaseHelper(Context context) {
+    public ApartmentDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
 
@@ -157,6 +158,51 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         cur.close();
         return aptinfo;
     }
+    @Nullable
+    public ArrayList<String> getDetails(String id) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        final String sqlQuery = "SELECT * FROM " + Aptinfo.TABLE_NAME + " WHERE " + Aptinfo.KEY_ID + "=?";
+        Cursor result = db.rawQuery(sqlQuery, new String[]{id});
+        ArrayList<String> aptinfo = new ArrayList<String>();
+        while(result.moveToNext())
+        {
+            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_APTADDRESS)));
+            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_AREA)));
+            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_BATHROOMS)));
+            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_BEDROOMS)));
+            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_RENT)));
+            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_ZIPCODE)));
+            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.OWNERID)));
+        }
+        result.close();
+        db.close();
+
+        return aptinfo;
+    }
+
+    @Nullable
+    public ArrayList<String> getAmenities(String id) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        final String sqlQuery = "SELECT * FROM " + Ammenities.TABLE_NAME + " WHERE " + Ammenities.KEY_ID + "=?";
+        Cursor result = db.rawQuery(sqlQuery, new String[]{id});
+        ArrayList<String> ammenitiesinfo = new ArrayList<String>();
+        while(result.moveToNext())
+        {
+            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_CABLE)));
+            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_ELECTRICITY)));
+            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_GAS)));
+            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_GYM)));
+            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_INTERNET)));
+            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_PARKING)));
+            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_THERMOSTATE)));
+        }
+        result.close();
+        db.close();
+
+        return ammenitiesinfo;
+    }
 
     public static final class Aptinfo {
         public static final String TABLE_NAME = "apartments";
@@ -170,7 +216,18 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         public static final String OWNERID = "owner_id";
 
     }
+    public static final class Ammenities {
+        public static final String TABLE_NAME = "amenities";
+        public static final String KEY_ID = "apartment_id";
+        public static final String KEY_PARKING = "parking";
+        public static final String KEY_GYM = "gym";
+        public static final String KEY_GAS = "gas";
+        public static final String KEY_ELECTRICITY = "electricity";
+        public static final String KEY_INTERNET = "internet";
+        public static final String KEY_CABLE = "cable";
+        public static final String KEY_THERMOSTATE = "thermostate";
 
+    }
     public static final class Users {
         public static final String TABLE_NAME = "users";
         public static final String KEY_ID = "id";

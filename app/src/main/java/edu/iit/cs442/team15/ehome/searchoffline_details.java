@@ -13,10 +13,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+
 public class searchoffline_details extends AppCompatActivity {
     String value;
     FloatingActionButton call, text;
-
+    static ApartmentDatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +28,14 @@ public class searchoffline_details extends AppCompatActivity {
 
         Intent i = getIntent();
         value = i.getStringExtra("Position");
-        System.out.println("####:" + value);
-        Toast.makeText(getApplicationContext(), "ID:" + value, Toast.LENGTH_SHORT).show();
+        db = ApartmentDatabaseHelper.getInstance();
 
+        ArrayList<String> aptinfo = db.getDetails(value);
+        ArrayList<String> ammenitiesinfo = db.getAmenities(value);
 
-        //Call Owner with the following method
+        System.out.println("APT SIZE:"+aptinfo.get(4));
+        System.out.println("AMM SIZE:"+ammenitiesinfo.get(1));
+            //Call Owner with the following method
         call = (FloatingActionButton) findViewById(R.id.Call);
         call.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
