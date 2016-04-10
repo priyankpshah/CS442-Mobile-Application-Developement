@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
-import android.content.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,19 +103,19 @@ public class SearchResultActivity extends Activity {
             if(view instanceof TableRow){
                 TableRow tr = (TableRow) view;
                 TextView tv0 = (TextView)tr.getChildAt(0);
-                tv0.setText(result.get(i).id);
+                tv0.setText(Integer.toString(result.get(i).id));
                 TextView tv1 = (TextView)tr.getChildAt(1);
-                tv1.setText(result.get(i).zipcode);
+                tv1.setText(Integer.toString(result.get(i).zipcode));
                 TextView tv2 = (TextView)tr.getChildAt(2);
                 tv2.setText(result.get(i).address);
                 TextView tv3 = (TextView)tr.getChildAt(3);
-                tv3.setText(result.get(i).bedrooms);
+                tv3.setText(Integer.toString(result.get(i).bedrooms));
                 TextView tv4 = (TextView)tr.getChildAt(4);
-                tv4.setText(result.get(i).bathrooms);
+                tv4.setText(Integer.toString(result.get(i).bathrooms));
                 TextView tv5 = (TextView)tr.getChildAt(5);
                 tv5.setText(Double.toString(result.get(i).square_feet));
                 TextView tv6 = (TextView)tr.getChildAt(6);
-                tv6.setText(result.get(i).rent);
+                tv6.setText(Integer.toString(result.get(i).rent));
             }
 
         }
