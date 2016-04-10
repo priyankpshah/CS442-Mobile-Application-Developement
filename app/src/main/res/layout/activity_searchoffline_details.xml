@@ -10,18 +10,7 @@
         android:scaleType="fitCenter"
          android:layout_marginBottom="270dp"/>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:id="@+id/scrollView"
-        android:layout_above="@+id/Call"
-        android:layout_alignParentStart="true"
-        >
-
-    </ScrollView>
-
-    <android.support.design.widget.FloatingActionButton
+  <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Call"
@@ -40,12 +29,16 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:background="@color/common_google_signin_btn_text_dark_pressed"/>
-
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/scrollView"
+        android:scrollbars="vertical"
         android:layout_alignEnd="@+id/sms">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -137,14 +130,15 @@
             android:layout_alignParentLeft="true"
             android:checked="false"/>
 
-        <!--<CheckedTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/Electricity"-->
-            <!--android:text="Electricity: "-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_below="@+id/parking"-->
-            <!--android:layout_alignParentLeft="true" />-->
-    </RelativeLayout>
+        <CheckedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Electricity"
+            android:text="Electricity: "
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/parking"
+            android:layout_alignParentLeft="true" />
 
+</RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

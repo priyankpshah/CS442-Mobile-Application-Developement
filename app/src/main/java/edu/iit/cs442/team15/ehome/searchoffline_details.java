@@ -53,18 +53,18 @@ public class searchoffline_details extends AppCompatActivity {
         heat= (CheckedTextView)findViewById(R.id.thermostate);
         gas= (CheckedTextView)findViewById(R.id.gas);
         gym= (CheckedTextView)findViewById(R.id.gym);
-        //electricity = (TextView)findViewById(R.id.Electricity);1
-        //cable = (TextView)findViewById(R.id.cable);0
-        //internet = (TextView)findViewById(R.id.internet);4
+        electricity = (CheckedTextView)findViewById(R.id.Electricity);
+        //cable = (CheckedTextView)findViewById(R.id.cable);0
+        //internet = (CheckedTextView)findViewById(R.id.internet);4
 
 //        if(ammenitiesinfo.get(0)=="1")
 //        {
 //            cable.setChecked(true);
 //        }
-//        if(ammenitiesinfo.get(1)=="1")
-//        {
-//            electricity.setChecked(true);
-//        }
+        if(ammenitiesinfo.get(1)=="1")
+        {
+            electricity.setChecked(true);
+        }
         if(ammenitiesinfo.get(2)=="1")
         {
             gas.setChecked(true);
@@ -86,6 +86,9 @@ public class searchoffline_details extends AppCompatActivity {
         {
             heat.setChecked(true);
         }
+
+
+
 
         //Call Owner with the following method
         call = (FloatingActionButton) findViewById(R.id.Call);
