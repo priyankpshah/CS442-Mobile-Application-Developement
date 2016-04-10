@@ -1,8 +1,15 @@
 package edu.iit.cs442.team15.ehome;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +20,8 @@ import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.Validation;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final int REQUEST_READ_PHONE_STATE = 1;
 
     private EditText rEmail;
     private EditText rPassword;
@@ -32,6 +41,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         rName = (EditText) findViewById(R.id.registerName);
         rAddress = (EditText) findViewById(R.id.registerAddress);
         rPhone = (EditText) findViewById(R.id.registerPhone);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE))
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+        } else {
+            // autofill user's phone number
+            TelephonyManager tmgr = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+            rPhone.setText(tmgr.getLine1Number());
+        }
 
         Button submitButton = (Button) findViewById(R.id.submitButton);
         submitButton.setOnClickListener(this);
@@ -119,6 +137,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_READ_PHONE_STATE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // autofill user's phone number
+            TelephonyManager tmgr = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+            rPhone.setText(tmgr.getLine1Number());
         }
     }
 

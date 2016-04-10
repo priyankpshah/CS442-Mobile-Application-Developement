@@ -1,108 +1,77 @@
 package edu.iit.cs442.team15.ehome;
 
+import android.Manifest;
 import android.content.Context;
-import android.net.Uri;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
-import android.widget.TextView;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SearchOnlineFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SearchOnlineFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private GoogleMap mMap;
     private int userIcon;
     private Marker userMarker;
     LocationManager locMan;
     Location lastLoc;
 
-    private OnFragmentInteractionListener mListener;
-
     public SearchOnlineFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
-        }
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment SearchOnlineFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static SearchOnlineFragment newInstance(String param1, String param2) {
-        SearchOnlineFragment fragment = new SearchOnlineFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static SearchOnlineFragment newInstance() {
+        return new SearchOnlineFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        userIcon = R.drawable.search_online_marker_icon;
-
         View v = inflater.inflate(R.layout.fragment_search_online, container, false);
 
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-
         map.getMapAsync(this);
+
+        userIcon = R.drawable.search_online_marker_icon;
 
         return v;
     }
@@ -119,45 +88,53 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
     public void onMapReady(GoogleMap map) {
-        // do stuff to map
-        locMan = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lastLoc = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        this.mMap = map; // save for permission callback
 
-        double lat = lastLoc.getLatitude();
-        double lng = lastLoc.getLongitude();
-        LatLng lastLatLng = new LatLng(lat, lng);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
 
             return;
         }
 
-        //  if (userMarker != null) userMarker.remove();
+        locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        lastLoc = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-        userMarker = map.addMarker(new MarkerOptions()
-                .position(lastLatLng)
-                .title("You are here")
-                .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("Your last recorded location"));
+        if (lastLoc != null) {
+            double lat = lastLoc.getLatitude();
+            double lng = lastLoc.getLongitude();
+            LatLng lastLatLng = new LatLng(lat, lng);
 
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 3000, null);
-        map.setMyLocationEnabled(true);
+            //  if (userMarker != null) userMarker.remove();
+
+            userMarker = map.addMarker(new MarkerOptions()
+                    .position(lastLatLng)
+                    .title("You are here")
+                    .icon(BitmapDescriptorFactory.fromResource(userIcon))
+                    .snippet("Your last recorded location"));
+
+            map.setMyLocationEnabled(true);
+        } else {
+            // get Chicago's location
+            Address chicago = null;
+            try {
+                chicago = new Geocoder(getActivity()).getFromLocationName("Chicago", 1).get(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            userMarker = map.addMarker(new MarkerOptions()
+                    .position(new LatLng(chicago.getLatitude(), chicago.getLongitude()))
+                    .title("Chicago")
+                    .icon(BitmapDescriptorFactory.fromResource(userIcon))
+                    .snippet("Chicago"));
+        }
+
+        // zoom in on user location or Chicago
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 12.5f), 100, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -170,9 +147,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .title("Lake Meadows Apartments")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
                 .snippet("500 East 33rd Street, Chicago, IL 60616\n" +
-                        "Phn.: (312) 842-7333\n"+"Email ID: lakemeadowsleasing@dklivingapts.com\n"+"Cost: $1,865"));
+                        "Phn.: (312) 842-7333\n" + "Email ID: lakemeadowsleasing@dklivingapts.com\n" + "Cost: $1,865"));
         LatLng lastLatLng1 = new LatLng(41.8348969, -87.6142183);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng1), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng1), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -186,9 +163,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .title("Prairie Shores Apartments")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
                 .snippet("2851 S King Dr., Chicago, IL 60616\n" +
-                        "Phn.: (312) 842-7333\n"+"Email ID: prairieshoresleasing@dklivingapts.com\n"+"Cost: $1,865"));
+                        "Phn.: (312) 842-7333\n" + "Email ID: prairieshoresleasing@dklivingapts.com\n" + "Cost: $1,865"));
         LatLng lastLatLng2 = new LatLng(41.8426694, -87.6162544);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng2), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng2), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -201,9 +178,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .position(new LatLng(41.835314, -87.62671))
                 .title("Illinois Institute of Technology")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("3222-3262 S State St, Chicago, IL 60616\n"+"Phn.: (312) 842-7333\n"+"Email ID: vedu16@gmail.com\n"+"Cost: $1,865"));
+                .snippet("3222-3262 S State St, Chicago, IL 60616\n" + "Phn.: (312) 842-7333\n" + "Email ID: vedu16@gmail.com\n" + "Cost: $1,865"));
         LatLng lastLatLng3 = new LatLng(41.835314, -87.62671);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng3), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng3), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -216,9 +193,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .position(new LatLng(41.836544, -87.649508))
                 .title("Bridgeport")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("920 W 32nd St, Chicago, IL 60608\n"+"Phn.: (312) 842-7333\n"+"Email ID: vedu16@gmail.com\n"+"Cost: $1,865"));
+                .snippet("920 W 32nd St, Chicago, IL 60608\n" + "Phn.: (312) 842-7333\n" + "Email ID: vedu16@gmail.com\n" + "Cost: $1,865"));
         LatLng lastLatLng4 = new LatLng(41.836544, -87.649508);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng4), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng4), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -230,9 +207,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .position(new LatLng(41.8348975, -87.6142175))
                 .title("Allure Apartments")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("1401 S State St Chicago, IL, 60605\n"+"Phn.: (314) 842-7333\n"+"Email ID: allureapartments@gmail.com"));
+                .snippet("1401 S State St Chicago, IL, 60605\n" + "Phn.: (314) 842-7333\n" + "Email ID: allureapartments@gmail.com"));
         LatLng lastLatLng5 = new LatLng(41.8348969, -87.6142183);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng5), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng5), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -244,9 +221,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .position(new LatLng(41.837550, -87.648515))
                 .title("Catalyst Apartments")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("123 N Des Plaines St Chicago 60661\n"+"Phn.: (312) 942-7333\n"+"Email ID: catalystpartments@gmail.com"));
+                .snippet("123 N Des Plaines St Chicago 60661\n" + "Phn.: (312) 942-7333\n" + "Email ID: catalystpartments@gmail.com"));
         LatLng lastLatLng6 = new LatLng(41.837550, -87.648515);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng6), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng6), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -259,9 +236,9 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 .position(new LatLng(41.835565, -87.644525))
                 .title("Lake Shore Drive")
                 .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("500 N Lake Shore Dr Chicago 60611\n"+"Phn.: (312) 842-7443\n"+"Email ID: lakeshoredrive@gmail.com"));
+                .snippet("500 N Lake Shore Dr Chicago 60611\n" + "Phn.: (312) 842-7443\n" + "Email ID: lakeshoredrive@gmail.com"));
         LatLng lastLatLng7 = new LatLng(41.835565, -87.644525);
-        map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng7), 3000, null);
+        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng7), 3000, null);
 
         map.addCircle(new CircleOptions()
                 .center(userMarker.getPosition())
@@ -303,25 +280,12 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            onMapReady(mMap);
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
