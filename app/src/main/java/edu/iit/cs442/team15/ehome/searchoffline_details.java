@@ -6,12 +6,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,10 +19,13 @@ public class searchoffline_details extends AppCompatActivity {
     String value;
     FloatingActionButton call, text;
     static ApartmentDatabaseHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchoffline_details);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
         value = i.getStringExtra("Position");
@@ -33,9 +34,9 @@ public class searchoffline_details extends AppCompatActivity {
         ArrayList<String> aptinfo = db.getDetails(value);
         ArrayList<String> ammenitiesinfo = db.getAmenities(value);
 
-        System.out.println("APT SIZE:"+aptinfo.get(4));
-        System.out.println("AMM SIZE:"+ammenitiesinfo.get(1));
-            //Call Owner with the following method
+        System.out.println("APT SIZE:" + aptinfo.get(4));
+        System.out.println("AMM SIZE:" + ammenitiesinfo.get(1));
+        //Call Owner with the following method
         call = (FloatingActionButton) findViewById(R.id.Call);
         call.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -45,7 +46,8 @@ public class searchoffline_details extends AppCompatActivity {
                 if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) ==
                         PackageManager.PERMISSION_GRANTED) {
                     startActivity(makeCall);
-                } }
+                }
+            }
         });
         //Send Message to Owner
         text = (FloatingActionButton) findViewById(R.id.sms);
@@ -54,10 +56,21 @@ public class searchoffline_details extends AppCompatActivity {
             public void onClick(View v) {
                 Intent sendText = new Intent(Intent.ACTION_VIEW);
                 sendText.putExtra("address", new String("3126473207"));
-                sendText.putExtra("sms_body","I am Interested in leasing you property, Contact me!!");
+                sendText.putExtra("sms_body", "I am Interested in leasing you property, Contact me!!");
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
