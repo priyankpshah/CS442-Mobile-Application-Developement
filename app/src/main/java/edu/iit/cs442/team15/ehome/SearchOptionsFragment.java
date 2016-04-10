@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Aptinfo;
 
 public class SearchOptionsFragment extends Fragment implements OnClickListener {
 
@@ -157,9 +158,15 @@ public class SearchOptionsFragment extends Fragment implements OnClickListener {
                 else {
                     if (result.moveToFirst()) {
                         do {
-                            search_result.add(new Apartment(result.getColumnIndex("id"), result.getString(result.getColumnIndex("address")), result.getColumnIndex("zipcode"),
-                                    result.getColumnIndex("bedrooms"), result.getColumnIndex("bathrooms"), result.getColumnIndex("square_feet"),
-                                    result.getColumnIndex("rent"), result.getColumnIndex("owner_id")));
+                            search_result.add(new Apartment(
+                                    result.getInt(result.getColumnIndex(Aptinfo.KEY_ID)),
+                                    result.getString(result.getColumnIndex(Aptinfo.KEY_APTADDRESS)),
+                                    result.getInt(result.getColumnIndex(Aptinfo.KEY_ZIPCODE)),
+                                    result.getInt(result.getColumnIndex(Aptinfo.KEY_BEDROOMS)),
+                                    result.getInt(result.getColumnIndex(Aptinfo.KEY_BATHROOMS)),
+                                    result.getDouble(result.getColumnIndex(Aptinfo.KEY_AREA)),
+                                    result.getInt(result.getColumnIndex(Aptinfo.KEY_RENT)),
+                                    result.getInt(result.getColumnIndex(Aptinfo.OWNERID))));
                         } while (result.moveToNext());
                     }
                     Intent intent = new Intent(getActivity(), SearchResultActivity.class);
