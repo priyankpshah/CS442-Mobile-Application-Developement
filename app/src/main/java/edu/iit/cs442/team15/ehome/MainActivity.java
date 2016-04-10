@@ -20,8 +20,7 @@ import edu.iit.cs442.team15.ehome.util.SavedLogin;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         AccountSettingsFragment.OnAccountUpdatedListener,
         DashboardFragment.OnFragmentInteractionListener,
-        SearchOfflineFragment.OnFragmentInteractionListener,
-        SearchOnlineFragment.OnFragmentInteractionListener {
+        SearchOfflineFragment.OnFragmentInteractionListener {
 
     // key for storing nav item id that corresponds to a Fragment
     private static final String NAV_ID = "nav_id";
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     newFragment = SearchOfflineFragment.newInstance("", "");
                     break;
                 case R.id.nav_search_online:
-                    newFragment = SearchOnlineFragment.newInstance("", "");
+                    newFragment = SearchOnlineFragment.newInstance();
                     break;
                 case R.id.nav_search_options:
                     newFragment = SearchOptionsFragment.newInstance();
