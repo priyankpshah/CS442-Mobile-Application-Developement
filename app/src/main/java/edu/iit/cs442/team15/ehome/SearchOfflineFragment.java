@@ -81,7 +81,7 @@ public class SearchOfflineFragment extends Fragment implements AdapterView.OnIte
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getActivity(),searchoffline_details.class);
+                Intent i = new Intent(getActivity(), SearchOfflineDetailsActivity.class);
                 int pos = position;
                 i.putExtra("Position",String.valueOf(pos+1));
                 startActivity(i);

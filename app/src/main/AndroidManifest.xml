@@ -48,7 +48,7 @@
         <activity android:name=".SearchResultActivity" />
 
         <activity
-            android:name=".searchoffline_details"
+            android:name=".SearchOfflineDetailsActivity"
             android:label="@string/title_activity_searchoffline_details">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
