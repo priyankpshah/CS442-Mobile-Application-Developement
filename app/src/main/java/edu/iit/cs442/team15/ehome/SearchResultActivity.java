@@ -5,7 +5,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,7 +82,7 @@ public class SearchResultActivity extends Activity {
             tr.setId(i);
             tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
             addTextView(tr, Integer.toString(apt.id));
-            addTextView(tr,Integer.toString(apt.zipcode));
+            addTextView(tr, Integer.toString(apt.zip));
             addTextView(tr,apt.address);
             addTextView(tr,Integer.toString(apt.bedrooms));
             addTextView(tr,Integer.toString(apt.bathrooms));
@@ -105,7 +111,7 @@ public class SearchResultActivity extends Activity {
                 TextView tv0 = (TextView)tr.getChildAt(0);
                 tv0.setText(Integer.toString(result.get(i).id));
                 TextView tv1 = (TextView)tr.getChildAt(1);
-                tv1.setText(Integer.toString(result.get(i).zipcode));
+                tv1.setText(Integer.toString(result.get(i).zip));
                 TextView tv2 = (TextView)tr.getChildAt(2);
                 tv2.setText(result.get(i).address);
                 TextView tv3 = (TextView)tr.getChildAt(3);

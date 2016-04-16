@@ -14,12 +14,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 
 public class SearchOfflineDetailsActivity extends AppCompatActivity {
     String value;
     FloatingActionButton call, text;
-    TextView address, Apartment, bdroom, bthroom, area, rent;
+    TextView address, apartment, bdroom, bthroom, area, rent;
     CheckedTextView cable, electricity, gas, gym, intenet, pspace, heat;
 
     @Override
@@ -31,20 +32,21 @@ public class SearchOfflineDetailsActivity extends AppCompatActivity {
         value = i.getStringExtra("Position");
 
         ApartmentDatabaseHelper adh = ApartmentDatabaseHelper.getInstance();
-        ArrayList<String> apartments = adh.getDetails(value);
+        Apartment apartment = adh.getApartment(value);
         final ArrayList<String> amenities = adh.getAmenities(value);
 
         address = (TextView) findViewById(R.id.Address);
-        Apartment = (TextView) findViewById(R.id.Apartment_name);
+        this.apartment = (TextView) findViewById(R.id.Apartment_name);
         area = (TextView) findViewById(R.id.squarefoot);
         bthroom = (TextView) findViewById(R.id.Bathroom);
         bdroom = (TextView) findViewById(R.id.Bedroom);
         rent = (TextView) findViewById(R.id.rent);
-        address.setText("Address: " + apartments.get(0));
-        area.setText("Area: " + apartments.get(1) + "sq. ft.");
-        bdroom.setText("Bedrooms: " + apartments.get(2));
-        bthroom.setText("Bathrooms: " + apartments.get(3));
-        rent.setText("Rent: $" + apartments.get(4));
+
+        address.setText("Address: " + apartment.address);
+        area.setText("Area: " + apartment.square_feet + "sq. ft.");
+        bdroom.setText("Bedrooms: " + apartment.bedrooms);
+        bthroom.setText("Bathrooms: " + apartment.bathrooms);
+        rent.setText("Rent: $" + apartment.rent);
 
         pspace = (CheckedTextView) findViewById(R.id.parking);
         heat = (CheckedTextView) findViewById(R.id.thermostate);

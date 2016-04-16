@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.model.User;
 
 public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
@@ -156,26 +157,29 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Nullable
-    public ArrayList<String> getDetails(String id) {
+    public Apartment getApartment(String id) {
         SQLiteDatabase db = getReadableDatabase();
 
         final String sqlQuery = "SELECT * FROM " + Apartments.TABLE_NAME + " WHERE " + Apartments.KEY_ID + "=?";
         Cursor result = db.rawQuery(sqlQuery, new String[]{id});
-        ArrayList<String> apartments = new ArrayList<>();
-        while (result.moveToNext()) {
-            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_ADDRESS)));
-            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_AREA)));
-            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_BATHROOMS)));
-            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_BEDROOMS)));
-            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_RENT)));
-            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_ZIP)));
-            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_OWNER_ID)));
+
+        Apartment apt = null;
+        if (result.moveToFirst()) {
+            apt = new Apartment();
+            apt.id = result.getInt(result.getColumnIndex(Apartments.KEY_ID));
+            apt.address = result.getString(result.getColumnIndex(Apartments.KEY_ADDRESS));
+            apt.zip = result.getInt(result.getColumnIndex(Apartments.KEY_ZIP));
+            apt.bedrooms = result.getInt(result.getColumnIndex(Apartments.KEY_BEDROOMS));
+            apt.bathrooms = result.getInt(result.getColumnIndex(Apartments.KEY_BATHROOMS));
+            apt.square_feet = result.getDouble(result.getColumnIndex(Apartments.KEY_AREA));
+            apt.rent = result.getInt(result.getColumnIndex(Apartments.KEY_RENT));
+            apt.owner_id = result.getInt(result.getColumnIndex(Apartments.KEY_OWNER_ID));
         }
 
         result.close();
         db.close();
 
-        return apartments;
+        return apt;
     }
 
     @Nullable
