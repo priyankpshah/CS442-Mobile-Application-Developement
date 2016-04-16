@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import edu.iit.cs442.team15.ehome.model.User;
@@ -25,8 +24,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     private final Context context;
 
-    // Priyank, this is private for a reason - Tom
-    public ApartmentDatabaseHelper(Context context) {
+    private ApartmentDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
 
@@ -118,19 +116,17 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
         return user;
     }
-    
-    public Cursor getApartments(final int zipcode, final int bedrooms, final int bathrooms, final int min_rent, final int max_rent){
-        SQLiteDatabase db = getReadableDatabase();
-        
-        final String sqlQuery;
-        if(zipcode==0)
-            sqlQuery = "SELECT * FROM " + Aptinfo.TABLE_NAME + " WHERE " + Aptinfo.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Aptinfo.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Aptinfo.KEY_RENT + ">=" +min_rent + " AND " +Aptinfo.KEY_RENT + "<=" + max_rent + " ORDER BY " + Aptinfo.KEY_RENT + " ASC";
-        
-            else sqlQuery = "SELECT * FROM " + Aptinfo.TABLE_NAME + " WHERE " + Aptinfo.KEY_ZIPCODE + "=" + zipcode + " AND " + Aptinfo.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Aptinfo.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Aptinfo.KEY_RENT + ">=" +min_rent + " AND " +Aptinfo.KEY_RENT + "<=" + max_rent + " ORDER BY " + Aptinfo.KEY_RENT + " ASC";
-        
-        Cursor result = db.rawQuery(sqlQuery,null);
 
-        return result;
+    public Cursor getApartments(final int zip, final int bedrooms, final int bathrooms, final int min_rent, final int max_rent) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        final String sqlQuery;
+        if (zip == 0)
+            sqlQuery = "SELECT * FROM " + Apartments.TABLE_NAME + " WHERE " + Apartments.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Apartments.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Apartments.KEY_RENT + ">=" + min_rent + " AND " + Apartments.KEY_RENT + "<=" + max_rent + " ORDER BY " + Apartments.KEY_RENT + " ASC";
+        else
+            sqlQuery = "SELECT * FROM " + Apartments.TABLE_NAME + " WHERE " + Apartments.KEY_ZIP + "=" + zip + " AND " + Apartments.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Apartments.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Apartments.KEY_RENT + ">=" + min_rent + " AND " + Apartments.KEY_RENT + "<=" + max_rent + " ORDER BY " + Apartments.KEY_RENT + " ASC";
+
+        return db.rawQuery(sqlQuery, null);
     }
 
     public int updateUser(final String currentEmail, final User updatedUser) {
@@ -146,77 +142,79 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return db.update(Users.TABLE_NAME, values, Users.KEY_EMAIL + "=?", new String[]{currentEmail});
     }
 
-    public ArrayList<String> getAptNames(){
+    public ArrayList<String> getAptNames() {
         SQLiteDatabase db = getWritableDatabase();
-        final String query = "SELECT "+Aptinfo.KEY_APTADDRESS+" FROM " + Aptinfo.TABLE_NAME;
+
+        final String query = "SELECT " + Apartments.KEY_ADDRESS + " FROM " + Apartments.TABLE_NAME;
         Cursor cur = db.rawQuery(query, null);
-        ArrayList<String> aptinfo = new ArrayList<String>();
-        while(cur.moveToNext())
-        {
-            aptinfo.add(cur.getString(0));
+        ArrayList<String> apartments = new ArrayList<>();
+        while (cur.moveToNext()) {
+            apartments.add(cur.getString(0));
         }
         cur.close();
-        return aptinfo;
+        return apartments;
     }
+
     @Nullable
     public ArrayList<String> getDetails(String id) {
         SQLiteDatabase db = getReadableDatabase();
 
-        final String sqlQuery = "SELECT * FROM " + Aptinfo.TABLE_NAME + " WHERE " + Aptinfo.KEY_ID + "=?";
+        final String sqlQuery = "SELECT * FROM " + Apartments.TABLE_NAME + " WHERE " + Apartments.KEY_ID + "=?";
         Cursor result = db.rawQuery(sqlQuery, new String[]{id});
-        ArrayList<String> aptinfo = new ArrayList<String>();
-        while(result.moveToNext())
-        {
-            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_APTADDRESS)));
-            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_AREA)));
-            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_BATHROOMS)));
-            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_BEDROOMS)));
-            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_RENT)));
-            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.KEY_ZIPCODE)));
-            aptinfo.add(result.getString(result.getColumnIndex(Aptinfo.OWNERID)));
+        ArrayList<String> apartments = new ArrayList<>();
+        while (result.moveToNext()) {
+            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_ADDRESS)));
+            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_AREA)));
+            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_BATHROOMS)));
+            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_BEDROOMS)));
+            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_RENT)));
+            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_ZIP)));
+            apartments.add(result.getString(result.getColumnIndex(Apartments.KEY_OWNER_ID)));
         }
+
         result.close();
         db.close();
 
-        return aptinfo;
+        return apartments;
     }
 
     @Nullable
     public ArrayList<String> getAmenities(String id) {
         SQLiteDatabase db = getReadableDatabase();
 
-        final String sqlQuery = "SELECT * FROM " + Ammenities.TABLE_NAME + " WHERE " + Ammenities.KEY_ID + "=?";
+        final String sqlQuery = "SELECT * FROM " + Amenities.TABLE_NAME + " WHERE " + Amenities.KEY_ID + "=?";
         Cursor result = db.rawQuery(sqlQuery, new String[]{id});
-        ArrayList<String> ammenitiesinfo = new ArrayList<String>();
-        while(result.moveToNext())
-        {
-            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_CABLE)));
-            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_ELECTRICITY)));
-            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_GAS)));
-            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_GYM)));
-            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_INTERNET)));
-            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_PARKING)));
-            ammenitiesinfo.add(result.getString(result.getColumnIndex(Ammenities.KEY_THERMOSTATE)));
+        ArrayList<String> amenities = new ArrayList<>();
+        while (result.moveToNext()) {
+            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_CABLE)));
+            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_ELECTRICITY)));
+            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_GAS)));
+            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_GYM)));
+            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_INTERNET)));
+            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_PARKING)));
+            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_THERMOSTAT)));
         }
+
         result.close();
         db.close();
 
-        return ammenitiesinfo;
+        return amenities;
     }
 
-    public static final class Aptinfo {
+    public static final class Apartments {
         public static final String TABLE_NAME = "apartments";
         public static final String KEY_ID = "id";
-        public static final String KEY_APTADDRESS = "address";
-        public static final String KEY_ZIPCODE = "zipcode";
+        public static final String KEY_ADDRESS = "address";
+        public static final String KEY_ZIP = "zipcode"; //TODO change to zip in db
         public static final String KEY_BEDROOMS = "bedrooms";
         public static final String KEY_BATHROOMS = "bathrooms";
         public static final String KEY_AREA = "square_feet";
         public static final String KEY_RENT = "rent";
-        public static final String OWNERID = "owner_id";
+        public static final String KEY_OWNER_ID = "owner_id";
 
     }
-    public static final class Ammenities {
+
+    public static final class Amenities {
         public static final String TABLE_NAME = "amenities";
         public static final String KEY_ID = "apartment_id";
         public static final String KEY_PARKING = "parking";
@@ -225,9 +223,10 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         public static final String KEY_ELECTRICITY = "electricity";
         public static final String KEY_INTERNET = "internet";
         public static final String KEY_CABLE = "cable";
-        public static final String KEY_THERMOSTATE = "thermostate";
+        public static final String KEY_THERMOSTAT = "thermostate"; //TODO correct spelling in db
 
     }
+
     public static final class Users {
         public static final String TABLE_NAME = "users";
         public static final String KEY_ID = "id";

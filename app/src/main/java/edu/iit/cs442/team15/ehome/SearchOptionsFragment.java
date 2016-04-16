@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
-import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Aptinfo;
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Apartments;
 
 public class SearchOptionsFragment extends Fragment implements OnClickListener {
 
@@ -159,14 +159,14 @@ public class SearchOptionsFragment extends Fragment implements OnClickListener {
                     if (result.moveToFirst()) {
                         do {
                             search_result.add(new Apartment(
-                                    result.getInt(result.getColumnIndex(Aptinfo.KEY_ID)),
-                                    result.getString(result.getColumnIndex(Aptinfo.KEY_APTADDRESS)),
-                                    result.getInt(result.getColumnIndex(Aptinfo.KEY_ZIPCODE)),
-                                    result.getInt(result.getColumnIndex(Aptinfo.KEY_BEDROOMS)),
-                                    result.getInt(result.getColumnIndex(Aptinfo.KEY_BATHROOMS)),
-                                    result.getDouble(result.getColumnIndex(Aptinfo.KEY_AREA)),
-                                    result.getInt(result.getColumnIndex(Aptinfo.KEY_RENT)),
-                                    result.getInt(result.getColumnIndex(Aptinfo.OWNERID))));
+                                    result.getInt(result.getColumnIndex(Apartments.KEY_ID)),
+                                    result.getString(result.getColumnIndex(Apartments.KEY_ADDRESS)),
+                                    result.getInt(result.getColumnIndex(Apartments.KEY_ZIP)),
+                                    result.getInt(result.getColumnIndex(Apartments.KEY_BEDROOMS)),
+                                    result.getInt(result.getColumnIndex(Apartments.KEY_BATHROOMS)),
+                                    result.getDouble(result.getColumnIndex(Apartments.KEY_AREA)),
+                                    result.getInt(result.getColumnIndex(Apartments.KEY_RENT)),
+                                    result.getInt(result.getColumnIndex(Apartments.KEY_OWNER_ID))));
                         } while (result.moveToNext());
                     }
                     Intent intent = new Intent(getActivity(), SearchResultActivity.class);
