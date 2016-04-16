@@ -11,7 +11,7 @@ public class Apartment implements Serializable {
     public int bedrooms;
     public int bathrooms;
     public double squareFeet;
-    public int rent;
+    public double rent;
     public int ownerId;
 
     public Apartment() {
@@ -47,7 +47,7 @@ public class Apartment implements Serializable {
         return this;
     }
 
-    public Apartment setRent(int rent) {
+    public Apartment setRent(double rent) {
         this.rent = rent;
         return this;
     }
