@@ -43,7 +43,7 @@ public class SearchOfflineDetailsActivity extends AppCompatActivity {
         rent = (TextView) findViewById(R.id.rent);
 
         address.setText("Address: " + apartment.address);
-        area.setText("Area: " + apartment.square_feet + "sq. ft.");
+        area.setText("Area: " + apartment.squareFeet + "sq. ft.");
         bdroom.setText("Bedrooms: " + apartment.bedrooms);
         bthroom.setText("Bathrooms: " + apartment.bathrooms);
         rent.setText("Rent: $" + apartment.rent);

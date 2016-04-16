@@ -86,7 +86,7 @@ public class SearchResultActivity extends Activity {
             addTextView(tr,apt.address);
             addTextView(tr,Integer.toString(apt.bedrooms));
             addTextView(tr,Integer.toString(apt.bathrooms));
-            addTextView(tr,Double.toString(apt.square_feet));
+            addTextView(tr, Double.toString(apt.squareFeet));
             addTextView(tr,Integer.toString(apt.rent));
             table.addView(tr);
         }
@@ -119,7 +119,7 @@ public class SearchResultActivity extends Activity {
                 TextView tv4 = (TextView)tr.getChildAt(4);
                 tv4.setText(Integer.toString(result.get(i).bathrooms));
                 TextView tv5 = (TextView)tr.getChildAt(5);
-                tv5.setText(Double.toString(result.get(i).square_feet));
+                tv5.setText(Double.toString(result.get(i).squareFeet));
                 TextView tv6 = (TextView)tr.getChildAt(6);
                 tv6.setText(Integer.toString(result.get(i).rent));
             }

@@ -10,22 +10,64 @@ public class Apartment implements Serializable {
     public int zip;
     public int bedrooms;
     public int bathrooms;
-    public double square_feet;
+    public double squareFeet;
     public int rent;
-    public int owner_id;
+    public int ownerId;
 
     public Apartment() {
     }
 
-    public Apartment(int id, String address, int zip, int bedrooms, int bathrooms, double square_feet, int rent, int owner_id) {
+    public Apartment setId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public Apartment setAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public Apartment setZip(int zip) {
+        this.zip = zip;
+        return this;
+    }
+
+    public Apartment setBedrooms(int bedrooms) {
+        this.bedrooms = bedrooms;
+        return this;
+    }
+
+    public Apartment setBathrooms(int bathrooms) {
+        this.bathrooms = bathrooms;
+        return this;
+    }
+
+    public Apartment setSquareFeet(double squareFeet) {
+        this.squareFeet = squareFeet;
+        return this;
+    }
+
+    public Apartment setRent(int rent) {
+        this.rent = rent;
+        return this;
+    }
+
+    public Apartment setOwnderId(int ownderId) {
+        this.ownerId = ownderId;
+        return this;
+    }
+
+    // use factory methods instead
+    @Deprecated
+    public Apartment(int id, String address, int zip, int bedrooms, int bathrooms, double squareFeet, int rent, int ownerId) {
         this.id = id;
         this.address = address;
         this.zip = zip;
         this.bedrooms = bedrooms;
         this.bathrooms = bathrooms;
-        this.square_feet = square_feet;
+        this.squareFeet = squareFeet;
         this.rent = rent;
-        this.owner_id = owner_id;
+        this.ownerId = ownerId;
     }
 
     public static Comparator<Apartment> rentComparator = new Comparator<Apartment>() {
@@ -38,7 +80,7 @@ public class Apartment implements Serializable {
     public static Comparator<Apartment> areaComparator = new Comparator<Apartment>() {
         @Override
         public int compare(Apartment lhs, Apartment rhs) {
-            return lhs.square_feet < rhs.square_feet ? 1 : 0;
+            return lhs.squareFeet < rhs.squareFeet ? 1 : 0;
         }
     };
 

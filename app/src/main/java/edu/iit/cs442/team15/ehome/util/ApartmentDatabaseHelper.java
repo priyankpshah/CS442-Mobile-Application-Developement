@@ -165,15 +165,15 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
         Apartment apt = null;
         if (result.moveToFirst()) {
-            apt = new Apartment();
-            apt.id = result.getInt(result.getColumnIndex(Apartments.KEY_ID));
-            apt.address = result.getString(result.getColumnIndex(Apartments.KEY_ADDRESS));
-            apt.zip = result.getInt(result.getColumnIndex(Apartments.KEY_ZIP));
-            apt.bedrooms = result.getInt(result.getColumnIndex(Apartments.KEY_BEDROOMS));
-            apt.bathrooms = result.getInt(result.getColumnIndex(Apartments.KEY_BATHROOMS));
-            apt.square_feet = result.getDouble(result.getColumnIndex(Apartments.KEY_AREA));
-            apt.rent = result.getInt(result.getColumnIndex(Apartments.KEY_RENT));
-            apt.owner_id = result.getInt(result.getColumnIndex(Apartments.KEY_OWNER_ID));
+            apt = new Apartment()
+                    .setId(result.getInt(result.getColumnIndex(Apartments.KEY_ID)))
+                    .setAddress(result.getString(result.getColumnIndex(Apartments.KEY_ADDRESS)))
+                    .setZip(result.getInt(result.getColumnIndex(Apartments.KEY_ZIP)))
+                    .setBedrooms(result.getInt(result.getColumnIndex(Apartments.KEY_BEDROOMS)))
+                    .setBathrooms(result.getInt(result.getColumnIndex(Apartments.KEY_BATHROOMS)))
+                    .setSquareFeet(result.getDouble(result.getColumnIndex(Apartments.KEY_AREA)))
+                    .setRent(result.getInt(result.getColumnIndex(Apartments.KEY_RENT)))
+                    .setOwnderId(result.getInt(result.getColumnIndex(Apartments.KEY_OWNER_ID)));
         }
 
         result.close();
