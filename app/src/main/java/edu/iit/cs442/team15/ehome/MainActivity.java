@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 if (displayed instanceof DashboardFragment)
                     navigationView.setCheckedItem(R.id.nav_dashboard);
-                else if (displayed instanceof SearchOfflineFragment)
-                    navigationView.setCheckedItem(R.id.nav_search_offline);
+                else if (displayed instanceof EzHomeSearchFragment)
+                    navigationView.setCheckedItem(R.id.nav_ezhome_search);
                 else if (displayed instanceof SearchOnlineFragment)
                     navigationView.setCheckedItem(R.id.nav_search_online);
                 else if (displayed instanceof SearchOptionsFragment)
@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case R.id.nav_admin_add:
                     // TODO if this ever gets implemented
                     break;
-                case R.id.nav_search_offline:
-                    newFragment = SearchOfflineFragment.newInstance();
+                case R.id.nav_ezhome_search:
+                    newFragment = EzHomeSearchFragment.newInstance();
                     break;
                 case R.id.nav_search_online:
                     newFragment = SearchOnlineFragment.newInstance();

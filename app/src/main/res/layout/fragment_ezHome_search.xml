@@ -2,13 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.iit.cs442.team15.ehome.SearchOfflineFragment">
+    tools:context=".EzHomeSearchFragment">
 
     <ListView
-        android:id="@+id/offline_list"
+        android:id="@+id/ezhome_search_results_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"/>
+        android:clickable="true" />
 
-
-    </FrameLayout>
+</FrameLayout>

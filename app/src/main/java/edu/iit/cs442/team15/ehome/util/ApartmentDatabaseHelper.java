@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import edu.iit.cs442.team15.ehome.model.Amenity;
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.model.User;
 
@@ -157,11 +158,11 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Nullable
-    public Apartment getApartment(String id) {
+    public Apartment getApartment(int id) {
         SQLiteDatabase db = getReadableDatabase();
 
         final String sqlQuery = "SELECT * FROM " + Apartments.TABLE_NAME + " WHERE " + Apartments.KEY_ID + "=?";
-        Cursor result = db.rawQuery(sqlQuery, new String[]{id});
+        Cursor result = db.rawQuery(sqlQuery, new String[]{Integer.toString(id)});
 
         Apartment apt = null;
         if (result.moveToFirst()) {
@@ -183,26 +184,29 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Nullable
-    public ArrayList<String> getAmenities(String id) {
+    public Amenity getAmenity(int apartment_id) {
         SQLiteDatabase db = getReadableDatabase();
 
         final String sqlQuery = "SELECT * FROM " + Amenities.TABLE_NAME + " WHERE " + Amenities.KEY_ID + "=?";
-        Cursor result = db.rawQuery(sqlQuery, new String[]{id});
-        ArrayList<String> amenities = new ArrayList<>();
-        while (result.moveToNext()) {
-            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_CABLE)));
-            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_ELECTRICITY)));
-            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_GAS)));
-            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_GYM)));
-            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_INTERNET)));
-            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_PARKING)));
-            amenities.add(result.getString(result.getColumnIndex(Amenities.KEY_THERMOSTAT)));
+        Cursor result = db.rawQuery(sqlQuery, new String[]{Integer.toString(apartment_id)});
+
+        Amenity amenity = null;
+        if (result.moveToFirst()) {
+            amenity = new Amenity()
+                    .setApartmentId(result.getInt(result.getColumnIndex(Amenities.KEY_ID)))
+                    .setCable(result.getDouble(result.getColumnIndex(Amenities.KEY_CABLE)))
+                    .setElectricity(result.getDouble(result.getColumnIndex(Amenities.KEY_ELECTRICITY)))
+                    .setGas(result.getDouble(result.getColumnIndex(Amenities.KEY_GAS)))
+                    .setGym(result.getInt(result.getColumnIndex(Amenities.KEY_GYM)) == 1)
+                    .setInternet(result.getDouble(result.getColumnIndex(Amenities.KEY_INTERNET)))
+                    .setParking(result.getInt(result.getColumnIndex(Amenities.KEY_PARKING)) == 1)
+                    .setThermostat(result.getDouble(result.getColumnIndex(Amenities.KEY_THERMOSTAT)));
         }
 
         result.close();
         db.close();
 
-        return amenities;
+        return amenity;
     }
 
     public static final class Apartments {
@@ -228,7 +232,6 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         public static final String KEY_INTERNET = "internet";
         public static final String KEY_CABLE = "cable";
         public static final String KEY_THERMOSTAT = "thermostate"; //TODO correct spelling in db
-
     }
 
     public static final class Users {
