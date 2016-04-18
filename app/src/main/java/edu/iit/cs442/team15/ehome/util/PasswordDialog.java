@@ -10,10 +10,15 @@ import edu.iit.cs442.team15.ehome.R;
 
 public final class PasswordDialog {
 
-    private PasswordDialog() {
+    private final Context context;
+    private final OnAuthenticationListener listener;
+
+    public PasswordDialog(Context context, OnAuthenticationListener listener) {
+        this.context = context;
+        this.listener = listener;
     }
 
-    public static void showDialog(final Context context, final OnAuthenticationListener listener) {
+    public void show() {
         new AlertDialog.Builder(context)
                 .setTitle(R.string.password_dialog_title)
                 .setMessage(R.string.password_dialog_message)
@@ -25,7 +30,7 @@ public final class PasswordDialog {
                         if (SavedLogin.getInstance().checkPassword(currentPassword.getText().toString()))
                             listener.onAuthentication();
                         else
-                            retryDialog(context, listener);
+                            retry();
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -33,14 +38,14 @@ public final class PasswordDialog {
                 .show();
     }
 
-    private static void retryDialog(final Context context, final OnAuthenticationListener listener) {
+    private void retry() {
         new AlertDialog.Builder(context)
                 .setTitle(R.string.password_dialog_retry_title)
                 .setMessage(R.string.password_dialog_retry_message)
                 .setPositiveButton(R.string.password_dialog_retry_positive, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        showDialog(context, listener);
+                        show();
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)

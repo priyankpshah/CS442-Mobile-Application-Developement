@@ -172,7 +172,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
 
                 if (validInput) {
                     // prompt user to enter current password
-                    PasswordDialog.showDialog(getActivity(), new PasswordDialog.OnAuthenticationListener() {
+                    new PasswordDialog(getActivity(), new PasswordDialog.OnAuthenticationListener() {
                         @Override
                         public void onAuthentication() {
                             int result = ApartmentDatabaseHelper.getInstance().updateUser(user.email, newInfo);
@@ -189,10 +189,9 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                                 Toast.makeText(getActivity(), R.string.toast_account_updated, Toast.LENGTH_SHORT).show();
                             }
                         }
-                    });
+                    }).show();
                 }
                 break;
-            default:
         }
     }
 
