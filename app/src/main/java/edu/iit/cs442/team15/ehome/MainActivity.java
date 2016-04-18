@@ -21,9 +21,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AccountSettingsFragment.OnAccountUpdatedListener,
         DashboardFragment.OnFragmentInteractionListener {
 
-    // key for storing nav item id that corresponds to a Fragment
-    private static final String NAV_ID = "nav_id";
-
     private DrawerLayout drawer;
     private FragmentManager fm;
 
