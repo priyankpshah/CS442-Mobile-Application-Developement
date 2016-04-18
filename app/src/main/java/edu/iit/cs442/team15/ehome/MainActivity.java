@@ -52,16 +52,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // select correct menu entry
                 Fragment displayed = fm.findFragmentById(R.id.contentFragment);
 
-                if (displayed instanceof DashboardFragment)
+                if (displayed instanceof DashboardFragment) {
                     navigationView.setCheckedItem(R.id.nav_dashboard);
-                else if (displayed instanceof EzHomeSearchFragment)
+                    setTitle(R.string.nav_dashboard);
+                } else if (displayed instanceof EzHomeSearchFragment) {
                     navigationView.setCheckedItem(R.id.nav_ezhome_search);
-                else if (displayed instanceof SearchOnlineFragment)
+                    setTitle(R.string.nav_ezhome_search);
+                } else if (displayed instanceof SearchOnlineFragment) {
                     navigationView.setCheckedItem(R.id.nav_search_online);
-                else if (displayed instanceof SearchOptionsFragment)
+                    setTitle(R.string.nav_search_online);
+                } else if (displayed instanceof SearchOptionsFragment) {
                     navigationView.setCheckedItem(R.id.nav_search_options);
-                else if (displayed instanceof AccountSettingsFragment)
+                    setTitle(R.string.nav_search_options);
+                } else if (displayed instanceof AccountSettingsFragment) {
                     navigationView.setCheckedItem(R.id.nav_account_settings);
+                    setTitle(R.string.nav_account_settings);
+                }
             }
         });
 

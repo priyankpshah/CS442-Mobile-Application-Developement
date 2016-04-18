@@ -6,7 +6,7 @@
 
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_admin_add">Add Apartment</string>
-    <string name="nav_search_offline">ezHome Search</string>
+    <string name="nav_ezhome_search">ezHome Search</string>
     <string name="nav_search_online">Search Online</string>
     <string name="nav_search_options">Search Options</string>
     <string name="nav_account_settings">Account Settings</string>

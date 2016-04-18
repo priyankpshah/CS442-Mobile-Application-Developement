@@ -23,7 +23,7 @@
 
         <item
             android:id="@+id/nav_ezhome_search"
-            android:title="@string/nav_search_offline" />
+            android:title="@string/nav_ezhome_search" />
         <item
             android:id="@+id/nav_search_online"
             android:title="@string/nav_search_online" />
