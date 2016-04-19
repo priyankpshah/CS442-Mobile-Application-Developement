@@ -174,7 +174,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
                     .setBathrooms(result.getInt(result.getColumnIndex(Apartments.KEY_BATHROOMS)))
                     .setSquareFeet(result.getDouble(result.getColumnIndex(Apartments.KEY_AREA)))
                     .setRent(result.getInt(result.getColumnIndex(Apartments.KEY_RENT)))
-                    .setOwnderId(result.getInt(result.getColumnIndex(Apartments.KEY_OWNER_ID)));
+                    .setOwnerId(result.getInt(result.getColumnIndex(Apartments.KEY_OWNER_ID)));
         }
 
         result.close();

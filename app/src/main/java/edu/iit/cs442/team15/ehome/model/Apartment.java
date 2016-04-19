@@ -52,8 +52,8 @@ public class Apartment implements Serializable {
         return this;
     }
 
-    public Apartment setOwnderId(int ownderId) {
-        this.ownerId = ownderId;
+    public Apartment setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
         return this;
     }
 
