@@ -59,9 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (displayed instanceof SearchOnlineFragment) {
                     navigationView.setCheckedItem(R.id.nav_search_online);
                     setTitle(R.string.nav_search_online);
-                } else if (displayed instanceof SearchOptionsFragment) {
-                    navigationView.setCheckedItem(R.id.nav_search_options);
-                    setTitle(R.string.nav_search_options);
                 } else if (displayed instanceof SavedSearchesFragment) {
                     navigationView.setCheckedItem(R.id.nav_saved_searches);
                     setTitle(R.string.nav_saved_searches);
@@ -102,9 +99,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case R.id.nav_search_online:
                     newFragment = SearchOnlineFragment.newInstance();
-                    break;
-                case R.id.nav_search_options:
-                    newFragment = SearchOptionsFragment.newInstance();
                     break;
                 case R.id.nav_saved_searches:
                     newFragment = SavedSearchesFragment.newInstance("", "");

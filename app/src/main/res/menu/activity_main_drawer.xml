@@ -21,9 +21,6 @@
             android:id="@+id/nav_search_online"
             android:title="@string/nav_search_online" />
         <item
-            android:id="@+id/nav_search_options"
-            android:title="@string/nav_search_options" />
-        <item
             android:id="@+id/nav_saved_searches"
             android:title="@string/nav_saved_searches" />
     </group>

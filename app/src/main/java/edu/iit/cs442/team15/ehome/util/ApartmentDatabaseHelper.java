@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.iit.cs442.team15.ehome.model.Amenity;
 import edu.iit.cs442.team15.ehome.model.Apartment;
@@ -116,7 +117,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return user;
     }
 
-    public Cursor getApartments(final int zip, final int bedrooms, final int bathrooms, final int min_rent, final int max_rent) {
+    public List<Apartment> getApartments(final int zip, final int bedrooms, final int bathrooms, final int min_rent, final int max_rent) {
         SQLiteDatabase db = getReadableDatabase();
 
         final String sqlQuery;
@@ -125,7 +126,28 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         else
             sqlQuery = "SELECT * FROM " + Apartments.TABLE_NAME + " WHERE " + Apartments.KEY_ZIP + "=" + zip + " AND " + Apartments.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Apartments.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Apartments.KEY_RENT + ">=" + min_rent + " AND " + Apartments.KEY_RENT + "<=" + max_rent + " ORDER BY " + Apartments.KEY_RENT + " ASC";
 
-        return db.rawQuery(sqlQuery, null);
+        Cursor cur = db.rawQuery(sqlQuery, null);
+
+        ArrayList<Apartment> result = new ArrayList<>();
+
+        if (cur.moveToFirst()) {
+            do {
+                result.add(new Apartment(
+                        cur.getInt(cur.getColumnIndex(ApartmentDatabaseHelper.Apartments.KEY_ID)),
+                        cur.getString(cur.getColumnIndex(ApartmentDatabaseHelper.Apartments.KEY_ADDRESS)),
+                        cur.getInt(cur.getColumnIndex(ApartmentDatabaseHelper.Apartments.KEY_ZIP)),
+                        cur.getInt(cur.getColumnIndex(ApartmentDatabaseHelper.Apartments.KEY_BEDROOMS)),
+                        cur.getInt(cur.getColumnIndex(ApartmentDatabaseHelper.Apartments.KEY_BATHROOMS)),
+                        cur.getDouble(cur.getColumnIndex(ApartmentDatabaseHelper.Apartments.KEY_AREA)),
+                        cur.getInt(cur.getColumnIndex(ApartmentDatabaseHelper.Apartments.KEY_RENT)),
+                        cur.getInt(cur.getColumnIndex(ApartmentDatabaseHelper.Apartments.KEY_OWNER_ID))));
+            } while (cur.moveToNext());
+        }
+
+        cur.close();
+        db.close();
+
+        return result;
     }
 
     public int updateUser(final String currentEmail, final User updatedUser) {
@@ -140,7 +162,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return db.update(Users.TABLE_NAME, values, Users.KEY_EMAIL + "=?", new String[]{currentEmail});
     }
 
-    public ArrayList<String> getAptNames() {
+    public List<String> getAptNames() {
         SQLiteDatabase db = getWritableDatabase();
 
         final String query = "SELECT " + Apartments.KEY_ADDRESS + " FROM " + Apartments.TABLE_NAME;
