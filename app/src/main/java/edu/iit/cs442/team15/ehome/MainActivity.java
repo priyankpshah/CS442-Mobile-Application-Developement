@@ -69,11 +69,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        // display DashboardFragment initially
-        fm.beginTransaction()
-                .replace(R.id.contentFragment, DashboardFragment.newInstance())
-                .commit();
-        navigationView.setCheckedItem(R.id.nav_dashboard);
+        if (savedInstanceState == null) {
+            // display DashboardFragment initially
+            fm.beginTransaction()
+                    .replace(R.id.contentFragment, DashboardFragment.newInstance(), "content")
+                    .commit();
+            navigationView.setCheckedItem(R.id.nav_dashboard);
+        }
+
     }
 
     @Override
