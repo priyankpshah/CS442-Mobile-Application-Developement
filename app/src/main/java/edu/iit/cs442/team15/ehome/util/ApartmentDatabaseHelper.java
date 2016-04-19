@@ -205,17 +205,39 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return amenity;
     }
 
+    public static final class Users {
+        public static final String TABLE_NAME = "users";
+        public static final String KEY_ID = "id";
+        public static final String KEY_EMAIL = "email";
+        public static final String KEY_PASSWORD = "password";
+        public static final String KEY_NAME = "name";
+        public static final String KEY_PHONE = "phone";
+    }
+
+    public static final class Favorites {
+        public static final String TABLE_NAME = "user_favorites";
+        public static final String KEY_USER_ID = "user_id";
+        public static final String KEY_APARTMENT_ID = "apartment_id";
+    }
+
     public static final class Apartments {
         public static final String TABLE_NAME = "apartments";
         public static final String KEY_ID = "id";
         public static final String KEY_ADDRESS = "address";
-        public static final String KEY_ZIP = "zipcode"; //TODO change to zip in db
+        public static final String KEY_ZIP = "zip";
         public static final String KEY_BEDROOMS = "bedrooms";
         public static final String KEY_BATHROOMS = "bathrooms";
         public static final String KEY_AREA = "square_feet";
         public static final String KEY_RENT = "rent";
         public static final String KEY_OWNER_ID = "owner_id";
+    }
 
+    public static final class Owners {
+        public static final String TABLE_NAME = "owners";
+        public static final String KEY_ID = "id";
+        public static final String KEY_COMPLEX_NAME = "complex_name";
+        public static final String KEY_OWNER_PHONE = "owner_phone";
+        public static final String KEY_OWNER_EMAIL = "owner_email";
     }
 
     public static final class Amenities {
@@ -227,16 +249,19 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         public static final String KEY_ELECTRICITY = "electricity";
         public static final String KEY_INTERNET = "internet";
         public static final String KEY_CABLE = "cable";
-        public static final String KEY_THERMOSTAT = "thermostate"; //TODO correct spelling in db
+        public static final String KEY_THERMOSTAT = "thermostat";
     }
 
-    public static final class Users {
-        public static final String TABLE_NAME = "users";
-        public static final String KEY_ID = "id";
-        public static final String KEY_EMAIL = "email";
-        public static final String KEY_PASSWORD = "password";
+    public static final class WebApartments {
+        public static final String TABLE_NAME = "web_apartments";
         public static final String KEY_NAME = "name";
-        public static final String KEY_PHONE = "phone";
+        public static final String KEY_ADDRESS = "address";
+        public static final String KEY_RENT = "rent";
+        public static final String KEY_LATITUDE = "latitude";
+        public static final String KEY_LONGITUDE = "longitude";
+        public static final String KEY_OWNER_EMAIL = "owner_email";
+        public static final String KEY_OWNER_PHONE = "owner_phone";
+        public static final String KEY_OWNER_WEBSITE = "owner_website";
     }
 
 }
