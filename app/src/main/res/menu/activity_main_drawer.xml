@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- TODO add icons -->
     <group
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
@@ -9,12 +8,6 @@
         <item
             android:id="@+id/nav_dashboard"
             android:title="@string/nav_dashboard" />
-
-        <item
-            android:id="@+id/nav_admin_add"
-            android:icon="@android:drawable/ic_menu_add"
-            android:title="@string/nav_admin_add"
-            android:visible="false" />
     </group>
 
     <group
@@ -30,6 +23,9 @@
         <item
             android:id="@+id/nav_search_options"
             android:title="@string/nav_search_options" />
+        <item
+            android:id="@+id/nav_saved_searches"
+            android:title="@string/nav_saved_searches" />
     </group>
 
     <group

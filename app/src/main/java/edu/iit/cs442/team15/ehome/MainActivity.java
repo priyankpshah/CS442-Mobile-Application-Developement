@@ -19,7 +19,8 @@ import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         AccountSettingsFragment.OnAccountUpdatedListener,
-        DashboardFragment.OnFragmentInteractionListener {
+        DashboardFragment.OnFragmentInteractionListener,
+        SavedSearchesFragment.OnFragmentInteractionListener {
 
     private DrawerLayout drawer;
     private FragmentManager fm;
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (displayed instanceof SearchOptionsFragment) {
                     navigationView.setCheckedItem(R.id.nav_search_options);
                     setTitle(R.string.nav_search_options);
+                } else if (displayed instanceof SavedSearchesFragment) {
+                    navigationView.setCheckedItem(R.id.nav_saved_searches);
+                    setTitle(R.string.nav_saved_searches);
                 } else if (displayed instanceof AccountSettingsFragment) {
                     navigationView.setCheckedItem(R.id.nav_account_settings);
                     setTitle(R.string.nav_account_settings);
@@ -92,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             switch (item.getItemId()) {
                 case R.id.nav_dashboard:
                     newFragment = DashboardFragment.newInstance();
-                case R.id.nav_admin_add:
-                    // TODO if this ever gets implemented
                     break;
                 case R.id.nav_ezhome_search:
                     newFragment = EzHomeSearchFragment.newInstance();
@@ -103,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case R.id.nav_search_options:
                     newFragment = SearchOptionsFragment.newInstance();
+                    break;
+                case R.id.nav_saved_searches:
+                    newFragment = SavedSearchesFragment.newInstance("", "");
                     break;
                 case R.id.nav_account_settings:
                     newFragment = AccountSettingsFragment.newInstance();
