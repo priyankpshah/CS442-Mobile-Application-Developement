@@ -76,17 +76,10 @@
             android:maxLines="1" />
 
         <EditText
-            android:id="@+id/accountAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/accountName"
-            android:hint="@string/hint_address" />
-
-        <EditText
             android:id="@+id/accountPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/accountAddress"
+            android:layout_below="@id/accountName"
             android:hint="@string/hint_phone"
             android:inputType="phone"
             android:maxLines="1" />

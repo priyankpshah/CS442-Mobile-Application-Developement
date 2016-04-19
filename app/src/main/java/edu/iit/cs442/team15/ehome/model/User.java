@@ -5,7 +5,6 @@ public class User {
     public String email;
     public String password;
     public String name;
-    public String address;
     public String phone;
 
     public User setId(int id) {
@@ -25,11 +24,6 @@ public class User {
 
     public User setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public User setAddress(String address) {
-        this.address = address;
         return this;
     }
 

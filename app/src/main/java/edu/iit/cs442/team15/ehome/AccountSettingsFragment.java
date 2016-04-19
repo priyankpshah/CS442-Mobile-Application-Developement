@@ -88,9 +88,6 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
         aName = (EditText) view.findViewById(R.id.accountName);
         aName.setText(user.name);
 
-        aAddress = (EditText) view.findViewById(R.id.accountAddress);
-        aAddress.setText(user.address);
-
         aPhone = (EditText) view.findViewById(R.id.accountPhone);
         aPhone.setText(user.phone);
 
@@ -116,7 +113,6 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                         .setEmail(aEmail.getText().toString())
                         .setPassword(aNewPassword.getText().toString())
                         .setName(aName.getText().toString())
-                        .setAddress(aAddress.getText().toString())
                         .setPhone(aPhone.getText().toString());
 
                 // validate input

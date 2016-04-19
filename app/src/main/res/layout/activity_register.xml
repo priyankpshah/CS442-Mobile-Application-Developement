@@ -77,17 +77,10 @@
             android:maxLines="1" />
 
         <EditText
-            android:id="@+id/registerAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/registerName"
-            android:hint="@string/hint_address" />
-
-        <EditText
             android:id="@+id/registerPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/registerAddress"
+            android:layout_below="@id/registerName"
             android:hint="@string/hint_phone"
             android:inputType="phone"
             android:maxLines="1" />

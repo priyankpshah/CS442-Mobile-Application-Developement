@@ -76,7 +76,6 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
             context.deleteDatabase(DB_NAME);
-            setupDatabase();
         }
     }
 
@@ -87,7 +86,6 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         values.put(Users.KEY_EMAIL, newUser.email);
         values.put(Users.KEY_PASSWORD, newUser.password);
         values.put(Users.KEY_NAME, newUser.name);
-        values.put(Users.KEY_ADDRESS, newUser.address);
         values.put(Users.KEY_PHONE, newUser.phone);
 
         return db.insert(Users.TABLE_NAME, null, values);
@@ -109,7 +107,6 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
                     .setEmail(email)
                     .setPassword(result.getString(result.getColumnIndex(Users.KEY_PASSWORD)))
                     .setName(result.getString(result.getColumnIndex(Users.KEY_NAME)))
-                    .setAddress(result.getString(result.getColumnIndex(Users.KEY_ADDRESS)))
                     .setPhone(result.getString(result.getColumnIndex(Users.KEY_PHONE)));
         }
 
@@ -138,7 +135,6 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         values.put(Users.KEY_EMAIL, updatedUser.email);
         values.put(Users.KEY_PASSWORD, updatedUser.password);
         values.put(Users.KEY_NAME, updatedUser.name);
-        values.put(Users.KEY_ADDRESS, updatedUser.address);
         values.put(Users.KEY_PHONE, updatedUser.phone);
 
         return db.update(Users.TABLE_NAME, values, Users.KEY_EMAIL + "=?", new String[]{currentEmail});
@@ -240,7 +236,6 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         public static final String KEY_EMAIL = "email";
         public static final String KEY_PASSWORD = "password";
         public static final String KEY_NAME = "name";
-        public static final String KEY_ADDRESS = "address";
         public static final String KEY_PHONE = "phone";
     }
 

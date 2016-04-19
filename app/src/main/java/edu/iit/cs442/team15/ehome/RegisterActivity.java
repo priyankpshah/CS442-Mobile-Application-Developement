@@ -27,7 +27,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText rPassword;
     private EditText rConfirmPassword;
     private EditText rName;
-    private EditText rAddress;
     private EditText rPhone; // TODO autofill with user's phone
 
     @Override
@@ -39,7 +38,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         rPassword = (EditText) findViewById(R.id.registerPassword);
         rConfirmPassword = (EditText) findViewById(R.id.registerConfirmPassword);
         rName = (EditText) findViewById(R.id.registerName);
-        rAddress = (EditText) findViewById(R.id.registerAddress);
         rPhone = (EditText) findViewById(R.id.registerPhone);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
@@ -64,7 +62,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 rPassword.setError(null);
                 rConfirmPassword.setError(null);
                 rName.setError(null);
-                rAddress.setError(null);
                 rPhone.setError(null);
 
                 // get user input
@@ -72,7 +69,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .setEmail(rEmail.getText().toString())
                         .setPassword(rPassword.getText().toString())
                         .setName(rName.getText().toString())
-                        .setAddress(rAddress.getText().toString())
                         .setPhone(rPhone.getText().toString());
 
                 // validate input
@@ -86,8 +82,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         rPhone.setError(getString(R.string.error_invalid_phone));
                     validInput = false;
                 }
-
-                // TODO check Address?
 
                 // check Name
                 if (!Validation.isName(newUser.name)) {
