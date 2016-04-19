@@ -20,7 +20,7 @@ import edu.iit.cs442.team15.ehome.model.User;
 public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "offline_apartments";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     private static ApartmentDatabaseHelper sInstance; // singleton instance
 
