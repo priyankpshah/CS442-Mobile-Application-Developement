@@ -57,19 +57,6 @@ public class Apartment implements Serializable {
         return this;
     }
 
-    // use factory methods instead
-    @Deprecated
-    public Apartment(int id, String address, int zip, int bedrooms, int bathrooms, double squareFeet, int rent, int ownerId) {
-        this.id = id;
-        this.address = address;
-        this.zip = zip;
-        this.bedrooms = bedrooms;
-        this.bathrooms = bathrooms;
-        this.squareFeet = squareFeet;
-        this.rent = rent;
-        this.ownerId = ownerId;
-    }
-
     public static Comparator<Apartment> rentComparator = new Comparator<Apartment>() {
         @Override
         public int compare(Apartment lhs, Apartment rhs) {
