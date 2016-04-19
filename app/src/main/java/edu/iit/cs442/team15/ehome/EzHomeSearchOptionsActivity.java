@@ -5,31 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.iit.cs442.team15.ehome.model.Apartment;
-import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
-
 public class EzHomeSearchOptionsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private int zipcode;
-
-    private int beds = 0;
-    private int baths = 0;
-    private int min_rent = 0;
-    private int max_rent = Integer.MAX_VALUE;
-
-    private Spinner bedspinner;
-
-    private Spinner bathspinner;
+    private Spinner bedSpinner;
+    private Spinner bathSpinner;
     private EditText zip;
     private EditText minRent;
     private EditText maxRent;
@@ -41,52 +26,27 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ez_home_search_options);
 
-        bedspinner = (Spinner) findViewById(R.id.bedSpinner);
-        ArrayAdapter<CharSequence> bedsadapter = ArrayAdapter.createFromResource(this, R.array.select_beds, android.R.layout.simple_spinner_item);
-        bedsadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        bedspinner.setAdapter(bedsadapter);
+        // bed spinner
+        ArrayAdapter<CharSequence> bedsAdapter = ArrayAdapter.createFromResource(this, R.array.select_beds, android.R.layout.simple_spinner_item);
+        bedsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        bedspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String beds_selected = bedspinner.getSelectedItem().toString();
-                try {
-                    beds = Integer.parseInt(beds_selected.substring(0, 1));
-                } catch (Exception e) {
-                    beds = 0;
-                }
-            }
+        bedSpinner = (Spinner) findViewById(R.id.bedSpinner);
+        bedSpinner.setAdapter(bedsAdapter);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
+        // bath spinner
+        ArrayAdapter<CharSequence> bathsAdapter = ArrayAdapter.createFromResource(this, R.array.select_baths, android.R.layout.simple_spinner_item);
+        bathsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            }
-        });
+        bathSpinner = (Spinner) findViewById(R.id.bathSpinner);
+        bathSpinner.setAdapter(bathsAdapter);
 
-        bathspinner = (Spinner) findViewById(R.id.bathSpinner);
-        ArrayAdapter<CharSequence> bathsadapter = ArrayAdapter.createFromResource(this, R.array.select_baths, android.R.layout.simple_spinner_item);
-        bathsadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        bathspinner.setAdapter(bathsadapter);
-
-        bathspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String baths_selected = bathspinner.getSelectedItem().toString();
-                try {
-                    baths = Integer.parseInt(baths_selected.substring(0, 1));
-                } catch (Exception e) {
-                    baths = 0;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-
-            }
-        });
+        zip = (EditText) findViewById(R.id.zipCode);
+        minRent = (EditText) findViewById(R.id.min_rent);
+        maxRent = (EditText) findViewById(R.id.max_rent);
 
         apply = (Button) findViewById(R.id.Apply);
         apply.setOnClickListener(this);
+
         save = (Button) findViewById(R.id.SaveFilter);
         apply.setOnClickListener(this);
     }
@@ -95,42 +55,44 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.Apply:
-                zip = (EditText) findViewById(R.id.zipCode);
-                minRent = (EditText) findViewById(R.id.min_rent);
-                maxRent = (EditText) findViewById(R.id.max_rent);
-                String zipcode_s = zip.getText().toString();
+                String zip_s = zip.getText().toString();
+                String beds_selected = bedSpinner.getSelectedItem().toString();
+                String baths_selected = bathSpinner.getSelectedItem().toString();
                 String min_rent_s = minRent.getText().toString();
                 String max_rent_s = maxRent.getText().toString();
+
+                int zip;
+                int beds;
+                int baths;
+                int min_rent;
+                int max_rent;
+
                 try {
-                    if (zipcode_s.length() == 0) {
-                        zipcode = 0;
-                    } else zipcode = Integer.parseInt(zipcode_s);
-
-                    if (min_rent_s.length() == 0) {
-                        min_rent = 0;
-                    } else min_rent = Integer.parseInt(min_rent_s);
-
-                    if (max_rent_s.length() == 0) {
-                        max_rent = Integer.MAX_VALUE;
-                    } else max_rent = Integer.parseInt(max_rent_s);
+                    zip = zip_s.isEmpty() ? 0 : Integer.parseInt(zip_s);
+                    beds = bedSpinner.getSelectedItemPosition() == 0 ? 0 : Integer.parseInt(beds_selected.substring(0, 1));
+                    baths = bathSpinner.getSelectedItemPosition() == 0 ? 0 : Integer.parseInt(baths_selected.substring(0, 1));
+                    min_rent = min_rent_s.isEmpty() ? 0 : Integer.parseInt(min_rent_s);
+                    max_rent = max_rent_s.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(max_rent_s);
                 } catch (Exception e) {
                     Toast.makeText(this, "Zip Code and Rent must be Integer", Toast.LENGTH_LONG).show();
+                    break;
                 }
+
                 if (min_rent > max_rent) {
                     Toast.makeText(this, "Maximum rent must be greater than minimum rent!", Toast.LENGTH_LONG).show();
                     break;
                 }
 
-                List<Apartment> result = ApartmentDatabaseHelper.getInstance().getApartments(zipcode, beds, baths, min_rent, max_rent);
+                // pass search options
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("zip", zip);
+                resultIntent.putExtra("beds", beds);
+                resultIntent.putExtra("baths", baths);
+                resultIntent.putExtra("min_rent", min_rent);
+                resultIntent.putExtra("max_rent", max_rent);
 
-                if (result.isEmpty())
-                    Toast.makeText(this, "No apartments found!", Toast.LENGTH_LONG).show();
-                else {
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("Searching Result", (ArrayList<Apartment>) result);
-                    setResult(RESULT_OK, resultIntent);
-                    finish();
-                }
+                setResult(RESULT_OK, resultIntent);
+                finish();
                 break;
             case R.id.SaveFilter:
                 //TODO Save current filter in user's profile

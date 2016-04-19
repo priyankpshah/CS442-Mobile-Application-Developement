@@ -1,5 +1,6 @@
 package edu.iit.cs442.team15.ehome;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +19,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import edu.iit.cs442.team15.ehome.model.Apartment;
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 
 public class EzHomeSearchFragment extends Fragment {
 
-    private ArrayList<Apartment> result = new ArrayList<>();
+    private static final int SEARCH_OPTIONS_REQUEST = 1;
+
+    private List<Apartment> result = new ArrayList<>();
     private TableLayout table;
     private Spinner orderSpinner;
     private ArrayAdapter<CharSequence> orderadapter;
@@ -50,6 +55,7 @@ public class EzHomeSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ezhome_search, container, false);
+        // TODO default search
         //result = (ArrayList<Apartment>) getIntent().getSerializableExtra("Searching Result");
 
         Button temp = (Button) v.findViewById(R.id.tempButtonOptions);
@@ -88,11 +94,24 @@ public class EzHomeSearchFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO update search filters
-        result = (ArrayList<Apartment>) data.getSerializableExtra("Searching Result");
-        addData();
-        updateTable();
-        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case SEARCH_OPTIONS_REQUEST:
+                if (resultCode == Activity.RESULT_OK) {
+                    result = ApartmentDatabaseHelper.getInstance().getApartments(
+                            data.getIntExtra("zip", 0),
+                            data.getIntExtra("beds", 0),
+                            data.getIntExtra("baths", 0),
+                            data.getIntExtra("min_rent", 0),
+                            data.getIntExtra("max_rent", Integer.MAX_VALUE));
+                    if (result != null) {
+                        addData();
+                        updateTable();
+                    }
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public void sort() {
@@ -154,7 +173,6 @@ public class EzHomeSearchFragment extends Fragment {
                 TextView tv6 = (TextView) tr.getChildAt(6);
                 tv6.setText(Double.toString(result.get(i).rent));
             }
-
         }
 
     }
