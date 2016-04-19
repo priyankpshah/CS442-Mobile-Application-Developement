@@ -55,8 +55,7 @@ public class EzHomeSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ezhome_search, container, false);
-        // TODO default search
-        //result = (ArrayList<Apartment>) getIntent().getSerializableExtra("Searching Result");
+        result = ApartmentDatabaseHelper.getInstance().getApartments(0, 0, 0, 0, Integer.MAX_VALUE);
 
         Button temp = (Button) v.findViewById(R.id.tempButtonOptions);
         temp.setOnClickListener(new View.OnClickListener() {
