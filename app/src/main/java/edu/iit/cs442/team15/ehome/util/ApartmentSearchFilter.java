@@ -106,7 +106,7 @@ public class ApartmentSearchFilter {
         final ArrayList<String> args = new ArrayList<>();
 
         if (id != null) {
-            where.append(Apartments.TABLE).append(".").append(Apartments.ID).append("=?");
+            where.append(Apartments.TABLE).append(".").append(Apartments.ID).append("=? AND ");
             args.add(id);
         }
         if (minCost != null) {
