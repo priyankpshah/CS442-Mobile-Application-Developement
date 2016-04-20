@@ -132,7 +132,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     public Cursor getApartmentsCursor(ApartmentSearchFilter filter) {
         SQLiteDatabase db = getReadableDatabase();
 
-        return db.rawQuery(filter.getSqlQuery(), filter.getSelectionArgs());
+        return filter.query(db);
     }
 
     public List<Apartment> getApartments(ApartmentSearchFilter filter) {

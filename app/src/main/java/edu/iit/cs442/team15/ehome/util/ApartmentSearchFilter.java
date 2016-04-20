@@ -1,6 +1,7 @@
 package edu.iit.cs442.team15.ehome.util;
 
-import android.database.sqlite.SQLiteQueryBuilder;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
@@ -89,7 +90,7 @@ public class ApartmentSearchFilter {
         return this;
     }
 
-    public String getSqlQuery() {
+    public Cursor query(SQLiteDatabase db) {
         // join apartments, owners, and amenities tables together
         final String table = Apartments.TABLE +
                 " JOIN " + Owners.TABLE + " ON " + Apartments.TABLE + "." + Apartments.OWNER_ID + "=" + Owners.TABLE + "." + Owners.ID +
@@ -100,66 +101,60 @@ public class ApartmentSearchFilter {
                 "(" + Apartments.RENT + " + " + Amenities.GAS + " + " + Amenities.ELECTRICITY + " + " + Amenities.INTERNET + " + " + Amenities.CABLE + " + " + Amenities.THERMOSTAT + ") AS " + TOTAL_COST
         };
 
-        // build where clause, must be in same order as in getSelectionArgs()
+        // build selection query and args
         final StringBuilder where = new StringBuilder();
-        if (id != null)
+        final ArrayList<String> args = new ArrayList<>();
+
+        if (id != null) {
             where.append(Apartments.TABLE).append(".").append(Apartments.ID).append("=?");
-        if (minCost != null)
+            args.add(id);
+        }
+        if (minCost != null) {
             where.append(TOTAL_COST).append(">=CAST(? AS NUMERIC) AND "); // selectionArgs are bound as Strings, so CAST to NUMERIC
-        if (maxCost != null)
+            args.add(minCost);
+        }
+        if (maxCost != null) {
             where.append(TOTAL_COST).append("<=CAST(? AS NUMERIC) AND ");
-        if (hasGym != null)
+            args.add(maxCost);
+        }
+        if (hasGym != null) {
             where.append(Amenities.GYM).append("=? AND ");
-        if (hasParking != null)
+            args.add(hasGym);
+        }
+        if (hasParking != null) {
             where.append(Amenities.PARKING).append("=? AND ");
-        if (minBedrooms != null)
+            args.add(hasParking);
+        }
+        if (minBedrooms != null) {
             where.append(Apartments.BEDROOMS).append(">=? AND ");
-        if (maxBedrooms != null)
+            args.add(minBedrooms);
+        }
+        if (maxBedrooms != null) {
             where.append(Apartments.BEDROOMS).append("<=? AND ");
-        if (minBathrooms != null)
+            args.add(maxBedrooms);
+        }
+        if (minBathrooms != null) {
             where.append(Apartments.BATHROOMS).append(">=? AND ");
-        if (maxBathrooms != null)
+            args.add(minBathrooms);
+        }
+        if (maxBathrooms != null) {
             where.append(Apartments.BATHROOMS).append("<=? AND ");
-        if (minArea != null)
+            args.add(maxBedrooms);
+        }
+        if (minArea != null) {
             where.append(Apartments.AREA).append("<=CAST(? AS NUMERIC) AND ");
-        if (maxArea != null)
+            args.add(minArea);
+        }
+        if (maxArea != null) {
             where.append(Apartments.AREA).append(">=CAST(? AS NUMERIC) AND ");
+            args.add(maxArea);
+        }
 
         where.append("1=1"); // prevent trailing AND
 
         final String limit = "100";
 
-        return SQLiteQueryBuilder.buildQueryString(false, table, columns, where.toString(), null, null, null, limit);
-    }
-
-    public String[] getSelectionArgs() {
-        ArrayList<String> args = new ArrayList<>();
-
-        // MUST be in same order as where clause above
-        if (id != null)
-            args.add(id);
-        if (minCost != null)
-            args.add(minCost);
-        if (maxCost != null)
-            args.add(maxCost);
-        if (hasGym != null)
-            args.add(hasGym);
-        if (hasParking != null)
-            args.add(hasParking);
-        if (minBedrooms != null)
-            args.add(minBedrooms);
-        if (maxBedrooms != null)
-            args.add(maxBedrooms);
-        if (minBathrooms != null)
-            args.add(minBathrooms);
-        if (maxBathrooms != null)
-            args.add(maxBathrooms);
-        if (minArea != null)
-            args.add(minArea);
-        if (maxArea != null)
-            args.add(maxArea);
-
-        return args.toArray(new String[args.size()]);
+        return db.query(table, columns, where.toString(), args.toArray(new String[args.size()]), null, null, null, limit);
     }
 
 }
