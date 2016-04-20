@@ -146,7 +146,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
                         .setAddress(r.getString(r.getColumnIndex(Apartments.ADDRESS)))
                         .setZip(r.getInt(r.getColumnIndex(Apartments.ZIP)))
                         .setBedrooms(r.getInt(r.getColumnIndex(Apartments.BEDROOMS)))
-                        .setBedrooms(r.getInt(r.getColumnIndex(Apartments.BATHROOMS)))
+                        .setBathrooms(r.getInt(r.getColumnIndex(Apartments.BATHROOMS)))
                         .setSquareFeet(r.getDouble(r.getColumnIndex(Apartments.AREA)))
                         .setRent(r.getInt(r.getColumnIndex(Apartments.RENT)))
                         .setOwnerId(r.getInt(r.getColumnIndex(Apartments.OWNER_ID))));
