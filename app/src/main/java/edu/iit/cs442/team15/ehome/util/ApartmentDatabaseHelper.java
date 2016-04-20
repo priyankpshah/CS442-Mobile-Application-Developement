@@ -92,6 +92,18 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return db.insert(Users.TABLE, null, values);
     }
 
+    public int updateUser(final String currentEmail, final User updatedUser) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Users.EMAIL, updatedUser.email);
+        values.put(Users.PASSWORD, updatedUser.password);
+        values.put(Users.NAME, updatedUser.name);
+        values.put(Users.PHONE, updatedUser.phone);
+
+        return db.update(Users.TABLE, values, Users.EMAIL + "=?", new String[]{currentEmail});
+    }
+
     @Nullable
     public User getUser(final String email) {
         SQLiteDatabase db = getReadableDatabase();
@@ -117,96 +129,44 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return user;
     }
 
-    public List<Apartment> getApartments(final int zip, final int bedrooms, final int bathrooms, final int min_rent, final int max_rent) {
+    public Cursor getApartmentsCursor(ApartmentSearchFilter filter) {
         SQLiteDatabase db = getReadableDatabase();
 
-        final String sqlQuery;
-        if (zip == 0)
-            sqlQuery = "SELECT * FROM " + Apartments.TABLE + " WHERE " + Apartments.BEDROOMS + ">=" + bedrooms + " AND " + Apartments.BATHROOMS + ">=" + bathrooms + " AND " + Apartments.RENT + ">=" + min_rent + " AND " + Apartments.RENT + "<=" + max_rent + " ORDER BY " + Apartments.RENT + " ASC";
-        else
-            sqlQuery = "SELECT * FROM " + Apartments.TABLE + " WHERE " + Apartments.ZIP + "=" + zip + " AND " + Apartments.BEDROOMS + ">=" + bedrooms + " AND " + Apartments.BATHROOMS + ">=" + bathrooms + " AND " + Apartments.RENT + ">=" + min_rent + " AND " + Apartments.RENT + "<=" + max_rent + " ORDER BY " + Apartments.RENT + " ASC";
+        return db.rawQuery(filter.getSqlQuery(), filter.getSelectionArgs());
+    }
 
-        Cursor cur = db.rawQuery(sqlQuery, null);
+    public List<Apartment> getApartments(ApartmentSearchFilter filter) {
+        Cursor r = getApartmentsCursor(filter);
+        ArrayList<Apartment> apartments = new ArrayList<>();
 
-        ArrayList<Apartment> result = new ArrayList<>();
-
-        if (cur.moveToFirst()) {
+        if (r.moveToFirst()) {
             do {
-                result.add(new Apartment()
-                        .setId(cur.getInt(cur.getColumnIndex(Apartments.ID)))
-                        .setAddress(cur.getString(cur.getColumnIndex(Apartments.ADDRESS)))
-                        .setZip(cur.getInt(cur.getColumnIndex(Apartments.ZIP)))
-                        .setBedrooms(cur.getInt(cur.getColumnIndex(Apartments.BEDROOMS)))
-                        .setBedrooms(cur.getInt(cur.getColumnIndex(Apartments.BATHROOMS)))
-                        .setSquareFeet(cur.getDouble(cur.getColumnIndex(Apartments.AREA)))
-                        .setRent(cur.getInt(cur.getColumnIndex(Apartments.RENT)))
-                        .setOwnerId(cur.getInt(cur.getColumnIndex(Apartments.OWNER_ID))));
-            } while (cur.moveToNext());
+                apartments.add(new Apartment()
+                        .setId(r.getInt(r.getColumnIndex(Apartments.ID)))
+                        .setAddress(r.getString(r.getColumnIndex(Apartments.ADDRESS)))
+                        .setZip(r.getInt(r.getColumnIndex(Apartments.ZIP)))
+                        .setBedrooms(r.getInt(r.getColumnIndex(Apartments.BEDROOMS)))
+                        .setBedrooms(r.getInt(r.getColumnIndex(Apartments.BATHROOMS)))
+                        .setSquareFeet(r.getDouble(r.getColumnIndex(Apartments.AREA)))
+                        .setRent(r.getInt(r.getColumnIndex(Apartments.RENT)))
+                        .setOwnerId(r.getInt(r.getColumnIndex(Apartments.OWNER_ID))));
+            } while (r.moveToNext());
         }
 
-        cur.close();
-        db.close();
+        r.close();
 
-        return result;
-    }
-
-    public int updateUser(final String currentEmail, final User updatedUser) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(Users.EMAIL, updatedUser.email);
-        values.put(Users.PASSWORD, updatedUser.password);
-        values.put(Users.NAME, updatedUser.name);
-        values.put(Users.PHONE, updatedUser.phone);
-
-        return db.update(Users.TABLE, values, Users.EMAIL + "=?", new String[]{currentEmail});
-    }
-
-    public List<String> getAptNames() {
-        SQLiteDatabase db = getWritableDatabase();
-
-        final String query = "SELECT " + Apartments.ADDRESS + " FROM " + Apartments.TABLE;
-        Cursor cur = db.rawQuery(query, null);
-        ArrayList<String> apartments = new ArrayList<>();
-        while (cur.moveToNext()) {
-            apartments.add(cur.getString(0));
-        }
-        cur.close();
         return apartments;
     }
 
     @Nullable
     public Apartment getApartment(int id) {
-        SQLiteDatabase db = getReadableDatabase();
-
-        final String sqlQuery = "SELECT * FROM " + Apartments.TABLE + " WHERE " + Apartments.ID + "=?";
-        Cursor result = db.rawQuery(sqlQuery, new String[]{Integer.toString(id)});
-
-        Apartment apt = null;
-        if (result.moveToFirst()) {
-            apt = new Apartment()
-                    .setId(result.getInt(result.getColumnIndex(Apartments.ID)))
-                    .setAddress(result.getString(result.getColumnIndex(Apartments.ADDRESS)))
-                    .setZip(result.getInt(result.getColumnIndex(Apartments.ZIP)))
-                    .setBedrooms(result.getInt(result.getColumnIndex(Apartments.BEDROOMS)))
-                    .setBathrooms(result.getInt(result.getColumnIndex(Apartments.BATHROOMS)))
-                    .setSquareFeet(result.getDouble(result.getColumnIndex(Apartments.AREA)))
-                    .setRent(result.getInt(result.getColumnIndex(Apartments.RENT)))
-                    .setOwnerId(result.getInt(result.getColumnIndex(Apartments.OWNER_ID)));
-        }
-
-        result.close();
-        db.close();
-
-        return apt;
+        List<Apartment> result = getApartments(new ApartmentSearchFilter().setId(id));
+        return result.isEmpty() ? null : result.get(0);
     }
 
     @Nullable
     public Amenity getAmenity(int apartment_id) {
-        SQLiteDatabase db = getReadableDatabase();
-
-        final String sqlQuery = "SELECT * FROM " + Amenities.TABLE + " WHERE " + Amenities.ID + "=?";
-        Cursor result = db.rawQuery(sqlQuery, new String[]{Integer.toString(apartment_id)});
+        Cursor result = getApartmentsCursor(new ApartmentSearchFilter().setId(apartment_id));
 
         Amenity amenity = null;
         if (result.moveToFirst()) {
@@ -222,7 +182,6 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         }
 
         result.close();
-        db.close();
 
         return amenity;
     }

@@ -23,6 +23,7 @@ import java.util.List;
 
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
 
 public class EzHomeSearchFragment extends Fragment {
 
@@ -55,7 +56,7 @@ public class EzHomeSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ezhome_search, container, false);
-        result = ApartmentDatabaseHelper.getInstance().getApartments(0, 0, 0, 0, Integer.MAX_VALUE);
+        result = ApartmentDatabaseHelper.getInstance().getApartments(new ApartmentSearchFilter());
 
         Button temp = (Button) v.findViewById(R.id.tempButtonOptions);
         temp.setOnClickListener(new View.OnClickListener() {
@@ -96,15 +97,14 @@ public class EzHomeSearchFragment extends Fragment {
         switch (requestCode) {
             case SEARCH_OPTIONS_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
-                    result = ApartmentDatabaseHelper.getInstance().getApartments(
-                            data.getIntExtra("zip", 0),
-                            data.getIntExtra("beds", 0),
-                            data.getIntExtra("baths", 0),
-                            data.getIntExtra("min_rent", 0),
-                            data.getIntExtra("max_rent", Integer.MAX_VALUE));
+                    ApartmentSearchFilter filter = new ApartmentSearchFilter()
+                            .setMinBedrooms(data.getIntExtra("beds", 0))
+                            .setMinBathrooms(data.getIntExtra("baths", 0))
+                            .setMinCost(data.getIntExtra("min_rent", 0))
+                            .setMaxCost(data.getIntExtra("max_rent", Integer.MAX_VALUE));
+
+                    result = ApartmentDatabaseHelper.getInstance().getApartments(filter);
                     if (result != null) {
-                        table.removeAllViews();
-                        addData();
                         updateTable();
                     }
                 }
