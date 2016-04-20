@@ -84,19 +84,19 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(Users.KEY_EMAIL, newUser.email);
-        values.put(Users.KEY_PASSWORD, newUser.password);
-        values.put(Users.KEY_NAME, newUser.name);
-        values.put(Users.KEY_PHONE, newUser.phone);
+        values.put(Users.EMAIL, newUser.email);
+        values.put(Users.PASSWORD, newUser.password);
+        values.put(Users.NAME, newUser.name);
+        values.put(Users.PHONE, newUser.phone);
 
-        return db.insert(Users.TABLE_NAME, null, values);
+        return db.insert(Users.TABLE, null, values);
     }
 
     @Nullable
     public User getUser(final String email) {
         SQLiteDatabase db = getReadableDatabase();
 
-        final String sqlQuery = "SELECT * FROM " + Users.TABLE_NAME + " WHERE " + Users.KEY_EMAIL + "=?";
+        final String sqlQuery = "SELECT * FROM " + Users.TABLE + " WHERE " + Users.EMAIL + "=?";
         Cursor result = db.rawQuery(sqlQuery, new String[]{email});
 
         User user = null;
@@ -104,11 +104,11 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         if (result.moveToFirst()) {
             // User exists
             user = new User()
-                    .setId(result.getInt(result.getColumnIndex(Users.KEY_ID)))
+                    .setId(result.getInt(result.getColumnIndex(Users.ID)))
                     .setEmail(email)
-                    .setPassword(result.getString(result.getColumnIndex(Users.KEY_PASSWORD)))
-                    .setName(result.getString(result.getColumnIndex(Users.KEY_NAME)))
-                    .setPhone(result.getString(result.getColumnIndex(Users.KEY_PHONE)));
+                    .setPassword(result.getString(result.getColumnIndex(Users.PASSWORD)))
+                    .setName(result.getString(result.getColumnIndex(Users.NAME)))
+                    .setPhone(result.getString(result.getColumnIndex(Users.PHONE)));
         }
 
         result.close();
@@ -122,9 +122,9 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
         final String sqlQuery;
         if (zip == 0)
-            sqlQuery = "SELECT * FROM " + Apartments.TABLE_NAME + " WHERE " + Apartments.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Apartments.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Apartments.KEY_RENT + ">=" + min_rent + " AND " + Apartments.KEY_RENT + "<=" + max_rent + " ORDER BY " + Apartments.KEY_RENT + " ASC";
+            sqlQuery = "SELECT * FROM " + Apartments.TABLE + " WHERE " + Apartments.BEDROOMS + ">=" + bedrooms + " AND " + Apartments.BATHROOMS + ">=" + bathrooms + " AND " + Apartments.RENT + ">=" + min_rent + " AND " + Apartments.RENT + "<=" + max_rent + " ORDER BY " + Apartments.RENT + " ASC";
         else
-            sqlQuery = "SELECT * FROM " + Apartments.TABLE_NAME + " WHERE " + Apartments.KEY_ZIP + "=" + zip + " AND " + Apartments.KEY_BEDROOMS + ">=" + bedrooms + " AND " + Apartments.KEY_BATHROOMS + ">=" + bathrooms + " AND " + Apartments.KEY_RENT + ">=" + min_rent + " AND " + Apartments.KEY_RENT + "<=" + max_rent + " ORDER BY " + Apartments.KEY_RENT + " ASC";
+            sqlQuery = "SELECT * FROM " + Apartments.TABLE + " WHERE " + Apartments.ZIP + "=" + zip + " AND " + Apartments.BEDROOMS + ">=" + bedrooms + " AND " + Apartments.BATHROOMS + ">=" + bathrooms + " AND " + Apartments.RENT + ">=" + min_rent + " AND " + Apartments.RENT + "<=" + max_rent + " ORDER BY " + Apartments.RENT + " ASC";
 
         Cursor cur = db.rawQuery(sqlQuery, null);
 
@@ -133,14 +133,14 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         if (cur.moveToFirst()) {
             do {
                 result.add(new Apartment()
-                        .setId(cur.getInt(cur.getColumnIndex(Apartments.KEY_ID)))
-                        .setAddress(cur.getString(cur.getColumnIndex(Apartments.KEY_ADDRESS)))
-                        .setZip(cur.getInt(cur.getColumnIndex(Apartments.KEY_ZIP)))
-                        .setBedrooms(cur.getInt(cur.getColumnIndex(Apartments.KEY_BEDROOMS)))
-                        .setBedrooms(cur.getInt(cur.getColumnIndex(Apartments.KEY_BATHROOMS)))
-                        .setSquareFeet(cur.getDouble(cur.getColumnIndex(Apartments.KEY_AREA)))
-                        .setRent(cur.getInt(cur.getColumnIndex(Apartments.KEY_RENT)))
-                        .setOwnerId(cur.getInt(cur.getColumnIndex(Apartments.KEY_OWNER_ID))));
+                        .setId(cur.getInt(cur.getColumnIndex(Apartments.ID)))
+                        .setAddress(cur.getString(cur.getColumnIndex(Apartments.ADDRESS)))
+                        .setZip(cur.getInt(cur.getColumnIndex(Apartments.ZIP)))
+                        .setBedrooms(cur.getInt(cur.getColumnIndex(Apartments.BEDROOMS)))
+                        .setBedrooms(cur.getInt(cur.getColumnIndex(Apartments.BATHROOMS)))
+                        .setSquareFeet(cur.getDouble(cur.getColumnIndex(Apartments.AREA)))
+                        .setRent(cur.getInt(cur.getColumnIndex(Apartments.RENT)))
+                        .setOwnerId(cur.getInt(cur.getColumnIndex(Apartments.OWNER_ID))));
             } while (cur.moveToNext());
         }
 
@@ -154,18 +154,18 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(Users.KEY_EMAIL, updatedUser.email);
-        values.put(Users.KEY_PASSWORD, updatedUser.password);
-        values.put(Users.KEY_NAME, updatedUser.name);
-        values.put(Users.KEY_PHONE, updatedUser.phone);
+        values.put(Users.EMAIL, updatedUser.email);
+        values.put(Users.PASSWORD, updatedUser.password);
+        values.put(Users.NAME, updatedUser.name);
+        values.put(Users.PHONE, updatedUser.phone);
 
-        return db.update(Users.TABLE_NAME, values, Users.KEY_EMAIL + "=?", new String[]{currentEmail});
+        return db.update(Users.TABLE, values, Users.EMAIL + "=?", new String[]{currentEmail});
     }
 
     public List<String> getAptNames() {
         SQLiteDatabase db = getWritableDatabase();
 
-        final String query = "SELECT " + Apartments.KEY_ADDRESS + " FROM " + Apartments.TABLE_NAME;
+        final String query = "SELECT " + Apartments.ADDRESS + " FROM " + Apartments.TABLE;
         Cursor cur = db.rawQuery(query, null);
         ArrayList<String> apartments = new ArrayList<>();
         while (cur.moveToNext()) {
@@ -179,20 +179,20 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     public Apartment getApartment(int id) {
         SQLiteDatabase db = getReadableDatabase();
 
-        final String sqlQuery = "SELECT * FROM " + Apartments.TABLE_NAME + " WHERE " + Apartments.KEY_ID + "=?";
+        final String sqlQuery = "SELECT * FROM " + Apartments.TABLE + " WHERE " + Apartments.ID + "=?";
         Cursor result = db.rawQuery(sqlQuery, new String[]{Integer.toString(id)});
 
         Apartment apt = null;
         if (result.moveToFirst()) {
             apt = new Apartment()
-                    .setId(result.getInt(result.getColumnIndex(Apartments.KEY_ID)))
-                    .setAddress(result.getString(result.getColumnIndex(Apartments.KEY_ADDRESS)))
-                    .setZip(result.getInt(result.getColumnIndex(Apartments.KEY_ZIP)))
-                    .setBedrooms(result.getInt(result.getColumnIndex(Apartments.KEY_BEDROOMS)))
-                    .setBathrooms(result.getInt(result.getColumnIndex(Apartments.KEY_BATHROOMS)))
-                    .setSquareFeet(result.getDouble(result.getColumnIndex(Apartments.KEY_AREA)))
-                    .setRent(result.getInt(result.getColumnIndex(Apartments.KEY_RENT)))
-                    .setOwnerId(result.getInt(result.getColumnIndex(Apartments.KEY_OWNER_ID)));
+                    .setId(result.getInt(result.getColumnIndex(Apartments.ID)))
+                    .setAddress(result.getString(result.getColumnIndex(Apartments.ADDRESS)))
+                    .setZip(result.getInt(result.getColumnIndex(Apartments.ZIP)))
+                    .setBedrooms(result.getInt(result.getColumnIndex(Apartments.BEDROOMS)))
+                    .setBathrooms(result.getInt(result.getColumnIndex(Apartments.BATHROOMS)))
+                    .setSquareFeet(result.getDouble(result.getColumnIndex(Apartments.AREA)))
+                    .setRent(result.getInt(result.getColumnIndex(Apartments.RENT)))
+                    .setOwnerId(result.getInt(result.getColumnIndex(Apartments.OWNER_ID)));
         }
 
         result.close();
@@ -205,20 +205,20 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     public Amenity getAmenity(int apartment_id) {
         SQLiteDatabase db = getReadableDatabase();
 
-        final String sqlQuery = "SELECT * FROM " + Amenities.TABLE_NAME + " WHERE " + Amenities.KEY_ID + "=?";
+        final String sqlQuery = "SELECT * FROM " + Amenities.TABLE + " WHERE " + Amenities.ID + "=?";
         Cursor result = db.rawQuery(sqlQuery, new String[]{Integer.toString(apartment_id)});
 
         Amenity amenity = null;
         if (result.moveToFirst()) {
             amenity = new Amenity()
-                    .setApartmentId(result.getInt(result.getColumnIndex(Amenities.KEY_ID)))
-                    .setCable(result.getDouble(result.getColumnIndex(Amenities.KEY_CABLE)))
-                    .setElectricity(result.getDouble(result.getColumnIndex(Amenities.KEY_ELECTRICITY)))
-                    .setGas(result.getDouble(result.getColumnIndex(Amenities.KEY_GAS)))
-                    .setGym(result.getInt(result.getColumnIndex(Amenities.KEY_GYM)) == 1)
-                    .setInternet(result.getDouble(result.getColumnIndex(Amenities.KEY_INTERNET)))
-                    .setParking(result.getInt(result.getColumnIndex(Amenities.KEY_PARKING)) == 1)
-                    .setThermostat(result.getDouble(result.getColumnIndex(Amenities.KEY_THERMOSTAT)));
+                    .setApartmentId(result.getInt(result.getColumnIndex(Amenities.ID)))
+                    .setCable(result.getDouble(result.getColumnIndex(Amenities.CABLE)))
+                    .setElectricity(result.getDouble(result.getColumnIndex(Amenities.ELECTRICITY)))
+                    .setGas(result.getDouble(result.getColumnIndex(Amenities.GAS)))
+                    .setGym(result.getInt(result.getColumnIndex(Amenities.GYM)) == 1)
+                    .setInternet(result.getDouble(result.getColumnIndex(Amenities.INTERNET)))
+                    .setParking(result.getInt(result.getColumnIndex(Amenities.PARKING)) == 1)
+                    .setThermostat(result.getDouble(result.getColumnIndex(Amenities.THERMOSTAT)));
         }
 
         result.close();
@@ -228,62 +228,62 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static final class Users {
-        public static final String TABLE_NAME = "users";
-        public static final String KEY_ID = "id";
-        public static final String KEY_EMAIL = "email";
-        public static final String KEY_PASSWORD = "password";
-        public static final String KEY_NAME = "name";
-        public static final String KEY_PHONE = "phone";
+        public static final String TABLE = "users";
+        public static final String ID = "id";
+        public static final String EMAIL = "email";
+        public static final String PASSWORD = "password";
+        public static final String NAME = "name";
+        public static final String PHONE = "phone";
     }
 
     public static final class Favorites {
-        public static final String TABLE_NAME = "user_favorites";
-        public static final String KEY_USER_ID = "user_id";
-        public static final String KEY_APARTMENT_ID = "apartment_id";
+        public static final String TABLE = "user_favorites";
+        public static final String USER_ID = "user_id";
+        public static final String APARTMENT_ID = "apartment_id";
     }
 
     public static final class Apartments {
-        public static final String TABLE_NAME = "apartments";
-        public static final String KEY_ID = "id";
-        public static final String KEY_ADDRESS = "address";
-        public static final String KEY_ZIP = "zip";
-        public static final String KEY_BEDROOMS = "bedrooms";
-        public static final String KEY_BATHROOMS = "bathrooms";
-        public static final String KEY_AREA = "square_feet";
-        public static final String KEY_RENT = "rent";
-        public static final String KEY_OWNER_ID = "owner_id";
+        public static final String TABLE = "apartments";
+        public static final String ID = "id";
+        public static final String ADDRESS = "address";
+        public static final String ZIP = "zip";
+        public static final String BEDROOMS = "bedrooms";
+        public static final String BATHROOMS = "bathrooms";
+        public static final String AREA = "square_feet";
+        public static final String RENT = "rent";
+        public static final String OWNER_ID = "owner_id";
     }
 
     public static final class Owners {
-        public static final String TABLE_NAME = "owners";
-        public static final String KEY_ID = "id";
-        public static final String KEY_COMPLEX_NAME = "complex_name";
-        public static final String KEY_OWNER_PHONE = "owner_phone";
-        public static final String KEY_OWNER_EMAIL = "owner_email";
+        public static final String TABLE = "owners";
+        public static final String ID = "id";
+        public static final String COMPLEX_NAME = "complex_name";
+        public static final String OWNER_PHONE = "owner_phone";
+        public static final String OWNER_EMAIL = "owner_email";
     }
 
     public static final class Amenities {
-        public static final String TABLE_NAME = "amenities";
-        public static final String KEY_ID = "apartment_id";
-        public static final String KEY_PARKING = "parking";
-        public static final String KEY_GYM = "gym";
-        public static final String KEY_GAS = "gas";
-        public static final String KEY_ELECTRICITY = "electricity";
-        public static final String KEY_INTERNET = "internet";
-        public static final String KEY_CABLE = "cable";
-        public static final String KEY_THERMOSTAT = "thermostat";
+        public static final String TABLE = "amenities";
+        public static final String ID = "apartment_id";
+        public static final String PARKING = "parking";
+        public static final String GYM = "gym";
+        public static final String GAS = "gas";
+        public static final String ELECTRICITY = "electricity";
+        public static final String INTERNET = "internet";
+        public static final String CABLE = "cable";
+        public static final String THERMOSTAT = "thermostat";
     }
 
     public static final class WebApartments {
-        public static final String TABLE_NAME = "web_apartments";
-        public static final String KEY_NAME = "name";
-        public static final String KEY_ADDRESS = "address";
-        public static final String KEY_RENT = "rent";
-        public static final String KEY_LATITUDE = "latitude";
-        public static final String KEY_LONGITUDE = "longitude";
-        public static final String KEY_OWNER_EMAIL = "owner_email";
-        public static final String KEY_OWNER_PHONE = "owner_phone";
-        public static final String KEY_OWNER_WEBSITE = "owner_website";
+        public static final String TABLE = "web_apartments";
+        public static final String NAME = "name";
+        public static final String ADDRESS = "address";
+        public static final String RENT = "rent";
+        public static final String LATITUDE = "latitude";
+        public static final String LONGITUDE = "longitude";
+        public static final String OWNER_EMAIL = "owner_email";
+        public static final String OWNER_PHONE = "owner_phone";
+        public static final String OWNER_WEBSITE = "owner_website";
     }
 
 }

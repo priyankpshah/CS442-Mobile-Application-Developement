@@ -31,37 +31,37 @@ public final class SavedLogin {
 
     @Nullable
     public String getEmail() {
-        return savedLoginPrefs.getString(Users.KEY_EMAIL, null);
+        return savedLoginPrefs.getString(Users.EMAIL, null);
     }
 
     public boolean checkPassword(final String password) {
-        return password != null && password.equals(savedLoginPrefs.getString(Users.KEY_PASSWORD, null));
+        return password != null && password.equals(savedLoginPrefs.getString(Users.PASSWORD, null));
     }
 
     @Deprecated
     @Nullable
     public String getPassword() {
-        return savedLoginPrefs.getString(Users.KEY_PASSWORD, null);
+        return savedLoginPrefs.getString(Users.PASSWORD, null);
     }
 
     @Nullable
     public String getName() {
-        return savedLoginPrefs.getString(Users.KEY_NAME, null);
+        return savedLoginPrefs.getString(Users.NAME, null);
     }
 
     public void saveLogin(final String email, final String password, final String name) {
         savedLoginPrefs.edit()
-                .putString(Users.KEY_EMAIL, email)
-                .putString(Users.KEY_PASSWORD, password)
-                .putString(Users.KEY_NAME, name)
+                .putString(Users.EMAIL, email)
+                .putString(Users.PASSWORD, password)
+                .putString(Users.NAME, name)
                 .apply();
     }
 
     public void logout() {
         savedLoginPrefs.edit()
-                .remove(Users.KEY_EMAIL)
-                .remove(Users.KEY_PASSWORD)
-                .remove(Users.KEY_NAME)
+                .remove(Users.EMAIL)
+                .remove(Users.PASSWORD)
+                .remove(Users.NAME)
                 .apply();
     }
 
