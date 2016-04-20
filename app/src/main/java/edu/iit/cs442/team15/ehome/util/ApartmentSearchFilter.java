@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Amenities;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Apartments;
@@ -102,59 +103,44 @@ public class ApartmentSearchFilter {
         };
 
         // build selection query and args
-        final StringBuilder where = new StringBuilder();
-        final ArrayList<String> args = new ArrayList<>();
+        final StringBuilder selection = new StringBuilder();
+        final List<String> selectionArgs = new ArrayList<>();
 
-        if (id != null) {
-            where.append(Apartments.TABLE).append(".").append(Apartments.ID).append("=? AND ");
-            args.add(id);
+        for (Filter filter : getFilters()) {
+            if (filter.var != null) {
+                selection.append(filter.where).append(" AND ");
+                selectionArgs.add(filter.var);
+            }
         }
-        if (minCost != null) {
-            where.append(TOTAL_COST).append(">=CAST(? AS NUMERIC) AND "); // selectionArgs are bound as Strings, so CAST to NUMERIC
-            args.add(minCost);
-        }
-        if (maxCost != null) {
-            where.append(TOTAL_COST).append("<=CAST(? AS NUMERIC) AND ");
-            args.add(maxCost);
-        }
-        if (hasGym != null) {
-            where.append(Amenities.GYM).append("=? AND ");
-            args.add(hasGym);
-        }
-        if (hasParking != null) {
-            where.append(Amenities.PARKING).append("=? AND ");
-            args.add(hasParking);
-        }
-        if (minBedrooms != null) {
-            where.append(Apartments.BEDROOMS).append(">=? AND ");
-            args.add(minBedrooms);
-        }
-        if (maxBedrooms != null) {
-            where.append(Apartments.BEDROOMS).append("<=? AND ");
-            args.add(maxBedrooms);
-        }
-        if (minBathrooms != null) {
-            where.append(Apartments.BATHROOMS).append(">=? AND ");
-            args.add(minBathrooms);
-        }
-        if (maxBathrooms != null) {
-            where.append(Apartments.BATHROOMS).append("<=? AND ");
-            args.add(maxBedrooms);
-        }
-        if (minArea != null) {
-            where.append(Apartments.AREA).append("<=CAST(? AS NUMERIC) AND ");
-            args.add(minArea);
-        }
-        if (maxArea != null) {
-            where.append(Apartments.AREA).append(">=CAST(? AS NUMERIC) AND ");
-            args.add(maxArea);
-        }
+        selection.append("1=1"); // prevent trailing AND
 
-        where.append("1=1"); // prevent trailing AND
+        return db.query(table, columns, selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]), null, null, null, "100");
+    }
 
-        final String limit = "100";
+    private Filter[] getFilters() {
+        return new Filter[]{
+                new Filter(id, Apartments.TABLE + "." + Apartments.ID + "=?"),
+                new Filter(minCost, TOTAL_COST + ">=CAST(? AS NUMERIC)"),
+                new Filter(maxCost, TOTAL_COST + "<=CAST(? AS NUMERIC)"),
+                new Filter(hasGym, Amenities.GYM + "=?"),
+                new Filter(hasParking, Amenities.PARKING + "=?"),
+                new Filter(minBedrooms, Apartments.BEDROOMS + ">=?"),
+                new Filter(maxBedrooms, Apartments.BEDROOMS + "<=?"),
+                new Filter(minBathrooms, Apartments.BATHROOMS + ">=?"),
+                new Filter(maxBathrooms, Apartments.BATHROOMS + "<=?"),
+                new Filter(minArea, Apartments.AREA + "<=CAST(? AS NUMERIC)"),
+                new Filter(maxArea, Apartments.AREA + ">=CAST(? AS NUMERIC)"),
+        };
+    }
 
-        return db.query(table, columns, where.toString(), args.toArray(new String[args.size()]), null, null, null, limit);
+    private final class Filter {
+        private final String var; // class var
+        private final String where; // SQL where clause
+
+        private Filter(String var, String where) {
+            this.var = var;
+            this.where = where;
+        }
     }
 
 }
