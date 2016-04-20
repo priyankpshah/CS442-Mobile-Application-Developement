@@ -103,6 +103,7 @@ public class EzHomeSearchFragment extends Fragment {
                             data.getIntExtra("min_rent", 0),
                             data.getIntExtra("max_rent", Integer.MAX_VALUE));
                     if (result != null) {
+                        table.removeAllViews();
                         addData();
                         updateTable();
                     }
@@ -148,13 +149,14 @@ public class EzHomeSearchFragment extends Fragment {
         tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
         tv.setLines(2);
         tv.setSingleLine(false);
+        tv.setMaxEms(10);
         tv.setEllipsize(TextUtils.TruncateAt.END);
         tr.addView(tv);
     }
 
     public void updateTable() {
         for (int i = 0; i < result.size(); i++) {
-            View view = table.getChildAt(i + 2);
+            View view = table.getChildAt(i + 3);
             if (view instanceof TableRow) {
                 TableRow tr = (TableRow) view;
                 TextView tv0 = (TextView) tr.getChildAt(0);
