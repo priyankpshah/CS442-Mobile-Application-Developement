@@ -24,7 +24,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ez_home_search_options);
+        setContentView(R.layout.activity_ezhome_search_options);
 
         // bed spinner
         ArrayAdapter<CharSequence> bedsAdapter = ArrayAdapter.createFromResource(this, R.array.select_beds, android.R.layout.simple_spinner_item);
