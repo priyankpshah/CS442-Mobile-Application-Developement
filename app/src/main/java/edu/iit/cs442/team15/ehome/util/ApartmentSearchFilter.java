@@ -4,7 +4,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Amenities;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Apartments;
@@ -18,76 +20,64 @@ public class ApartmentSearchFilter {
 
     public static final String TOTAL_COST = "ezprice";
 
-    private String id;
-    private String minCost, maxCost;
-    //private String distance, location; // too hard to implement in SQL
-    private String hasGym, hasParking;
-    private String minBedrooms, maxBedrooms;
-    private String minBathrooms, maxBathrooms;
-    private String minArea, maxArea;
+    private final Set<Filter> filters;
+
+    public ApartmentSearchFilter() {
+        filters = new HashSet<>();
+    }
 
     public ApartmentSearchFilter setId(int id) {
-        this.id = Integer.toString(id);
+        filters.add(new Filter(Integer.toString(id), Apartments.TABLE + "." + Apartments.ID + "=?"));
         return this;
     }
 
     public ApartmentSearchFilter setMinCost(double minCost) {
-        this.minCost = Double.toString(minCost);
+        filters.add(new Filter(Double.toString(minCost), TOTAL_COST + ">=CAST(? AS NUMERIC)"));
         return this;
     }
 
     public ApartmentSearchFilter setMaxCost(double maxCost) {
-        this.maxCost = Double.toString(maxCost);
+        filters.add(new Filter(Double.toString(maxCost), TOTAL_COST + "<=CAST(? AS NUMERIC)"));
         return this;
     }
-
-    /*public ApartmentSearchFilter setDistance(String distance) {
-        this.distance = distance;
-        return this;
-    }
-
-    public ApartmentSearchFilter setLocation(String location) {
-        this.location = location;
-        return this;
-    }*/
 
     public ApartmentSearchFilter setHasGym(boolean hasGym) {
-        this.hasGym = Boolean.toString(hasGym);
+        filters.add(new Filter(hasGym ? "1" : "0", Amenities.GYM + "=?"));
         return this;
     }
 
     public ApartmentSearchFilter setHasParking(boolean hasParking) {
-        this.hasParking = Boolean.toString(hasParking);
+        filters.add(new Filter(hasParking ? "1" : "0", Amenities.PARKING + "=?"));
         return this;
     }
 
     public ApartmentSearchFilter setMinBedrooms(int minBedrooms) {
-        this.minBedrooms = Integer.toString(minBedrooms);
+        filters.add(new Filter(Integer.toString(minBedrooms), Apartments.BEDROOMS + ">=?"));
         return this;
     }
 
     public ApartmentSearchFilter setMaxBedrooms(int maxBedrooms) {
-        this.maxBedrooms = Integer.toString(maxBedrooms);
+        filters.add(new Filter(Integer.toString(maxBedrooms), Apartments.BEDROOMS + "<=?"));
         return this;
     }
 
     public ApartmentSearchFilter setMinBathrooms(int minBathrooms) {
-        this.minBathrooms = Integer.toString(minBathrooms);
+        filters.add(new Filter(Integer.toString(minBathrooms), Apartments.BATHROOMS + ">=?"));
         return this;
     }
 
     public ApartmentSearchFilter setMaxBathrooms(int maxBathrooms) {
-        this.maxBathrooms = Integer.toString(maxBathrooms);
+        filters.add(new Filter(Integer.toString(maxBathrooms), Apartments.BATHROOMS + "<=?"));
         return this;
     }
 
     public ApartmentSearchFilter setMinArea(double minArea) {
-        this.minArea = Double.toString(minArea);
+        filters.add(new Filter(Double.toString(minArea), Apartments.AREA + "<=CAST(? AS NUMERIC)"));
         return this;
     }
 
     public ApartmentSearchFilter setMaxArea(double maxArea) {
-        this.maxArea = Double.toString(maxArea);
+        filters.add(new Filter(Double.toString(maxArea), Apartments.AREA + ">=CAST(? AS NUMERIC)"));
         return this;
     }
 
@@ -106,40 +96,38 @@ public class ApartmentSearchFilter {
         final StringBuilder selection = new StringBuilder();
         final List<String> selectionArgs = new ArrayList<>();
 
-        for (Filter filter : getFilters()) {
-            if (filter.var != null) {
-                selection.append(filter.where).append(" AND ");
-                selectionArgs.add(filter.var);
-            }
+        for (Filter filter : filters) {
+            selection.append(filter.where).append(" AND ");
+            selectionArgs.add(filter.value);
         }
         selection.append("1=1"); // prevent trailing AND
 
         return db.query(table, columns, selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]), null, null, null, "100");
     }
 
-    private Filter[] getFilters() {
-        return new Filter[]{
-                new Filter(id, Apartments.TABLE + "." + Apartments.ID + "=?"),
-                new Filter(minCost, TOTAL_COST + ">=CAST(? AS NUMERIC)"),
-                new Filter(maxCost, TOTAL_COST + "<=CAST(? AS NUMERIC)"),
-                new Filter(hasGym, Amenities.GYM + "=?"),
-                new Filter(hasParking, Amenities.PARKING + "=?"),
-                new Filter(minBedrooms, Apartments.BEDROOMS + ">=?"),
-                new Filter(maxBedrooms, Apartments.BEDROOMS + "<=?"),
-                new Filter(minBathrooms, Apartments.BATHROOMS + ">=?"),
-                new Filter(maxBathrooms, Apartments.BATHROOMS + "<=?"),
-                new Filter(minArea, Apartments.AREA + "<=CAST(? AS NUMERIC)"),
-                new Filter(maxArea, Apartments.AREA + ">=CAST(? AS NUMERIC)"),
-        };
-    }
-
-    private final class Filter {
-        private final String var; // class var
+    private static final class Filter {
+        private final String value; // value for ? in where clause
         private final String where; // SQL where clause
 
-        private Filter(String var, String where) {
-            this.var = var;
+        private Filter(String value, String where) {
+            this.value = value;
             this.where = where;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Filter filter = (Filter) o;
+
+            return where != null ? where.equals(filter.where) : filter.where == null;
+
+        }
+
+        @Override
+        public int hashCode() {
+            return where != null ? where.hashCode() : 0;
         }
     }
 
