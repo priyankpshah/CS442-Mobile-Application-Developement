@@ -16,6 +16,7 @@ import java.util.List;
 
 import edu.iit.cs442.team15.ehome.model.Amenity;
 import edu.iit.cs442.team15.ehome.model.Apartment;
+import edu.iit.cs442.team15.ehome.model.Owner;
 import edu.iit.cs442.team15.ehome.model.User;
 
 public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
@@ -149,7 +150,19 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
                         .setBathrooms(r.getInt(r.getColumnIndex(Apartments.BATHROOMS)))
                         .setSquareFeet(r.getDouble(r.getColumnIndex(Apartments.AREA)))
                         .setRent(r.getInt(r.getColumnIndex(Apartments.RENT)))
-                        .setOwnerId(r.getInt(r.getColumnIndex(Apartments.OWNER_ID))));
+                        .setOwner(new Owner()
+                                .setId(r.getInt(r.getColumnIndex(Owners.ID)))
+                                .setComplexName(r.getString(r.getColumnIndex(Owners.COMPLEX_NAME)))
+                                .setOwnerPhone(r.getString(r.getColumnIndex(Owners.OWNER_PHONE)))
+                                .setOwnerEmail(r.getString(r.getColumnIndex(Owners.OWNER_EMAIL))))
+                        .setAmenity(new Amenity()
+                                .setParking(r.getInt(r.getColumnIndex(Amenities.PARKING)) == 1)
+                                .setGym(r.getInt(r.getColumnIndex(Amenities.GYM)) == 1)
+                                .setGas(r.getDouble(r.getColumnIndex(Amenities.GAS)))
+                                .setElectricity(r.getDouble(r.getColumnIndex(Amenities.ELECTRICITY)))
+                                .setInternet(r.getDouble(r.getColumnIndex(Amenities.INTERNET)))
+                                .setCable(r.getDouble(r.getColumnIndex(Amenities.CABLE)))
+                                .setThermostat(r.getDouble(r.getColumnIndex(Amenities.THERMOSTAT)))));
             } while (r.moveToNext());
         }
 
@@ -166,24 +179,8 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     @Nullable
     public Amenity getAmenity(int apartment_id) {
-        Cursor result = getApartmentsCursor(new ApartmentSearchFilter().setId(apartment_id));
-
-        Amenity amenity = null;
-        if (result.moveToFirst()) {
-            amenity = new Amenity()
-                    .setApartmentId(result.getInt(result.getColumnIndex(Amenities.ID)))
-                    .setCable(result.getDouble(result.getColumnIndex(Amenities.CABLE)))
-                    .setElectricity(result.getDouble(result.getColumnIndex(Amenities.ELECTRICITY)))
-                    .setGas(result.getDouble(result.getColumnIndex(Amenities.GAS)))
-                    .setGym(result.getInt(result.getColumnIndex(Amenities.GYM)) == 1)
-                    .setInternet(result.getDouble(result.getColumnIndex(Amenities.INTERNET)))
-                    .setParking(result.getInt(result.getColumnIndex(Amenities.PARKING)) == 1)
-                    .setThermostat(result.getDouble(result.getColumnIndex(Amenities.THERMOSTAT)));
-        }
-
-        result.close();
-
-        return amenity;
+        List<Apartment> result = getApartments(new ApartmentSearchFilter().setId(apartment_id));
+        return result.isEmpty() ? null : result.get(0).amenity;
     }
 
     public static final class Users {

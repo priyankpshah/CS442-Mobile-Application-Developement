@@ -12,9 +12,11 @@ public class Apartment implements Serializable {
     public int bathrooms;
     public double squareFeet;
     public double rent;
-    public int ownerId;
+    public Owner owner;
+    public Amenity amenity;
 
-    public Apartment() {
+    public double getTotalCost() {
+        return amenity != null ? rent + amenity.getTotalCost() : rent;
     }
 
     public Apartment setId(int id) {
@@ -52,8 +54,13 @@ public class Apartment implements Serializable {
         return this;
     }
 
-    public Apartment setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
+    public Apartment setOwner(Owner owner) {
+        this.owner = owner;
+        return this;
+    }
+
+    public Apartment setAmenity(Amenity amenity) {
+        this.amenity = amenity;
         return this;
     }
 

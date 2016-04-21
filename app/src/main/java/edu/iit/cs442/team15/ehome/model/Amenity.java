@@ -2,7 +2,6 @@ package edu.iit.cs442.team15.ehome.model;
 
 public class Amenity {
 
-    public int apartmentId;
     public boolean parking;
     public boolean gym;
     public double gas;
@@ -13,11 +12,6 @@ public class Amenity {
 
     public double getTotalCost() {
         return gas + electricity + internet + cable + thermostat;
-    }
-
-    public Amenity setApartmentId(int apartmentId) {
-        this.apartmentId = apartmentId;
-        return this;
     }
 
     public Amenity setParking(boolean parking) {
