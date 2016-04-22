@@ -19,7 +19,7 @@
             style="@style/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ezPrice" />
+            android:text="@string/header_ezprice" />
 
         <LinearLayout
             android:id="@+id/filterRent"
@@ -34,7 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:hint="Min" />
+                android:hint="@string/hint_min" />
 
             <TextView
                 style="@style/To"
@@ -48,7 +48,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:hint="Max" />
+                android:hint="@string/hint_max" />
 
         </LinearLayout>
 
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/filterRent"
-            android:text="Beds" />
+            android:text="@string/header_beds" />
 
         <LinearLayout
             android:id="@+id/filterBeds"
@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/filterBeds"
-            android:text="Baths" />
+            android:text="@string/header_bathrooms" />
 
         <LinearLayout
             android:id="@+id/filterBaths"
@@ -136,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@id/filterBaths"
-            android:text="Square Feet" />
+            android:text="@string/header_area" />
 
         <LinearLayout
             android:id="@+id/filterArea"
@@ -151,7 +151,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:hint="Min" />
+                android:hint="@string/hint_min" />
 
             <TextView
                 style="@style/To"
@@ -165,7 +165,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:hint="Max" />
+                android:hint="@string/hint_max" />
 
         </LinearLayout>
 
@@ -175,7 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/filterArea"
-            android:text="Options" />
+            android:text="@string/header_options" />
 
         <LinearLayout
             android:id="@+id/filterOptions"
@@ -188,21 +188,21 @@
                 android:id="@+id/filterHasGym"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gym" />
+                android:text="@string/hint_option_gym" />
 
             <CheckBox
                 android:id="@+id/filterHasParking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Parking" />
+                android:text="@string/hint_option_parking" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/filterApplyButton"
+            android:id="@+id/filterSearchButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/filterOptions"
-            android:text="Apply" />
+            android:text="@string/button_search" />
 
     </RelativeLayout>
 

@@ -21,15 +21,6 @@
     <string name="header_contact">Contact</string>
     <string name="header_confirm">Confirm Changes</string>
 
-    <string name="error_missing_field">This field is required.</string>
-    <string name="error_invalid_email">Please enter a valid email address.</string>
-    <string name="error_email_not_unique">An account with this email already exists.</string>
-    <string name="error_password_short">Password must be at least %d characters long.</string>
-    <string name="error_password_match">Passwords do not match.</string>
-    <string name="error_password_short_match">Passwords must be at least %d characters long and match each other.</string>
-    <string name="error_invalid_name">Please enter a valid name.</string>
-    <string name="error_invalid_phone">Please enter a valid phone number.</string>
-
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_confirm_password">Confirm Password</string>
@@ -39,6 +30,15 @@
     <string name="hint_new_password">New Password (Optional)</string>
     <string name="hint_confirm_new_password">Confirm New Password</string>
     <string name="hint_current_password">Current Password</string>
+
+    <string name="error_missing_field">This field is required.</string>
+    <string name="error_invalid_email">Please enter a valid email address.</string>
+    <string name="error_email_not_unique">An account with this email already exists.</string>
+    <string name="error_password_short">Password must be at least %d characters long.</string>
+    <string name="error_password_match">Passwords do not match.</string>
+    <string name="error_password_short_match">Passwords must be at least %d characters long and match each other.</string>
+    <string name="error_invalid_name">Please enter a valid name.</string>
+    <string name="error_invalid_phone">Please enter a valid phone number.</string>
 
     <string name="toast_login_failed">Email and password do not match.</string>
     <string name="toast_account_created">Account successfully created.</string>
@@ -54,6 +54,9 @@
 
     <!-- ezHome Search -->
     <string name="title_activity_ezhome_search_details">Search Details</string>
+
+    <string name="button_ezprice_details">Details</string>
+
     <string name="ezhome_address">Address: %s</string>
     <string name="ezhome_area">Area: %.2f sq ft</string>
     <string name="ezhome_bedrooms">Bedrooms: %d</string>
@@ -61,7 +64,6 @@
     <string name="ezhome_parking">Parking: </string>
     <string name="ezhome_gym">Gym: </string>
 
-    <string name="button_ezprice_details">Details</string>
     <string name="ezhome_ezprice">ezPrice: $%.2f</string>
     <string name="ezhome_rent">Rent: $%.2f</string>
     <string name="ezhome_thermostat">Heating &amp; AC: $%.2f</string>
@@ -72,9 +74,26 @@
 
     <!-- ezHome Search Options -->
     <string name="title_activity_ezhome_search_options">Search Options</string>
+
+    <string name="button_search">Search</string>
+
+    <string name="header_ezprice">ezPrice</string>
+    <string name="header_beds">Beds</string>
+    <string name="header_bathrooms">Bathrooms</string>
+    <string name="header_area">Square Feet</string>
+    <string name="header_options">Options</string>
+
+    <string name="hint_min">Min</string>
+    <string name="hint_max">Max</string>
+    <string name="hint_option_gym">Gym</string>
+    <string name="hint_option_parking">Parking</string>
+
     <string name="error_invalid_input">Invalid input.</string>
     <string name="error_max_rent_too_low">Max rent must be higher than min rent.</string>
     <string name="error_max_area_too_low">Max sq ft must be higher than min sq ft.</string>
+
+    <string name="toast_max_beds">Max bedrooms must be >= to min bedrooms.</string>
+    <string name="toast_max_bathrooms">Max bathrooms must be >= to min bathrooms.</string>
 
     <string-array name="select_min_rooms">
         <item>Min</item>
@@ -92,6 +111,7 @@
         <item>4</item>
     </string-array>
 
+    <!-- Search results -->
     <string-array name="order_method">
         <item>Rent(low to high)</item>
         <item>Area(high to low)</item>

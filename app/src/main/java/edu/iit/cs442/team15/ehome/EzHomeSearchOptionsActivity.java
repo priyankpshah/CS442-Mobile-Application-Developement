@@ -110,14 +110,14 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
         hasGym = (CheckBox) findViewById(R.id.filterHasGym);
         hasParking = (CheckBox) findViewById(R.id.filterHasParking);
 
-        Button apply = (Button) findViewById(R.id.filterApplyButton);
+        Button apply = (Button) findViewById(R.id.filterSearchButton);
         apply.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.filterApplyButton:
+            case R.id.filterSearchButton:
                 boolean validInput = true;
                 ApartmentSearchFilter filter = new ApartmentSearchFilter();
 
@@ -160,7 +160,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                 // max baths
                 if (maxBathroomsSpinner.getSelectedItemPosition() != 0) {
                     if (maxBathroomsSpinner.getSelectedItemPosition() < minBathroomsSpinner.getSelectedItemPosition()) {
-                        Toast.makeText(this, "Max bathrooms must be >= to min bathrooms.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.toast_max_bathrooms, Toast.LENGTH_LONG).show();
                         validInput = false;
                     } else
                         filter.setMaxBathrooms(maxBathroomsSpinner.getSelectedItemPosition());
@@ -173,7 +173,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                 // max beds
                 if (maxBedsSpinner.getSelectedItemPosition() != 0) {
                     if (maxBedsSpinner.getSelectedItemPosition() < minBedsSpinner.getSelectedItemPosition()) {
-                        Toast.makeText(this, "Max bedrooms must be >= to min bedrooms.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.toast_max_beds, Toast.LENGTH_LONG).show();
                         validInput = false;
                     } else
                         filter.setMaxBeds(maxBedsSpinner.getSelectedItemPosition());
