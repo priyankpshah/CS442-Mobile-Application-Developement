@@ -42,7 +42,9 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EzHomeSearchOptionsActivity">
+        <activity
+            android:name=".EzHomeSearchOptionsActivity"
+            android:label="@string/title_activity_ezhome_search_options">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
