@@ -48,7 +48,8 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
         minBedsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > maxBedsSpinner.getSelectedItemPosition())
+                int maxBeds = maxBedsSpinner.getSelectedItemPosition();
+                if (maxBeds != 0 && position > maxBeds)
                     maxBedsSpinner.setSelection(position, true);
             }
 
@@ -76,7 +77,8 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
         minBathroomsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > maxBathroomsSpinner.getSelectedItemPosition())
+                int maxBathrooms = maxBathroomsSpinner.getSelectedItemPosition();
+                if (maxBathrooms != 0 && position > maxBathrooms)
                     maxBathroomsSpinner.setSelection(position, true);
             }
 
