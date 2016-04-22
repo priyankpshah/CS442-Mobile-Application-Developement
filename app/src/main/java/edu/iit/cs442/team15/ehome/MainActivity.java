@@ -20,7 +20,7 @@ import edu.iit.cs442.team15.ehome.util.SavedLogin;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         AccountSettingsFragment.OnAccountUpdatedListener,
         DashboardFragment.OnFragmentInteractionListener,
-        SavedSearchesFragment.OnFragmentInteractionListener {
+        SearchHistoryFragment.OnFragmentInteractionListener {
 
     private DrawerLayout drawer;
     private FragmentManager fm;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (displayed instanceof SearchOnlineFragment) {
                     navigationView.setCheckedItem(R.id.nav_search_online);
                     setTitle(R.string.nav_search_online);
-                } else if (displayed instanceof SavedSearchesFragment) {
+                } else if (displayed instanceof SearchHistoryFragment) {
                     navigationView.setCheckedItem(R.id.nav_saved_searches);
                     setTitle(R.string.nav_saved_searches);
                 } else if (displayed instanceof AccountSettingsFragment) {
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     newFragment = SearchOnlineFragment.newInstance();
                     break;
                 case R.id.nav_saved_searches:
-                    newFragment = SavedSearchesFragment.newInstance("", "");
+                    newFragment = SearchHistoryFragment.newInstance("", "");
                     break;
                 case R.id.nav_account_settings:
                     newFragment = AccountSettingsFragment.newInstance();

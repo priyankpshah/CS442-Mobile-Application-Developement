@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SavedSearchesFragment.OnFragmentInteractionListener} interface
+ * {@link SearchHistoryFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SavedSearchesFragment#newInstance} factory method to
+ * Use the {@link SearchHistoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SavedSearchesFragment extends Fragment {
+public class SearchHistoryFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +29,7 @@ public class SavedSearchesFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SavedSearchesFragment() {
+    public SearchHistoryFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +39,11 @@ public class SavedSearchesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SavedSearchesFragment.
+     * @return A new instance of fragment SearchHistoryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SavedSearchesFragment newInstance(String param1, String param2) {
-        SavedSearchesFragment fragment = new SavedSearchesFragment();
+    public static SearchHistoryFragment newInstance(String param1, String param2) {
+        SearchHistoryFragment fragment = new SearchHistoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
