@@ -162,7 +162,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                         Toast.makeText(this, "Max bathrooms must be >= to min bathrooms.", Toast.LENGTH_LONG).show();
                         validInput = false;
                     } else
-                        filter.setMaxArea(maxBathroomsSpinner.getSelectedItemPosition());
+                        filter.setMaxBathrooms(maxBathroomsSpinner.getSelectedItemPosition());
                 }
 
                 // min beds
@@ -175,7 +175,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                         Toast.makeText(this, "Max bedrooms must be >= to min bedrooms.", Toast.LENGTH_LONG).show();
                         validInput = false;
                     } else
-                        filter.setMaxArea(maxBedsSpinner.getSelectedItemPosition());
+                        filter.setMaxBedrooms(maxBedsSpinner.getSelectedItemPosition());
                 }
 
                 // min Cost
