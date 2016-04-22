@@ -110,6 +110,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
 
                 // get current status of EditTexts
                 final User newInfo = new User()
+                        .setId(SavedLogin.getInstance().getId())
                         .setEmail(aEmail.getText().toString())
                         .setPassword(aNewPassword.getText().toString())
                         .setName(aName.getText().toString())
@@ -179,7 +180,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                                 user = newInfo; // update this fragment's cached user info
                                 aNewPassword.setText(""); // clear new password field
 
-                                SavedLogin.getInstance().saveLogin(newInfo.email, newInfo.password, newInfo.name); // update saved login info
+                                SavedLogin.getInstance().saveLogin(newInfo.id, newInfo.email, newInfo.password, newInfo.name); // update saved login info
                                 mListener.onAccountUpdated(); // notify activity that account settings have changed
 
                                 Toast.makeText(getActivity(), R.string.toast_account_updated, Toast.LENGTH_SHORT).show();

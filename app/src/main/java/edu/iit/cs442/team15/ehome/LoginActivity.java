@@ -45,11 +45,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             SavedLogin.getInstance().logout();
         } else {
             // check if user is already signed in, and sign them in if they are
-            String savedEmail = SavedLogin.getInstance().getEmail();
-            String savedPassword = SavedLogin.getInstance().getPassword();
-
-            if (savedEmail != null && savedPassword != null)
-                login(savedEmail, savedPassword);
+            if (SavedLogin.getInstance().loginIsValid()) {
+                Intent login = new Intent(this, MainActivity.class);
+                startActivity(login);
+                finish(); // don't add to back stack
+            }
         }
     }
 
@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if (user != null) {
             // save login info
-            SavedLogin.getInstance().saveLogin(user.email, user.password, user.name);
+            SavedLogin.getInstance().saveLogin(user.id, user.email, password, user.name);
 
             Intent login = new Intent(this, MainActivity.class);
             startActivity(login);

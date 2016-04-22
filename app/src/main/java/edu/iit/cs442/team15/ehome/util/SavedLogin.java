@@ -29,6 +29,10 @@ public final class SavedLogin {
         return sInstance;
     }
 
+    public int getId() {
+        return savedLoginPrefs.getInt(Users.ID, -1);
+    }
+
     @Nullable
     public String getEmail() {
         return savedLoginPrefs.getString(Users.EMAIL, null);
@@ -38,19 +42,21 @@ public final class SavedLogin {
         return password != null && password.equals(savedLoginPrefs.getString(Users.PASSWORD, null));
     }
 
-    @Deprecated
-    @Nullable
-    public String getPassword() {
-        return savedLoginPrefs.getString(Users.PASSWORD, null);
-    }
-
     @Nullable
     public String getName() {
         return savedLoginPrefs.getString(Users.NAME, null);
     }
 
-    public void saveLogin(final String email, final String password, final String name) {
+    // checks stored login against database
+    public boolean loginIsValid() {
+        String email = savedLoginPrefs.getString(Users.EMAIL, null);
+        String password = savedLoginPrefs.getString(Users.PASSWORD, null);
+        return email != null && password != null && ApartmentDatabaseHelper.getInstance().checkLogin(email, password);
+    }
+
+    public void saveLogin(final int id, final String email, final String password, final String name) {
         savedLoginPrefs.edit()
+                .putInt(Users.ID, id)
                 .putString(Users.EMAIL, email)
                 .putString(Users.PASSWORD, password)
                 .putString(Users.NAME, name)
@@ -59,6 +65,7 @@ public final class SavedLogin {
 
     public void logout() {
         savedLoginPrefs.edit()
+                .remove(Users.ID)
                 .remove(Users.EMAIL)
                 .remove(Users.PASSWORD)
                 .remove(Users.NAME)

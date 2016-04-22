@@ -81,6 +81,18 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean checkLogin(String email, String password) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cur = db.query(Users.TABLE, new String[]{Users.ID}, Users.EMAIL + "=? AND " + Users.PASSWORD + "=?", new String[]{email, password}, null, null, null);
+        int count = cur.getCount();
+
+        cur.close();
+        db.close();
+
+        return count > 0;
+    }
+
     public long addUser(User newUser) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -119,7 +131,6 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
             user = new User()
                     .setId(result.getInt(result.getColumnIndex(Users.ID)))
                     .setEmail(email)
-                    .setPassword(result.getString(result.getColumnIndex(Users.PASSWORD)))
                     .setName(result.getString(result.getColumnIndex(Users.NAME)))
                     .setPhone(result.getString(result.getColumnIndex(Users.PHONE)));
         }
