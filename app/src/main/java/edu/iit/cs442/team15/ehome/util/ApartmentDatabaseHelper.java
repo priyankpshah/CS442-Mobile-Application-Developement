@@ -22,7 +22,7 @@ import edu.iit.cs442.team15.ehome.model.User;
 public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "offline_apartments";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     private static ApartmentDatabaseHelper sInstance; // singleton instance
 
@@ -141,6 +141,58 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return user;
     }
 
+    public long addSearchHistory(int userId, ApartmentSearchFilter filter) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(SearchHistory.USER_ID, userId);
+        values.put(SearchHistory.MIN_COST, filter.minCost);
+        values.put(SearchHistory.MAX_COST, filter.maxCost);
+        values.put(SearchHistory.HAS_GYM, filter.hasGym);
+        values.put(SearchHistory.HAS_PARKING, filter.hasParking);
+        values.put(SearchHistory.MIN_BEDS, filter.minBeds);
+        values.put(SearchHistory.MAX_BEDS, filter.maxBeds);
+        values.put(SearchHistory.MIN_BATHROOMS, filter.minBathrooms);
+        values.put(SearchHistory.MAX_BATHROOMS, filter.maxBathrooms);
+        values.put(SearchHistory.MIN_AREA, filter.minArea);
+        values.put(SearchHistory.MAX_AREA, filter.maxArea);
+
+        return db.insert(SearchHistory.TABLE, null, values);
+    }
+
+    public List<ApartmentSearchFilter> getSearchHistory(int userId) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cur = db.query(SearchHistory.TABLE, null, SearchHistory.USER_ID + "=?", new String[]{Integer.toString(userId)}, null, null, null);
+
+        List<ApartmentSearchFilter> result = new ArrayList<>();
+        if (cur.moveToFirst()) {
+            do {
+                ApartmentSearchFilter filter = new ApartmentSearchFilter();
+                filter.minCost = cur.getString(cur.getColumnIndex(SearchHistory.MIN_COST));
+                filter.maxCost = cur.getString(cur.getColumnIndex(SearchHistory.MAX_COST));
+                filter.hasGym = cur.getString(cur.getColumnIndex(SearchHistory.HAS_GYM));
+                filter.hasParking = cur.getString(cur.getColumnIndex(SearchHistory.HAS_PARKING));
+                filter.minBeds = cur.getString(cur.getColumnIndex(SearchHistory.MIN_BEDS));
+                filter.maxBeds = cur.getString(cur.getColumnIndex(SearchHistory.MAX_BEDS));
+                filter.minBathrooms = cur.getString(cur.getColumnIndex(SearchHistory.MIN_BATHROOMS));
+                filter.maxBathrooms = cur.getString(cur.getColumnIndex(SearchHistory.MAX_BATHROOMS));
+                filter.minArea = cur.getString(cur.getColumnIndex(SearchHistory.MIN_AREA));
+                filter.maxArea = cur.getString(cur.getColumnIndex(SearchHistory.MAX_AREA));
+
+                result.add(filter);
+            } while (cur.moveToNext());
+        }
+
+        cur.close();
+        db.close();
+
+        return result;
+    }
+
+    public int clearSearchHistory(int userId) {
+        return getWritableDatabase().delete(SearchHistory.TABLE, SearchHistory.USER_ID + "=?", new String[]{Integer.toString(userId)});
+    }
+
     public Cursor getApartmentsCursor(ApartmentSearchFilter filter) {
         SQLiteDatabase db = getReadableDatabase();
 
@@ -184,13 +236,13 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     @Nullable
     public Apartment getApartment(int id) {
-        List<Apartment> result = getApartments(new ApartmentSearchFilter().setId(id));
+        List<Apartment> result = getApartments(new ApartmentSearchFilter().setApartmentId(id));
         return result.isEmpty() ? null : result.get(0);
     }
 
     @Nullable
     public Amenity getAmenity(int apartment_id) {
-        List<Apartment> result = getApartments(new ApartmentSearchFilter().setId(apartment_id));
+        List<Apartment> result = getApartments(new ApartmentSearchFilter().setApartmentId(apartment_id));
         return result.isEmpty() ? null : result.get(0).amenity;
     }
 
@@ -207,6 +259,22 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         public static final String TABLE = "user_favorites";
         public static final String USER_ID = "user_id";
         public static final String APARTMENT_ID = "apartment_id";
+    }
+
+    public static final class SearchHistory {
+        public static final String TABLE = "search_history";
+        public static final String ID = "_id";
+        public static final String USER_ID = "user_id";
+        public static final String MIN_COST = "min_cost";
+        public static final String MAX_COST = "max_cost";
+        public static final String HAS_GYM = "has_gym";
+        public static final String HAS_PARKING = "has_parking";
+        public static final String MIN_BEDS = "min_beds";
+        public static final String MAX_BEDS = "max_beds";
+        public static final String MIN_BATHROOMS = "min_bathrooms";
+        public static final String MAX_BATHROOMS = "max_bathrooms";
+        public static final String MIN_AREA = "min_area";
+        public static final String MAX_AREA = "max_area";
     }
 
     public static final class Apartments {

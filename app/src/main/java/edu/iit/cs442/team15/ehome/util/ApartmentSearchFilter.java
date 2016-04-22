@@ -19,45 +19,45 @@ public class ApartmentSearchFilter implements Serializable {
 
     public static final String TOTAL_COST = "ezprice";
 
-    private String id;
-    private String minCost, maxCost;
-    private String hasGym, hasParking;
-    private String minBedrooms, maxBedrooms;
-    private String minBathrooms, maxBathrooms;
-    private String minArea, maxArea;
+    protected String apartmentId;
+    protected String minCost, maxCost;
+    protected String hasGym, hasParking;
+    protected String minBeds, maxBeds;
+    protected String minBathrooms, maxBathrooms;
+    protected String minArea, maxArea;
 
-    public ApartmentSearchFilter setId(int id) {
-        this.id = Integer.toString(id);
+    public ApartmentSearchFilter setApartmentId(int apartmentId) {
+        this.apartmentId = Integer.toString(apartmentId);
         return this;
     }
 
-    public ApartmentSearchFilter setMinCost(double minCost) {
-        this.minCost = Double.toString(minCost);
+    public ApartmentSearchFilter setMinCost(int minCost) {
+        this.minCost = Integer.toString(minCost);
         return this;
     }
 
-    public ApartmentSearchFilter setMaxCost(double maxCost) {
-        this.maxCost = Double.toString(maxCost);
+    public ApartmentSearchFilter setMaxCost(int maxCost) {
+        this.maxCost = Integer.toString(maxCost);
         return this;
     }
 
     public ApartmentSearchFilter setHasGym(boolean hasGym) {
-        this.hasGym = Boolean.toString(hasGym);
+        this.hasGym = hasGym ? "1" : "0";
         return this;
     }
 
     public ApartmentSearchFilter setHasParking(boolean hasParking) {
-        this.hasParking = Boolean.toString(hasParking);
+        this.hasParking = hasParking ? "1" : "0";
         return this;
     }
 
-    public ApartmentSearchFilter setMinBedrooms(int minBedrooms) {
-        this.minBedrooms = Integer.toString(minBedrooms);
+    public ApartmentSearchFilter setMinBeds(int minBeds) {
+        this.minBeds = Integer.toString(minBeds);
         return this;
     }
 
-    public ApartmentSearchFilter setMaxBedrooms(int maxBedrooms) {
-        this.maxBedrooms = Integer.toString(maxBedrooms);
+    public ApartmentSearchFilter setMaxBeds(int maxBeds) {
+        this.maxBeds = Integer.toString(maxBeds);
         return this;
     }
 
@@ -71,13 +71,13 @@ public class ApartmentSearchFilter implements Serializable {
         return this;
     }
 
-    public ApartmentSearchFilter setMinArea(double minArea) {
-        this.minArea = Double.toString(minArea);
+    public ApartmentSearchFilter setMinArea(int minArea) {
+        this.minArea = Integer.toString(minArea);
         return this;
     }
 
-    public ApartmentSearchFilter setMaxArea(double maxArea) {
-        this.maxArea = Double.toString(maxArea);
+    public ApartmentSearchFilter setMaxArea(int maxArea) {
+        this.maxArea = Integer.toString(maxArea);
         return this;
     }
 
@@ -109,17 +109,17 @@ public class ApartmentSearchFilter implements Serializable {
 
     private Filter[] getFilters() {
         return new Filter[]{
-                new Filter(id, Apartments.TABLE + "." + Apartments.ID + "=?"),
-                new Filter(minCost, TOTAL_COST + ">=CAST(? AS NUMERIC)"),
-                new Filter(maxCost, TOTAL_COST + "<=CAST(? AS NUMERIC)"),
+                new Filter(apartmentId, Apartments.TABLE + "." + Apartments.ID + "=?"),
+                new Filter(minCost, TOTAL_COST + ">=CAST(? AS INTEGER)"),
+                new Filter(maxCost, TOTAL_COST + "<=CAST(? AS INTEGER)"),
                 new Filter(hasGym, Amenities.GYM + "=?"),
                 new Filter(hasParking, Amenities.PARKING + "=?"),
-                new Filter(minBedrooms, Apartments.BEDROOMS + ">=?"),
-                new Filter(maxBedrooms, Apartments.BEDROOMS + "<=?"),
+                new Filter(minBeds, Apartments.BEDROOMS + ">=?"),
+                new Filter(maxBeds, Apartments.BEDROOMS + "<=?"),
                 new Filter(minBathrooms, Apartments.BATHROOMS + ">=?"),
                 new Filter(maxBathrooms, Apartments.BATHROOMS + "<=?"),
-                new Filter(minArea, Apartments.AREA + "<=CAST(? AS NUMERIC)"),
-                new Filter(maxArea, Apartments.AREA + ">=CAST(? AS NUMERIC)"),
+                new Filter(minArea, Apartments.AREA + "<=CAST(? AS INTEGER)"),
+                new Filter(maxArea, Apartments.AREA + ">=CAST(? AS INTEGER)"),
         };
     }
 

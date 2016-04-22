@@ -13,7 +13,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class EzHomeSearchOptionsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -166,7 +168,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
 
                 // min beds
                 if (minBedsSpinner.getSelectedItemPosition() != 0)
-                    filter.setMinBedrooms(minBedsSpinner.getSelectedItemPosition());
+                    filter.setMinBeds(minBedsSpinner.getSelectedItemPosition());
 
                 // max beds
                 if (maxBedsSpinner.getSelectedItemPosition() != 0) {
@@ -174,7 +176,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                         Toast.makeText(this, "Max bedrooms must be >= to min bedrooms.", Toast.LENGTH_LONG).show();
                         validInput = false;
                     } else
-                        filter.setMaxBedrooms(maxBedsSpinner.getSelectedItemPosition());
+                        filter.setMaxBeds(maxBedsSpinner.getSelectedItemPosition());
                 }
 
                 // min Cost
@@ -205,6 +207,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                 if (validInput) {
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("filter", filter); // pass search options
+                    ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(), filter);
 
                     setResult(RESULT_OK, resultIntent);
                     finish();

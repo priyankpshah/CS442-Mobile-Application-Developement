@@ -8,6 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,9 +67,10 @@ public class SearchHistoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        List<ApartmentSearchFilter> searchHistory = ApartmentDatabaseHelper.getInstance().getSearchHistory(SavedLogin.getInstance().getId());
+
         return inflater.inflate(R.layout.fragment_saved_searches, container, false);
     }
 

@@ -38,7 +38,7 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         details.setOnClickListener(this);
 
         // find views
-        //apartment = (TextView) findViewById(R.id.Apartment_name);
+        //apartment = (TextView) findViewById(R.apartmentId.Apartment_name);
         address = (TextView) findViewById(R.id.ezhome_address);
         area = (TextView) findViewById(R.id.ezhome_area);
         bedrooms = (TextView) findViewById(R.id.ezhome_bedrooms);
