@@ -45,23 +45,56 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
         // bed spinners
         minBedsSpinner = (Spinner) findViewById(R.id.filterMinBeds);
         minBedsSpinner.setAdapter(minRoomAdapter);
+        minBedsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > maxBedsSpinner.getSelectedItemPosition())
+                    maxBedsSpinner.setSelection(position, true);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         maxBedsSpinner = (Spinner) findViewById(R.id.filterMaxBeds);
         maxBedsSpinner.setAdapter(maxRoomAdapter);
+        maxBedsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0 && position < minBedsSpinner.getSelectedItemPosition())
+                    minBedsSpinner.setSelection(position, true);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         // bathrooms spinners
         minBathroomsSpinner = (Spinner) findViewById(R.id.filterMinBaths);
         minBathroomsSpinner.setAdapter(minRoomAdapter);
+        minBathroomsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > maxBathroomsSpinner.getSelectedItemPosition())
+                    maxBathroomsSpinner.setSelection(position, true);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         maxBathroomsSpinner = (Spinner) findViewById(R.id.filterMaxBaths);
         maxBathroomsSpinner.setAdapter(maxRoomAdapter);
         maxBathroomsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // TODO make sure minBathrooms isn't a higher number
+                if (position != 0 && position < minBathroomsSpinner.getSelectedItemPosition())
+                    minBathroomsSpinner.setSelection(position, true);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -171,9 +204,8 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                     }
 
                 if (validInput) {
-                    // pass search options
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("filter", filter);
+                    resultIntent.putExtra("filter", filter); // pass search options
 
                     setResult(RESULT_OK, resultIntent);
                     finish();
@@ -183,6 +215,12 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                 //TODO Save current filter in user's profile
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO ask user if they are sure they want to leave
+        super.onBackPressed();
     }
 
     @Override
