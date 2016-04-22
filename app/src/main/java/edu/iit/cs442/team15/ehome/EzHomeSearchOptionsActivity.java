@@ -110,9 +110,6 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
 
         Button apply = (Button) findViewById(R.id.filterApplyButton);
         apply.setOnClickListener(this);
-
-        Button save = (Button) findViewById(R.id.filterSaveButton);
-        save.setOnClickListener(this);
     }
 
     @Override
@@ -212,9 +209,6 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                     setResult(RESULT_OK, resultIntent);
                     finish();
                 }
-                break;
-            case R.id.filterSaveButton:
-                //TODO Save current filter in user's profile
                 break;
         }
     }
