@@ -72,6 +72,9 @@
 
     <!-- ezHome Search Options -->
     <string name="title_activity_ezhome_search_options">Search Options</string>
+    <string name="error_invalid_input">Invalid input.</string>
+    <string name="error_max_rent_too_low">Max rent must be higher than min rent.</string>
+    <string name="error_max_area_too_low">Max sq ft must be higher than min sq ft.</string>
 
     <string-array name="select_min_rooms">
         <item>Min</item>

@@ -3,6 +3,7 @@ package edu.iit.cs442.team15.ehome.util;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +17,7 @@ import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Owners;
  * Provides a generic way to generate an SQL query for an apartment search
  * that will ignore unset fields
  */
-public class ApartmentSearchFilter {
+public class ApartmentSearchFilter implements Serializable {
 
     public static final String TOTAL_COST = "ezprice";
 
@@ -105,7 +106,7 @@ public class ApartmentSearchFilter {
         return db.query(table, columns, selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]), null, null, null, "100");
     }
 
-    private static final class Filter {
+    private static final class Filter implements Serializable {
         private final String value; // value for ? in where clause
         private final String where; // SQL where clause
 

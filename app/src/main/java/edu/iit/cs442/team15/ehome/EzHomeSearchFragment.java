@@ -97,11 +97,7 @@ public class EzHomeSearchFragment extends Fragment {
         switch (requestCode) {
             case SEARCH_OPTIONS_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
-                    ApartmentSearchFilter filter = new ApartmentSearchFilter()
-                            .setMinBedrooms(data.getIntExtra("beds", 0))
-                            .setMinBathrooms(data.getIntExtra("baths", 0))
-                            .setMinCost(data.getIntExtra("min_rent", 0))
-                            .setMaxCost(data.getIntExtra("max_rent", Integer.MAX_VALUE));
+                    ApartmentSearchFilter filter = (ApartmentSearchFilter) data.getSerializableExtra("filter");
 
                     result = ApartmentDatabaseHelper.getInstance().getApartments(filter);
                     if (result != null) {

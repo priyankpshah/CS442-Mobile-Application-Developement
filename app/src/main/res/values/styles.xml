@@ -30,7 +30,15 @@
         <item name="android:background">@color/header_divider</item>
     </style>
 
-    <style name="to">
+    <!-- ezHome Search Options -->
+    <style name="NumInput">
+        <item name="android:background">@drawable/custom_edittext</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">9</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="To">
         <item name="android:gravity">center</item>
         <item name="android:text">-</item>
         <item name="android:textSize">18sp</item>

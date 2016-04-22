@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
 
 public class EzHomeSearchOptionsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,8 +23,8 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
     private Spinner maxBedsSpinner;
     private Spinner minBathroomsSpinner;
     private Spinner maxBathroomsSpinner;
-    private EditText minArea;
-    private EditText maxArea;
+    private EditText minAreaEditText;
+    private EditText maxAreaEditText;
     private CheckBox hasGym;
     private CheckBox hasParking;
 
@@ -37,7 +40,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
         ArrayAdapter<CharSequence> minRoomAdapter = ArrayAdapter.createFromResource(this, R.array.select_min_rooms, android.R.layout.simple_spinner_item);
         minRoomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ArrayAdapter<CharSequence> maxRoomAdapter = ArrayAdapter.createFromResource(this, R.array.select_max_rooms, android.R.layout.simple_spinner_item);
-        minRoomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        maxRoomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // bed spinners
         minBedsSpinner = (Spinner) findViewById(R.id.filterMinBeds);
@@ -50,10 +53,21 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
         minBathroomsSpinner.setAdapter(minRoomAdapter);
         maxBathroomsSpinner = (Spinner) findViewById(R.id.filterMaxBaths);
         maxBathroomsSpinner.setAdapter(maxRoomAdapter);
+        maxBathroomsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // TODO make sure minBathrooms isn't a higher number
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // area
-        minArea = (EditText) findViewById(R.id.filterMinArea);
-        maxArea = (EditText) findViewById(R.id.filterMaxArea);
+        minAreaEditText = (EditText) findViewById(R.id.filterMinArea);
+        maxAreaEditText = (EditText) findViewById(R.id.filterMaxArea);
 
         // options
         hasGym = (CheckBox) findViewById(R.id.filterHasGym);
@@ -70,40 +84,100 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.filterApplyButton:
-                String beds_selected = minBedsSpinner.getSelectedItem().toString();
-                String baths_selected = minBathroomsSpinner.getSelectedItem().toString();
-                String min_rent_s = minRent.getText().toString();
-                String max_rent_s = maxRent.getText().toString();
+                boolean validInput = true;
+                ApartmentSearchFilter filter = new ApartmentSearchFilter();
 
-                int beds;
-                int baths;
-                int min_rent;
-                int max_rent;
+                // options
+                if (hasParking.isChecked())
+                    filter.setHasParking(true);
 
-                try {
-                    beds = minBedsSpinner.getSelectedItemPosition() == 0 ? 0 : Integer.parseInt(beds_selected.substring(0, 1));
-                    baths = minBathroomsSpinner.getSelectedItemPosition() == 0 ? 0 : Integer.parseInt(baths_selected.substring(0, 1));
-                    min_rent = min_rent_s.isEmpty() ? 0 : Integer.parseInt(min_rent_s);
-                    max_rent = max_rent_s.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(max_rent_s);
-                } catch (Exception e) {
-                    Toast.makeText(this, "Zip Code and Rent must be Integer", Toast.LENGTH_LONG).show();
-                    break;
+                if (hasGym.isChecked())
+                    filter.setHasGym(true);
+
+                // min area
+                int minArea = 0;
+                if (!minAreaEditText.getText().toString().isEmpty())
+                    try {
+                        minArea = Integer.parseInt(minAreaEditText.getText().toString());
+                        filter.setMinArea(minArea);
+                    } catch (NumberFormatException e) {
+                        minAreaEditText.setError(getText(R.string.error_invalid_input));
+                        validInput = false;
+                    }
+
+                // max area
+                if (!maxAreaEditText.getText().toString().isEmpty())
+                    try {
+                        int maxArea = Integer.parseInt(maxAreaEditText.getText().toString());
+                        if (maxArea < minArea) {
+                            maxAreaEditText.setError(getText(R.string.error_max_area_too_low));
+                            validInput = false;
+                        } else
+                            filter.setMaxArea(maxArea);
+                    } catch (NumberFormatException e) {
+                        maxAreaEditText.setError(getText(R.string.error_invalid_input));
+                        validInput = false;
+                    }
+
+                // min baths
+                if (minBathroomsSpinner.getSelectedItemPosition() != 0)
+                    filter.setMinBathrooms(minBathroomsSpinner.getSelectedItemPosition());
+
+                // max baths
+                if (maxBathroomsSpinner.getSelectedItemPosition() != 0) {
+                    if (maxBathroomsSpinner.getSelectedItemPosition() < minBathroomsSpinner.getSelectedItemPosition()) {
+                        Toast.makeText(this, "Max bathrooms must be >= to min bathrooms.", Toast.LENGTH_LONG).show();
+                        validInput = false;
+                    } else
+                        filter.setMaxArea(maxBathroomsSpinner.getSelectedItemPosition());
                 }
 
-                if (min_rent > max_rent) {
-                    Toast.makeText(this, "Maximum rent must be greater than minimum rent!", Toast.LENGTH_LONG).show();
-                    break;
+                // min beds
+                if (minBedsSpinner.getSelectedItemPosition() != 0)
+                    filter.setMinBedrooms(minBedsSpinner.getSelectedItemPosition());
+
+                // max beds
+                if (maxBedsSpinner.getSelectedItemPosition() != 0) {
+                    if (maxBedsSpinner.getSelectedItemPosition() < minBedsSpinner.getSelectedItemPosition()) {
+                        Toast.makeText(this, "Max bedrooms must be >= to min bedrooms.", Toast.LENGTH_LONG).show();
+                        validInput = false;
+                    } else
+                        filter.setMaxArea(maxBedsSpinner.getSelectedItemPosition());
                 }
 
-                // pass search options
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("beds", beds);
-                resultIntent.putExtra("baths", baths);
-                resultIntent.putExtra("min_rent", min_rent);
-                resultIntent.putExtra("max_rent", max_rent);
+                // min Cost
+                int minCost = 0;
+                if (!minRent.getText().toString().isEmpty())
+                    try {
+                        minCost = Integer.parseInt(minRent.getText().toString());
+                        filter.setMinCost(minCost);
+                    } catch (NumberFormatException e) {
+                        minRent.setError(getText(R.string.error_invalid_input));
+                        validInput = false;
+                    }
 
-                setResult(RESULT_OK, resultIntent);
-                finish();
+                // max Cost
+                if (!maxRent.getText().toString().isEmpty())
+                    try {
+                        int maxCost = Integer.parseInt(maxRent.getText().toString());
+                        if (maxCost < minCost) {
+                            maxRent.setError(getText(R.string.error_max_rent_too_low));
+                            validInput = false;
+                        } else
+                            filter.setMaxCost(maxCost);
+                    } catch (NumberFormatException e) {
+                        maxRent.setError(getText(R.string.error_invalid_input));
+                        validInput = false;
+                    }
+
+                if (validInput) {
+                    // pass search options
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("filter", filter);
+
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
+                }
                 break;
             case R.id.filterSaveButton:
                 //TODO Save current filter in user's profile

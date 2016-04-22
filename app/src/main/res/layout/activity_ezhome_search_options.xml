@@ -30,27 +30,25 @@
 
             <EditText
                 android:id="@+id/filterMinRent"
+                style="@style/NumInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/custom_edittext"
-                android:hint="Min"
-                android:inputType="number" />
+                android:hint="Min" />
 
             <TextView
-                style="@style/to"
+                style="@style/To"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <EditText
                 android:id="@+id/filterMaxRent"
+                style="@style/NumInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/custom_edittext"
-                android:hint="Max"
-                android:inputType="number" />
+                android:hint="Max" />
 
         </LinearLayout>
 
@@ -78,7 +76,7 @@
                 android:popupBackground="#f0dad2" />
 
             <TextView
-                style="@style/to"
+                style="@style/To"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -117,7 +115,7 @@
                 android:popupBackground="#f0dad2" />
 
             <TextView
-                style="@style/to"
+                style="@style/To"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -149,27 +147,25 @@
 
             <EditText
                 android:id="@+id/filterMinArea"
+                style="@style/NumInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/custom_edittext"
-                android:hint="Min"
-                android:inputType="number" />
+                android:hint="Min" />
 
             <TextView
-                style="@style/to"
+                style="@style/To"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <EditText
                 android:id="@+id/filterMaxArea"
+                style="@style/NumInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/custom_edittext"
-                android:hint="Max"
-                android:inputType="number" />
+                android:hint="Max" />
 
         </LinearLayout>
 
