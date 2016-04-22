@@ -5,9 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Amenities;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Apartments;
@@ -21,64 +19,65 @@ public class ApartmentSearchFilter implements Serializable {
 
     public static final String TOTAL_COST = "ezprice";
 
-    private final Set<Filter> filters;
-
-    public ApartmentSearchFilter() {
-        filters = new HashSet<>();
-    }
+    private String id;
+    private String minCost, maxCost;
+    private String hasGym, hasParking;
+    private String minBedrooms, maxBedrooms;
+    private String minBathrooms, maxBathrooms;
+    private String minArea, maxArea;
 
     public ApartmentSearchFilter setId(int id) {
-        filters.add(new Filter(Integer.toString(id), Apartments.TABLE + "." + Apartments.ID + "=?"));
+        this.id = Integer.toString(id);
         return this;
     }
 
     public ApartmentSearchFilter setMinCost(double minCost) {
-        filters.add(new Filter(Double.toString(minCost), TOTAL_COST + ">=CAST(? AS NUMERIC)"));
+        this.minCost = Double.toString(minCost);
         return this;
     }
 
     public ApartmentSearchFilter setMaxCost(double maxCost) {
-        filters.add(new Filter(Double.toString(maxCost), TOTAL_COST + "<=CAST(? AS NUMERIC)"));
+        this.maxCost = Double.toString(maxCost);
         return this;
     }
 
     public ApartmentSearchFilter setHasGym(boolean hasGym) {
-        filters.add(new Filter(hasGym ? "1" : "0", Amenities.GYM + "=?"));
+        this.hasGym = Boolean.toString(hasGym);
         return this;
     }
 
     public ApartmentSearchFilter setHasParking(boolean hasParking) {
-        filters.add(new Filter(hasParking ? "1" : "0", Amenities.PARKING + "=?"));
+        this.hasParking = Boolean.toString(hasParking);
         return this;
     }
 
     public ApartmentSearchFilter setMinBedrooms(int minBedrooms) {
-        filters.add(new Filter(Integer.toString(minBedrooms), Apartments.BEDROOMS + ">=?"));
+        this.minBedrooms = Integer.toString(minBedrooms);
         return this;
     }
 
     public ApartmentSearchFilter setMaxBedrooms(int maxBedrooms) {
-        filters.add(new Filter(Integer.toString(maxBedrooms), Apartments.BEDROOMS + "<=?"));
+        this.maxBedrooms = Integer.toString(maxBedrooms);
         return this;
     }
 
     public ApartmentSearchFilter setMinBathrooms(int minBathrooms) {
-        filters.add(new Filter(Integer.toString(minBathrooms), Apartments.BATHROOMS + ">=?"));
+        this.minBathrooms = Integer.toString(minBathrooms);
         return this;
     }
 
     public ApartmentSearchFilter setMaxBathrooms(int maxBathrooms) {
-        filters.add(new Filter(Integer.toString(maxBathrooms), Apartments.BATHROOMS + "<=?"));
+        this.maxBathrooms = Integer.toString(maxBathrooms);
         return this;
     }
 
     public ApartmentSearchFilter setMinArea(double minArea) {
-        filters.add(new Filter(Double.toString(minArea), Apartments.AREA + "<=CAST(? AS NUMERIC)"));
+        this.minArea = Double.toString(minArea);
         return this;
     }
 
     public ApartmentSearchFilter setMaxArea(double maxArea) {
-        filters.add(new Filter(Double.toString(maxArea), Apartments.AREA + ">=CAST(? AS NUMERIC)"));
+        this.maxArea = Double.toString(maxArea);
         return this;
     }
 
@@ -97,21 +96,39 @@ public class ApartmentSearchFilter implements Serializable {
         final StringBuilder selection = new StringBuilder();
         final List<String> selectionArgs = new ArrayList<>();
 
-        for (Filter filter : filters) {
-            selection.append(filter.where).append(" AND ");
-            selectionArgs.add(filter.value);
+        for (Filter filter : getFilters()) {
+            if (filter.value != null) {
+                selection.append(filter.where).append(" AND ");
+                selectionArgs.add(filter.value);
+            }
         }
         selection.append("1=1"); // prevent trailing AND
 
         return db.query(table, columns, selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]), null, null, null, "100");
     }
 
-    private static final class Filter implements Serializable {
-        private final String value; // value for ? in where clause
+    private Filter[] getFilters() {
+        return new Filter[]{
+                new Filter(id, Apartments.TABLE + "." + Apartments.ID + "=?"),
+                new Filter(minCost, TOTAL_COST + ">=CAST(? AS NUMERIC)"),
+                new Filter(maxCost, TOTAL_COST + "<=CAST(? AS NUMERIC)"),
+                new Filter(hasGym, Amenities.GYM + "=?"),
+                new Filter(hasParking, Amenities.PARKING + "=?"),
+                new Filter(minBedrooms, Apartments.BEDROOMS + ">=?"),
+                new Filter(maxBedrooms, Apartments.BEDROOMS + "<=?"),
+                new Filter(minBathrooms, Apartments.BATHROOMS + ">=?"),
+                new Filter(maxBathrooms, Apartments.BATHROOMS + "<=?"),
+                new Filter(minArea, Apartments.AREA + "<=CAST(? AS NUMERIC)"),
+                new Filter(maxArea, Apartments.AREA + ">=CAST(? AS NUMERIC)"),
+        };
+    }
+
+    private static final class Filter {
+        private final String value; // class value
         private final String where; // SQL where clause
 
-        private Filter(String value, String where) {
-            this.value = value;
+        private Filter(String var, String where) {
+            this.value = var;
             this.where = where;
         }
 
