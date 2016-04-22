@@ -7,70 +7,82 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 public class EzHomeSearchOptionsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Spinner bedSpinner;
-    private Spinner bathSpinner;
-    private EditText zip;
     private EditText minRent;
     private EditText maxRent;
-    private Button apply;
-    private Button save;
+    private Spinner minBedsSpinner;
+    private Spinner maxBedsSpinner;
+    private Spinner minBathroomsSpinner;
+    private Spinner maxBathroomsSpinner;
+    private EditText minArea;
+    private EditText maxArea;
+    private CheckBox hasGym;
+    private CheckBox hasParking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ezhome_search_options);
 
-        // bed spinner
-        ArrayAdapter<CharSequence> bedsAdapter = ArrayAdapter.createFromResource(this, R.array.select_beds, android.R.layout.simple_spinner_item);
-        bedsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // ezPrice
+        minRent = (EditText) findViewById(R.id.filterMinRent);
+        maxRent = (EditText) findViewById(R.id.filterMaxRent);
 
-        bedSpinner = (Spinner) findViewById(R.id.bedSpinner);
-        bedSpinner.setAdapter(bedsAdapter);
+        ArrayAdapter<CharSequence> minRoomAdapter = ArrayAdapter.createFromResource(this, R.array.select_min_rooms, android.R.layout.simple_spinner_item);
+        minRoomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> maxRoomAdapter = ArrayAdapter.createFromResource(this, R.array.select_max_rooms, android.R.layout.simple_spinner_item);
+        minRoomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // bath spinner
-        ArrayAdapter<CharSequence> bathsAdapter = ArrayAdapter.createFromResource(this, R.array.select_baths, android.R.layout.simple_spinner_item);
-        bathsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // bed spinners
+        minBedsSpinner = (Spinner) findViewById(R.id.filterMinBeds);
+        minBedsSpinner.setAdapter(minRoomAdapter);
+        maxBedsSpinner = (Spinner) findViewById(R.id.filterMaxBeds);
+        maxBedsSpinner.setAdapter(maxRoomAdapter);
 
-        bathSpinner = (Spinner) findViewById(R.id.bathSpinner);
-        bathSpinner.setAdapter(bathsAdapter);
+        // bathrooms spinners
+        minBathroomsSpinner = (Spinner) findViewById(R.id.filterMinBaths);
+        minBathroomsSpinner.setAdapter(minRoomAdapter);
+        maxBathroomsSpinner = (Spinner) findViewById(R.id.filterMaxBaths);
+        maxBathroomsSpinner.setAdapter(maxRoomAdapter);
 
-        zip = (EditText) findViewById(R.id.zipCode);
-        minRent = (EditText) findViewById(R.id.min_rent);
-        maxRent = (EditText) findViewById(R.id.max_rent);
+        // area
+        minArea = (EditText) findViewById(R.id.filterMinArea);
+        maxArea = (EditText) findViewById(R.id.filterMaxArea);
 
-        apply = (Button) findViewById(R.id.Apply);
+        // options
+        hasGym = (CheckBox) findViewById(R.id.filterHasGym);
+        hasParking = (CheckBox) findViewById(R.id.filterHasParking);
+
+        Button apply = (Button) findViewById(R.id.filterApplyButton);
         apply.setOnClickListener(this);
 
-        save = (Button) findViewById(R.id.SaveFilter);
-        apply.setOnClickListener(this);
+        Button save = (Button) findViewById(R.id.filterSaveButton);
+        save.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.Apply:
-                String zip_s = zip.getText().toString();
-                String beds_selected = bedSpinner.getSelectedItem().toString();
-                String baths_selected = bathSpinner.getSelectedItem().toString();
+            case R.id.filterApplyButton:
+                String beds_selected = minBedsSpinner.getSelectedItem().toString();
+                String baths_selected = minBathroomsSpinner.getSelectedItem().toString();
                 String min_rent_s = minRent.getText().toString();
                 String max_rent_s = maxRent.getText().toString();
 
-                int zip;
                 int beds;
                 int baths;
                 int min_rent;
                 int max_rent;
 
                 try {
-                    zip = zip_s.isEmpty() ? 0 : Integer.parseInt(zip_s);
-                    beds = bedSpinner.getSelectedItemPosition() == 0 ? 0 : Integer.parseInt(beds_selected.substring(0, 1));
-                    baths = bathSpinner.getSelectedItemPosition() == 0 ? 0 : Integer.parseInt(baths_selected.substring(0, 1));
+                    beds = minBedsSpinner.getSelectedItemPosition() == 0 ? 0 : Integer.parseInt(beds_selected.substring(0, 1));
+                    baths = minBathroomsSpinner.getSelectedItemPosition() == 0 ? 0 : Integer.parseInt(baths_selected.substring(0, 1));
                     min_rent = min_rent_s.isEmpty() ? 0 : Integer.parseInt(min_rent_s);
                     max_rent = max_rent_s.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(max_rent_s);
                 } catch (Exception e) {
@@ -85,7 +97,6 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
 
                 // pass search options
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("zip", zip);
                 resultIntent.putExtra("beds", beds);
                 resultIntent.putExtra("baths", baths);
                 resultIntent.putExtra("min_rent", min_rent);
@@ -94,7 +105,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                 setResult(RESULT_OK, resultIntent);
                 finish();
                 break;
-            case R.id.SaveFilter:
+            case R.id.filterSaveButton:
                 //TODO Save current filter in user's profile
                 break;
         }

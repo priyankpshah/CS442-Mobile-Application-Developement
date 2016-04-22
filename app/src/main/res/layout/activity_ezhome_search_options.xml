@@ -3,126 +3,220 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="edu.iit.cs442.team15.ehome.AccountSettingsFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
-        <EditText
-            android:id="@+id/zipCode"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/rentHeader"
+            style="@style/header"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="2"
-            android:hint="Zip Code"
-            android:inputType="number"
-            android:maxLines="1" />
+            android:text="ezPrice" />
 
         <LinearLayout
+            android:id="@+id/filterRent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="3"
+            android:layout_below="@id/rentHeader"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/filterMinRent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Beds:"
-                android:textColor="#000000"
-                android:textSize="20dp" />
-
-            <Spinner
-                android:id="@+id/bedSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="#f0dad2"
-                android:popupBackground="#f0dad2" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="3"
-            android:orientation="horizontal">
+                android:layout_weight="3"
+                android:background="@drawable/custom_edittext"
+                android:hint="Min"
+                android:inputType="number" />
 
             <TextView
-                android:layout_width="wrap_content"
+                style="@style/to"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Baths:"
-                android:textColor="#000000"
-                android:textSize="20dp" />
+                android:layout_weight="1" />
 
-            <Spinner
-                android:id="@+id/bathSpinner"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/filterMaxRent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="#f0dad2"
-                android:popupBackground="#f0dad2" />
+                android:layout_weight="3"
+                android:background="@drawable/custom_edittext"
+                android:hint="Max"
+                android:inputType="number" />
+
         </LinearLayout>
 
         <TextView
+            android:id="@+id/bedsHeader"
+            style="@style/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="1"
-            android:text="Rent:"
-            android:textColor="#000000"
-            android:textSize="20dp" />
+            android:layout_below="@id/filterRent"
+            android:text="Beds" />
 
         <LinearLayout
+            android:id="@+id/filterBeds"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="3"
+            android:layout_below="@id/bedsHeader"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/filterMinBeds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="#f0dad2"
+                android:popupBackground="#f0dad2" />
+
+            <TextView
+                style="@style/to"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/filterMaxBeds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="#f0dad2"
+                android:popupBackground="#f0dad2" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bathsHeader"
+            style="@style/header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/filterBeds"
+            android:text="Baths" />
+
+        <LinearLayout
+            android:id="@+id/filterBaths"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bathsHeader"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/filterMinBaths"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="#f0dad2"
+                android:popupBackground="#f0dad2" />
+
+            <TextView
+                style="@style/to"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/filterMaxBaths"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="#f0dad2"
+                android:popupBackground="#f0dad2" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/areaHeader"
+            style="@style/header"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/filterBaths"
+            android:text="Square Feet" />
+
+        <LinearLayout
+            android:id="@+id/filterArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/areaHeader"
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/min_rent"
-                android:layout_width="100dp"
+                android:id="@+id/filterMinArea"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:background="@drawable/custom_edittext"
+                android:hint="Min"
                 android:inputType="number" />
 
             <TextView
-                android:layout_width="wrap_content"
+                style="@style/to"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="~" />
+                android:layout_weight="1" />
 
             <EditText
-                android:id="@+id/max_rent"
-                android:layout_width="100dp"
+                android:id="@+id/filterMaxArea"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:background="@drawable/custom_edittext"
+                android:hint="Max"
                 android:inputType="number" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/optionsHeader"
+            style="@style/header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/filterArea"
+            android:text="Options" />
+
+        <LinearLayout
+            android:id="@+id/filterOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/optionsHeader"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/filterHasGym"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gym" />
+
+            <CheckBox
+                android:id="@+id/filterHasParking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parking" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/Apply"
+            android:id="@+id/filterApplyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_below="@id/filterOptions"
             android:text="Apply" />
 
+        <!-- TODO move to ActionBar -->
         <Button
-            android:id="@+id/SaveFilter"
+            android:id="@+id/filterSaveButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_below="@id/filterApplyButton"
             android:text="Save Filter" />
 
-    </LinearLayout>
+    </RelativeLayout>
+
 </ScrollView>
 
