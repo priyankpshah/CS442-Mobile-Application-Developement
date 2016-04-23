@@ -126,7 +126,6 @@ public class EzHomeSearchFragment extends Fragment {
         tv_area_title.setClickable(true);
         tv_rent_title.setFocusable(true);
         tv_area_title.setFocusable(true);
-
     }
 
     public void Sort_by_rent1()
@@ -213,8 +212,8 @@ public class EzHomeSearchFragment extends Fragment {
                 holder.Itemarea = (TextView)convertView.findViewById(R.id.tv_area);
                 holder.Itemadd = (TextView)convertView.findViewById(R.id.tv_app);
                 holder.Itemrent = (TextView)convertView.findViewById(R.id.tv_rent);
-                holder.Itemname = (TextView)convertView.findViewById(R.id.tv_name);
-                holder.Itemtel = (TextView)convertView.findViewById(R.id.tv_tel);
+                holder.Itemowner = (TextView)convertView.findViewById(R.id.tv_owner);
+                holder.Itemphone = (TextView)convertView.findViewById(R.id.tv_phone);
                 convertView.setTag(holder);
             }else{
 
@@ -224,8 +223,8 @@ public class EzHomeSearchFragment extends Fragment {
             holder.Itemarea.setText( Double.toString(result.get(position).squareFeet));
             holder.Itemadd.setText( result.get(position).address);
             holder.Itemrent.setText(Double.toString(result.get(position).getTotalCost()));
-            holder.Itemname.setText(result.get(position).owner.complexName);
-            holder.Itemtel.setText(result.get(position).owner.ownerPhone);
+            holder.Itemowner.setText(result.get(position).owner.complexName);
+            holder.Itemphone.setText(result.get(position).owner.ownerPhone);
             return convertView;
         }
     }
@@ -234,8 +233,8 @@ public class EzHomeSearchFragment extends Fragment {
         public TextView Itemadd;
         public TextView Itemrent;
         public TextView Itemarea;
-        public TextView Itemname;
-        public TextView Itemtel;
+        public TextView Itemowner;
+        public TextView Itemphone;
     }
 
     @Override
