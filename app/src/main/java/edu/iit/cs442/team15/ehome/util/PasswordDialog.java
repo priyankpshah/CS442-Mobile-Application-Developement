@@ -27,7 +27,7 @@ public final class PasswordDialog {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         EditText currentPassword = (EditText) ((Dialog) dialog).findViewById(R.id.currentPassword);
-                        if (SavedLogin.getInstance().checkPassword(currentPassword.getText().toString()))
+                        if (listener.Authenticate(currentPassword.getText().toString()))
                             listener.onAuthentication();
                         else
                             retry();
@@ -54,6 +54,7 @@ public final class PasswordDialog {
     }
 
     public interface OnAuthenticationListener {
+        public boolean Authenticate(String password);
         public void onAuthentication();
     }
 

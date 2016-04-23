@@ -171,6 +171,11 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                     // prompt user to enter current password
                     new PasswordDialog(getActivity(), new PasswordDialog.OnAuthenticationListener() {
                         @Override
+                        public boolean Authenticate(String password) {
+                            return SavedLogin.getInstance().checkPassword(password);
+                        }
+
+                        @Override
                         public void onAuthentication() {
                             int result = ApartmentDatabaseHelper.getInstance().updateUser(user.email, newInfo);
                             if (result == 0)
