@@ -1,7 +1,6 @@
 package edu.iit.cs442.team15.ehome.model;
 
 import java.io.Serializable;
-import java.util.Comparator;
 
 public class Apartment implements Serializable {
 
@@ -63,19 +62,5 @@ public class Apartment implements Serializable {
         this.amenity = amenity;
         return this;
     }
-
-    public static Comparator<Apartment> rentComparator = new Comparator<Apartment>() {
-        @Override
-        public int compare(Apartment lhs, Apartment rhs) {
-            return lhs.rent > rhs.rent ? 1 : 0;
-        }
-    };
-
-    public static Comparator<Apartment> areaComparator = new Comparator<Apartment>() {
-        @Override
-        public int compare(Apartment lhs, Apartment rhs) {
-            return lhs.squareFeet < rhs.squareFeet ? 1 : 0;
-        }
-    };
 
 }

@@ -1,105 +1,104 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".EzHomeSearchFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TableLayout
-            android:id="@+id/table"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        >
+        <Button
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"
+            android:id="@+id/tempButtonOptions"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:shrinkColumns="*"
-            android:stretchColumns="*">
+            android:text="Search Options [temp]" />
 
-            <Button
-                android:id="@+id/tempButtonOptions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search Options [temp]" />
+    </LinearLayout>
 
-            <TableRow
-                android:id="@+id/Row1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center_horizontal">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
 
-                <TextView
-                    android:id="@+id/searchResultHeader"
-                    style="@style/header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_span="3"
-                    android:gravity="center_vertical"
-                    android:text="Sort:"
-                    android:textSize="18dp" />
+        <TextView
+            android:id="@+id/tv_add_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ezhome_address"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:maxEms="6"
+            android:singleLine="true"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/tv_rent_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ezhome_totalCost"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:maxEms="6"
+            android:singleLine="true"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/tv_area_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ezhome_area"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:maxEms="6"
+            android:singleLine="true"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/tv_name_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ezhome_owner"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:maxEms="6"
+            android:singleLine="true"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/tv_tel_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="tel"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:maxEms="6"
+            android:singleLine="true"
+            android:ellipsize="end"
+            />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/lv_ehomesearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-                <Spinner
-                    android:id="@+id/orderSpinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_span="4"
-                    android:background="#f0dad2"
-                    android:gravity="right"
-                    android:popupBackground="#f0dad2" />
+    </ListView>
 
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/Row2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/column_id"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="id" />
-
-                <TextView
-                    android:id="@+id/column_zipcode"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="zipcode" />
-
-                <TextView
-                    android:id="@+id/column_address"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="address" />
-
-                <TextView
-                    android:id="@+id/column_bedrooms"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="beds" />
-
-                <TextView
-                    android:id="@+id/column_bathrooms"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="baths" />
-
-                <TextView
-                    android:id="@+id/column_square_feet"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="area" />
-
-                <TextView
-                    android:id="@+id/column_rent"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="rent" />
-            </TableRow>
-
-        </TableLayout>
-
-    </ScrollView>
-
-</RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <TextView
+        android:id="@+id/tv_app"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="add"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+
+        android:maxLines="2"
+        android:ellipsize="end"
+        />
+    <TextView
+        android:id="@+id/tv_rent"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="rent"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+
+        android:maxLines="2"
+        android:ellipsize="end"
+        />
+    <TextView
+        android:id="@+id/tv_area"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="area"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+
+        android:maxLines="2"
+        android:ellipsize="end"
+        />
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="name"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+
+        android:maxLines="2"
+        android:ellipsize="end"
+        />
+    <TextView
+        android:id="@+id/tv_tel"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="tel"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+
+        android:maxLines="2"
+        android:ellipsize="end"
+        />
+</LinearLayout>

@@ -66,6 +66,8 @@
 
     <string name="ezhome_ezprice">ezPrice: $%.2f</string>
     <string name="ezhome_rent">Rent: $%.2f</string>
+    <string name="ezhome_totalCost">Total Cost: $%.2f</string>
+    <string name="ezhome_owner">Owner: $%.2f</string>
     <string name="ezhome_thermostat">Heating &amp; AC: $%.2f</string>
     <string name="ezhome_cable">Cable: $%.2f</string>
     <string name="ezhome_internet">Internet: $%.2f</string>

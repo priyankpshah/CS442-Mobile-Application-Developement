@@ -5,20 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.iit.cs442.team15.ehome.model.Apartment;
@@ -30,11 +28,15 @@ public class EzHomeSearchFragment extends Fragment {
     private static final int SEARCH_OPTIONS_REQUEST = 1;
 
     private List<Apartment> result = new ArrayList<>();
-    private TableLayout table;
-    private Spinner orderSpinner;
-    private ArrayAdapter<CharSequence> orderadapter;
-    private int order_method = -1;
+    private ListView lv_ehome_search;
+    private Button temp_search;
 
+    private int index_sort_rent=0;
+    private int index_sort_area=0;
+    private TextView tv_rent_title;
+    private TextView tv_area_title;
+    private MyAdapter adapter;
+    private View v;
     public EzHomeSearchFragment() {
 
     }
@@ -55,11 +57,15 @@ public class EzHomeSearchFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_ezhome_search, container, false);
-        result = ApartmentDatabaseHelper.getInstance().getApartments(new ApartmentSearchFilter());
 
-        Button temp = (Button) v.findViewById(R.id.tempButtonOptions);
-        temp.setOnClickListener(new View.OnClickListener() {
+        initView(inflater,container);
+
+        result = ApartmentDatabaseHelper.getInstance().getApartments(new ApartmentSearchFilter());
+        if(adapter==null)
+            adapter = new MyAdapter();
+        lv_ehome_search.setAdapter(adapter);
+
+        temp_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent searchOptions = new Intent(getActivity(), EzHomeSearchOptionsActivity.class);
@@ -67,29 +73,169 @@ public class EzHomeSearchFragment extends Fragment {
             }
         });
 
-        table = (TableLayout) v.findViewById(R.id.table);
-        addData();
-
-        orderSpinner = (Spinner) v.findViewById(R.id.orderSpinner);
-        orderadapter = ArrayAdapter.createFromResource(getActivity(), R.array.order_method, android.R.layout.simple_spinner_item);
-        orderadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        orderSpinner.setAdapter(orderadapter);
-
-        orderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        tv_rent_title.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                order_method = orderSpinner.getSelectedItemPosition();
-                sort();
-                updateTable();
-            }
+            public void onClick(View v) {
+                if(index_sort_rent==0)
+                {
+                    Sort_by_rent1();
+                    index_sort_rent=1;
+                }else{
+                    Sort_by_rent();
+                    index_sort_rent=0;
+                }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
+                adapter.notifyDataSetChanged();
 
             }
         });
 
+        tv_area_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(index_sort_area==0)
+                {
+                    Sort_by_area1();
+                    index_sort_area=1;
+                }else{
+                    Sort_by_area();
+                    index_sort_area=0;
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
+        lv_ehome_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO Switch To EzHomeSearchDetailsActivity
+            }
+        });
+
         return v;
+    }
+
+    private void initView(LayoutInflater inflater,ViewGroup container){
+        v = inflater.inflate(R.layout.fragment_ezhome_search, container, false);
+        temp_search = (Button) v.findViewById(R.id.tempButtonOptions);
+        lv_ehome_search = (ListView)v.findViewById(R.id.lv_ehomesearch);
+        tv_rent_title = (TextView)v.findViewById(R.id.tv_rent_title);
+        tv_area_title = (TextView)v.findViewById(R.id.tv_area_title);
+        tv_rent_title.setClickable(true);
+        tv_area_title.setClickable(true);
+        tv_rent_title.setFocusable(true);
+        tv_area_title.setFocusable(true);
+
+    }
+
+    public void Sort_by_rent1()
+    {
+        Collections.sort(result, new Comparator<Apartment>() {
+            public int compare(Apartment arg0, Apartment arg1) {
+                if (arg0.rent > arg1.rent)
+                    return 1;
+                else if(arg0.rent == arg1.rent)
+                    return 0;
+                else
+                    return -1;
+            }
+        });
+    }
+    void Sort_by_area1()
+    {
+        Collections.sort(result, new Comparator<Apartment>() {
+            public int compare(Apartment arg0, Apartment arg1) {
+                if (arg0.squareFeet > arg1.squareFeet)
+                    return 1;
+                else if(arg0.squareFeet == arg1.squareFeet)
+                    return 0;
+                else
+                    return -1;
+            }
+        });
+
+    }
+
+    void Sort_by_rent()
+    {
+        Collections.sort(result, new Comparator<Apartment>() {
+            public int compare(Apartment arg0, Apartment arg1) {
+                if (arg0.rent > arg1.rent)
+                    return -1;
+                else if(arg0.rent == arg1.rent)
+                    return 0;
+                else
+                    return 1;
+            }
+        });
+
+    }
+    void Sort_by_area()
+    {
+        Collections.sort(result,new Comparator<Apartment>(){
+            public int compare(Apartment arg0, Apartment arg1) {
+                if (arg0.squareFeet > arg1.squareFeet)
+                    return -1;
+                else if(arg0.squareFeet == arg1.squareFeet)
+                    return 0;
+                else
+                    return 1;
+            }
+
+        });
+
+    }
+
+    private class MyAdapter extends BaseAdapter{
+        @Override
+        public int getCount() {
+            return result.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return result.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder holder;
+            if(convertView == null){
+                convertView = View.inflate(getActivity(), R.layout.item_list_ezhome_search, null);
+                holder = new ViewHolder();
+                holder.Itemarea = (TextView)convertView.findViewById(R.id.tv_area);
+                holder.Itemadd = (TextView)convertView.findViewById(R.id.tv_app);
+                holder.Itemrent = (TextView)convertView.findViewById(R.id.tv_rent);
+                holder.Itemname = (TextView)convertView.findViewById(R.id.tv_name);
+                holder.Itemtel = (TextView)convertView.findViewById(R.id.tv_tel);
+                convertView.setTag(holder);
+            }else{
+
+                holder = (ViewHolder)convertView.getTag();
+            }
+
+            holder.Itemarea.setText( Double.toString(result.get(position).squareFeet));
+            holder.Itemadd.setText( result.get(position).address);
+            holder.Itemrent.setText(Double.toString(result.get(position).getTotalCost()));
+            holder.Itemname.setText(result.get(position).owner.complexName);
+            holder.Itemtel.setText(result.get(position).owner.ownerPhone);
+            return convertView;
+        }
+    }
+
+    public final class ViewHolder {
+        public TextView Itemadd;
+        public TextView Itemrent;
+        public TextView Itemarea;
+        public TextView Itemname;
+        public TextView Itemtel;
     }
 
     @Override
@@ -101,7 +247,7 @@ public class EzHomeSearchFragment extends Fragment {
 
                     result = ApartmentDatabaseHelper.getInstance().getApartments(filter);
                     if (result != null) {
-                        updateTable();
+                        adapter.notifyDataSetChanged();
                     }
                 }
                 break;
@@ -110,67 +256,6 @@ public class EzHomeSearchFragment extends Fragment {
         }
     }
 
-    public void sort() {
-        switch (order_method) {
-            case 0:
-                Collections.sort(result, Apartment.rentComparator);
-                break;
-            case 1:
-                Collections.sort(result, Apartment.areaComparator);
-                break;
-        }
-    }
 
-    public void addData() {
-        for (int i = 0; i < result.size(); i++) {
-            Apartment apt = result.get(i);
-            TableRow tr = new TableRow(getActivity());
-            tr.setId(i);
-            tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-            addTextView(tr, Integer.toString(apt.id));
-            addTextView(tr, Integer.toString(apt.zip));
-            addTextView(tr, apt.address);
-            addTextView(tr, Integer.toString(apt.bedrooms));
-            addTextView(tr, Integer.toString(apt.bathrooms));
-            addTextView(tr, Double.toString(apt.squareFeet));
-            addTextView(tr, Double.toString(apt.rent));
-            table.addView(tr);
-        }
-    }
 
-    public void addTextView(TableRow tr, String text) {
-        TextView tv = new TextView(getActivity());
-
-        tv.setText(text);
-        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-        tv.setLines(2);
-        tv.setSingleLine(false);
-        tv.setMaxEms(10);
-        tv.setEllipsize(TextUtils.TruncateAt.END);
-        tr.addView(tv);
-    }
-
-    public void updateTable() {
-        for (int i = 0; i < result.size(); i++) {
-            View view = table.getChildAt(i + 3);
-            if (view instanceof TableRow) {
-                TableRow tr = (TableRow) view;
-                TextView tv0 = (TextView) tr.getChildAt(0);
-                tv0.setText(Integer.toString(result.get(i).id));
-                TextView tv1 = (TextView) tr.getChildAt(1);
-                tv1.setText(Integer.toString(result.get(i).zip));
-                TextView tv2 = (TextView) tr.getChildAt(2);
-                tv2.setText(result.get(i).address);
-                TextView tv3 = (TextView) tr.getChildAt(3);
-                tv3.setText(Integer.toString(result.get(i).bedrooms));
-                TextView tv4 = (TextView) tr.getChildAt(4);
-                tv4.setText(Integer.toString(result.get(i).bathrooms));
-                TextView tv5 = (TextView) tr.getChildAt(5);
-                tv5.setText(Double.toString(result.get(i).squareFeet));
-                TextView tv6 = (TextView) tr.getChildAt(6);
-                tv6.setText(Double.toString(result.get(i).rent));
-            }
-        }
-
-    }
 }
