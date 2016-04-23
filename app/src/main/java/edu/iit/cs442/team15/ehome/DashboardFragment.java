@@ -4,9 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 
 /**
@@ -20,6 +24,10 @@ import android.view.ViewGroup;
 public class DashboardFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    static final int NUM_ITEMS = 5;
+    ImageFragmentPagerAdapter imageFragmentPagerAdapter;
+    ViewPager viewPager;
+    public static final String[] IMAGE_NAME = {"apartment_one", "apartment_two","apartment_three", "apartment_four", "apartment_five", "apartment_six"};
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -43,7 +51,11 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getFragmentManager());
+        viewPager = (ViewPager) v.findViewById(R.id.pager);
+        viewPager.setAdapter(imageFragmentPagerAdapter);
+        return v;
     }
 
     @Override
@@ -75,6 +87,46 @@ public class DashboardFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
+        public ImageFragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            SwipeFragment fragment = new SwipeFragment();
+            return SwipeFragment.newInstance(position);
+        }
+    }
+
+    public static class SwipeFragment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View swipeView = inflater.inflate(R.layout.swap_fragment, container, false);
+            ImageView imageView = (ImageView) swipeView.findViewById(R.id.imageView);
+            Bundle bundle = getArguments();
+            int position = bundle.getInt("position");
+            String imageFileName = IMAGE_NAME[position];
+            int imgResId = getResources().getIdentifier(imageFileName, "drawable", "edu.iit.cs442.team15.ehome");
+            imageView.setImageResource(imgResId);
+            return swipeView;
+        }
+
+        static SwipeFragment newInstance(int position) {
+            SwipeFragment swipeFragment = new SwipeFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
+            swipeFragment.setArguments(bundle);
+            return swipeFragment;
+        }
     }
 
 }
