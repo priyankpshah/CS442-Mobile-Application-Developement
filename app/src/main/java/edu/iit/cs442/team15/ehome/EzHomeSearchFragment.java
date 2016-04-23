@@ -22,6 +22,7 @@ import java.util.List;
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class EzHomeSearchFragment extends Fragment {
 
@@ -109,6 +110,7 @@ public class EzHomeSearchFragment extends Fragment {
         lv_ehome_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 // TODO Switch To EzHomeSearchDetailsActivity
             }
         });
@@ -183,7 +185,6 @@ public class EzHomeSearchFragment extends Fragment {
             }
 
         });
-
     }
 
     private class MyAdapter extends BaseAdapter{
@@ -209,19 +210,19 @@ public class EzHomeSearchFragment extends Fragment {
             if(convertView == null){
                 convertView = View.inflate(getActivity(), R.layout.item_list_ezhome_search, null);
                 holder = new ViewHolder();
+                holder.ItemId = (TextView)convertView.findViewById(R.id.tv_id);
                 holder.Itemarea = (TextView)convertView.findViewById(R.id.tv_area);
-                holder.Itemadd = (TextView)convertView.findViewById(R.id.tv_app);
+                holder.Itemaddress = (TextView)convertView.findViewById(R.id.tv_address);
                 holder.Itemrent = (TextView)convertView.findViewById(R.id.tv_rent);
                 holder.Itemowner = (TextView)convertView.findViewById(R.id.tv_owner);
                 holder.Itemphone = (TextView)convertView.findViewById(R.id.tv_phone);
                 convertView.setTag(holder);
             }else{
-
                 holder = (ViewHolder)convertView.getTag();
             }
-
-            holder.Itemarea.setText( Double.toString(result.get(position).squareFeet));
-            holder.Itemadd.setText( result.get(position).address);
+            holder.ItemId.setText(Integer.toString(result.get(position).id));
+            holder.Itemarea.setText(Double.toString(result.get(position).squareFeet));
+            holder.Itemaddress.setText(result.get(position).address);
             holder.Itemrent.setText(Double.toString(result.get(position).getTotalCost()));
             holder.Itemowner.setText(result.get(position).owner.complexName);
             holder.Itemphone.setText(result.get(position).owner.ownerPhone);
@@ -230,7 +231,8 @@ public class EzHomeSearchFragment extends Fragment {
     }
 
     public final class ViewHolder {
-        public TextView Itemadd;
+        public TextView ItemId;
+        public TextView Itemaddress;
         public TextView Itemrent;
         public TextView Itemarea;
         public TextView Itemowner;
@@ -245,6 +247,8 @@ public class EzHomeSearchFragment extends Fragment {
                     ApartmentSearchFilter filter = (ApartmentSearchFilter) data.getSerializableExtra("filter");
 
                     result = ApartmentDatabaseHelper.getInstance().getApartments(filter);
+                    ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(),filter);
+
                     if (result != null) {
                         adapter.notifyDataSetChanged();
                     }
@@ -254,7 +258,4 @@ public class EzHomeSearchFragment extends Fragment {
                 super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-
-
 }
