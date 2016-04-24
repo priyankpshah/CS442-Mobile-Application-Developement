@@ -206,7 +206,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         if (r.moveToFirst()) {
             do {
                 apartments.add(new Apartment()
-                        .setId(r.getInt(r.getColumnIndex(Apartments.ID)))
+                        .setId(r.getInt(r.getColumnIndex(Amenities.ID))) // corresponds to apartment id
                         .setAddress(r.getString(r.getColumnIndex(Apartments.ADDRESS)))
                         .setZip(r.getInt(r.getColumnIndex(Apartments.ZIP)))
                         .setBedrooms(r.getInt(r.getColumnIndex(Apartments.BEDROOMS)))
