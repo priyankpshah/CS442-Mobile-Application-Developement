@@ -21,6 +21,8 @@ import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 
 public class EzHomeSearchDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String EXTRA_APARTMENT_ID = "apartment_id";
+
     FloatingActionButton call, text;
     TextView name, address, area, bedrooms, bathrooms, ezPrice, rent, thermostat, cable, internet, gas, electricity;
     CheckedTextView gym, parking;
@@ -31,8 +33,8 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         setContentView(R.layout.activity_ezhome_search_details);
 
         ApartmentDatabaseHelper adh = ApartmentDatabaseHelper.getInstance();
-        Apartment apartment = adh.getApartment(getIntent().getIntExtra("Position", -1));
-        Amenity amenity = adh.getAmenity(getIntent().getIntExtra("Position", -1));
+        Apartment apartment = adh.getApartment(getIntent().getIntExtra(EXTRA_APARTMENT_ID, -1));
+        Amenity amenity = adh.getAmenity(getIntent().getIntExtra(EXTRA_APARTMENT_ID, -1));
 
         Button details = (Button) findViewById(R.id.button_ezprice_details);
         details.setOnClickListener(this);

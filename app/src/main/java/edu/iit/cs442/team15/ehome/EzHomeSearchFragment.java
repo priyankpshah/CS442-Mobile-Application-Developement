@@ -61,6 +61,8 @@ public class EzHomeSearchFragment extends Fragment {
 
         initView(inflater,container);
 
+        // TODO show user's last search for search history instead
+        // TODO show SearchOptions if user has no search history
         result = ApartmentDatabaseHelper.getInstance().getApartments(new ApartmentSearchFilter());
         if(adapter==null)
             adapter = new MyAdapter();
@@ -110,8 +112,9 @@ public class EzHomeSearchFragment extends Fragment {
         lv_ehome_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                // TODO Switch To EzHomeSearchDetailsActivity
+                Intent detailsIntent = new Intent(getActivity(), EzHomeSearchDetailsActivity.class);
+                detailsIntent.putExtra(EzHomeSearchDetailsActivity.EXTRA_APARTMENT_ID, result.get(position).id);
+                startActivity(detailsIntent);
             }
         });
 
