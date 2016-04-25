@@ -163,82 +163,70 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     @Nullable
     public ApartmentSearchFilter getSearchFilter(int id) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cur = db.query(SearchHistory.TABLE, null, SearchHistory.ID + "=?", new String[]{Integer.toString(id)}, null, null, null);
 
-        ApartmentSearchFilter filter = null;
-        if (cur.moveToFirst()) {
-            filter = new ApartmentSearchFilter();
-            filter.minCost = cur.getString(cur.getColumnIndex(SearchHistory.MIN_COST));
-            filter.maxCost = cur.getString(cur.getColumnIndex(SearchHistory.MAX_COST));
-            filter.hasGym = cur.getString(cur.getColumnIndex(SearchHistory.HAS_GYM));
-            filter.hasParking = cur.getString(cur.getColumnIndex(SearchHistory.HAS_PARKING));
-            filter.minBeds = cur.getString(cur.getColumnIndex(SearchHistory.MIN_BEDS));
-            filter.maxBeds = cur.getString(cur.getColumnIndex(SearchHistory.MAX_BEDS));
-            filter.minBathrooms = cur.getString(cur.getColumnIndex(SearchHistory.MIN_BATHROOMS));
-            filter.maxBathrooms = cur.getString(cur.getColumnIndex(SearchHistory.MAX_BATHROOMS));
-            filter.minArea = cur.getString(cur.getColumnIndex(SearchHistory.MIN_AREA));
-            filter.maxArea = cur.getString(cur.getColumnIndex(SearchHistory.MAX_AREA));
-        }
+        Cursor cursor = db.query(SearchHistory.TABLE, null, SearchHistory.ID + "=?", new String[]{Integer.toString(id)}, null, null, null, "1");
+        List<ApartmentSearchFilter> filters = cursorToFilters(cursor);
 
-        cur.close();
+        cursor.close();
         db.close();
 
-        return filter;
+        return filters.isEmpty() ? null : filters.get(0);
     }
 
     @Nullable
     public ApartmentSearchFilter getLastSearchFilter(int userId) {
         SQLiteDatabase db = getReadableDatabase();
+
         final String orderBy = SearchHistory.ID + " DESC";
-        Cursor cur = db.query(SearchHistory.TABLE, null, SearchHistory.USER_ID + "=?", new String[]{Integer.toString(userId)}, null, null, orderBy, "1");
+        Cursor cursor = db.query(SearchHistory.TABLE, null, SearchHistory.USER_ID + "=?", new String[]{Integer.toString(userId)}, null, null, orderBy, "1");
+        List<ApartmentSearchFilter> filters = cursorToFilters(cursor);
 
-        ApartmentSearchFilter filter = null;
-        if (cur.moveToFirst()) {
-            filter = new ApartmentSearchFilter();
-            filter.minCost = cur.getString(cur.getColumnIndex(SearchHistory.MIN_COST));
-            filter.maxCost = cur.getString(cur.getColumnIndex(SearchHistory.MAX_COST));
-            filter.hasGym = cur.getString(cur.getColumnIndex(SearchHistory.HAS_GYM));
-            filter.hasParking = cur.getString(cur.getColumnIndex(SearchHistory.HAS_PARKING));
-            filter.minBeds = cur.getString(cur.getColumnIndex(SearchHistory.MIN_BEDS));
-            filter.maxBeds = cur.getString(cur.getColumnIndex(SearchHistory.MAX_BEDS));
-            filter.minBathrooms = cur.getString(cur.getColumnIndex(SearchHistory.MIN_BATHROOMS));
-            filter.maxBathrooms = cur.getString(cur.getColumnIndex(SearchHistory.MAX_BATHROOMS));
-            filter.minArea = cur.getString(cur.getColumnIndex(SearchHistory.MIN_AREA));
-            filter.maxArea = cur.getString(cur.getColumnIndex(SearchHistory.MAX_AREA));
-        }
-
-        cur.close();
+        cursor.close();
         db.close();
 
-        return filter;
+        return filters.isEmpty() ? null : filters.get(0);
     }
 
     public List<ApartmentSearchFilter> getSearchHistory(int userId) {
         SQLiteDatabase db = getReadableDatabase();
-        final String orderBy = SearchHistory.ID + " DESC";
-        Cursor cur = db.query(SearchHistory.TABLE, null, SearchHistory.USER_ID + "=?", new String[]{Integer.toString(userId)}, null, null, orderBy);
 
+        final String orderBy = SearchHistory.ID + " DESC";
+        Cursor cursor = db.query(SearchHistory.TABLE, null, SearchHistory.USER_ID + "=?", new String[]{Integer.toString(userId)}, null, null, orderBy);
+
+        return cursorToFilters(cursor);
+    }
+
+    private List<ApartmentSearchFilter> cursorToFilters(final Cursor cur) {
         List<ApartmentSearchFilter> result = new ArrayList<>();
         if (cur.moveToFirst()) {
             do {
                 ApartmentSearchFilter filter = new ApartmentSearchFilter();
-                filter.minCost = cur.getString(cur.getColumnIndex(SearchHistory.MIN_COST));
-                filter.maxCost = cur.getString(cur.getColumnIndex(SearchHistory.MAX_COST));
-                filter.hasGym = cur.getString(cur.getColumnIndex(SearchHistory.HAS_GYM));
-                filter.hasParking = cur.getString(cur.getColumnIndex(SearchHistory.HAS_PARKING));
-                filter.minBeds = cur.getString(cur.getColumnIndex(SearchHistory.MIN_BEDS));
-                filter.maxBeds = cur.getString(cur.getColumnIndex(SearchHistory.MAX_BEDS));
-                filter.minBathrooms = cur.getString(cur.getColumnIndex(SearchHistory.MIN_BATHROOMS));
-                filter.maxBathrooms = cur.getString(cur.getColumnIndex(SearchHistory.MAX_BATHROOMS));
-                filter.minArea = cur.getString(cur.getColumnIndex(SearchHistory.MIN_AREA));
-                filter.maxArea = cur.getString(cur.getColumnIndex(SearchHistory.MAX_AREA));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.ID)))
+                    filter.id = cur.getInt(cur.getColumnIndex(SearchHistory.ID));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.MIN_COST)))
+                    filter.minCost = cur.getInt(cur.getColumnIndex(SearchHistory.MIN_COST));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.MAX_COST)))
+                    filter.maxCost = cur.getInt(cur.getColumnIndex(SearchHistory.MAX_COST));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.HAS_GYM)))
+                    filter.hasGym = cur.getInt(cur.getColumnIndex(SearchHistory.HAS_GYM)) == 1;
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.HAS_PARKING)))
+                    filter.hasParking = cur.getInt(cur.getColumnIndex(SearchHistory.HAS_PARKING)) == 1;
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.MIN_BEDS)))
+                    filter.minBeds = cur.getInt(cur.getColumnIndex(SearchHistory.MIN_BEDS));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.MAX_BEDS)))
+                    filter.maxBeds = cur.getInt(cur.getColumnIndex(SearchHistory.MAX_BEDS));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.MIN_BATHROOMS)))
+                    filter.minBathrooms = cur.getInt(cur.getColumnIndex(SearchHistory.MIN_BATHROOMS));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.MAX_BATHROOMS)))
+                    filter.maxBathrooms = cur.getInt(cur.getColumnIndex(SearchHistory.MAX_BATHROOMS));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.MIN_AREA)))
+                    filter.minArea = cur.getInt(cur.getColumnIndex(SearchHistory.MIN_AREA));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.MAX_AREA)))
+                    filter.maxArea = cur.getInt(cur.getColumnIndex(SearchHistory.MAX_AREA));
 
                 result.add(filter);
             } while (cur.moveToNext());
         }
-
-        cur.close();
-        db.close();
 
         return result;
     }

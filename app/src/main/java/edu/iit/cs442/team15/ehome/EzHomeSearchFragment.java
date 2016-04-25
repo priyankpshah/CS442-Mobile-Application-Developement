@@ -26,6 +26,7 @@ import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class EzHomeSearchFragment extends Fragment {
 
+    private static final String ARG_SEARCH_HISTORY_ID = "search_history_id";
     private static final int SEARCH_OPTIONS_REQUEST = 1;
 
     private List<Apartment> result = new ArrayList<>();
@@ -47,6 +48,14 @@ public class EzHomeSearchFragment extends Fragment {
         return new EzHomeSearchFragment();
     }
 
+    public static EzHomeSearchFragment newInstance(int searchHistoryId) {
+        EzHomeSearchFragment fragment = new EzHomeSearchFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SEARCH_HISTORY_ID, searchHistoryId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -55,9 +64,21 @@ public class EzHomeSearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // try to get user's last search settings
-        ApartmentSearchFilter filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId());
-        result = ApartmentDatabaseHelper.getInstance().getApartments(filter == null ? new ApartmentSearchFilter() : filter);
+
+        ApartmentSearchFilter filter = null;
+
+        if (getArguments() != null)
+            filter = ApartmentDatabaseHelper.getInstance().getSearchFilter(getArguments().getInt(ARG_SEARCH_HISTORY_ID));
+
+        // try to get user's last search setting
+        if (filter == null) {
+            filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId());
+
+            if (filter == null)
+                filter = new ApartmentSearchFilter();
+        }
+
+        result = ApartmentDatabaseHelper.getInstance().getApartments(filter);
     }
 
     @Override

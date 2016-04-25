@@ -45,4 +45,13 @@
         <item name="android:textColor">#000</item>
     </style>
 
+    <!-- Search History -->
+    <style name="SearchHistoryTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">_</item>
+        <item name="android:textColor">#222</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>

@@ -19,65 +19,66 @@ public class ApartmentSearchFilter implements Serializable {
 
     public static final String TOTAL_COST = "ezprice";
 
-    protected String apartmentId;
-    protected String minCost, maxCost;
-    protected String hasGym, hasParking;
-    protected String minBeds, maxBeds;
-    protected String minBathrooms, maxBathrooms;
-    protected String minArea, maxArea;
+    public int id;
+    public Integer apartmentId;
+    public Integer minCost, maxCost;
+    public Boolean hasGym, hasParking;
+    public Integer minBeds, maxBeds;
+    public Integer minBathrooms, maxBathrooms;
+    public Integer minArea, maxArea;
 
     public ApartmentSearchFilter setApartmentId(int apartmentId) {
-        this.apartmentId = Integer.toString(apartmentId);
+        this.apartmentId = apartmentId;
         return this;
     }
 
     public ApartmentSearchFilter setMinCost(int minCost) {
-        this.minCost = Integer.toString(minCost);
+        this.minCost = minCost;
         return this;
     }
 
     public ApartmentSearchFilter setMaxCost(int maxCost) {
-        this.maxCost = Integer.toString(maxCost);
+        this.maxCost = maxCost;
         return this;
     }
 
     public ApartmentSearchFilter setHasGym(boolean hasGym) {
-        this.hasGym = hasGym ? "1" : "0";
+        this.hasGym = hasGym;
         return this;
     }
 
     public ApartmentSearchFilter setHasParking(boolean hasParking) {
-        this.hasParking = hasParking ? "1" : "0";
+        this.hasParking = hasParking;
         return this;
     }
 
     public ApartmentSearchFilter setMinBeds(int minBeds) {
-        this.minBeds = Integer.toString(minBeds);
+        this.minBeds = minBeds;
         return this;
     }
 
     public ApartmentSearchFilter setMaxBeds(int maxBeds) {
-        this.maxBeds = Integer.toString(maxBeds);
+        this.maxBeds = maxBeds;
         return this;
     }
 
     public ApartmentSearchFilter setMinBathrooms(int minBathrooms) {
-        this.minBathrooms = Integer.toString(minBathrooms);
+        this.minBathrooms = minBathrooms;
         return this;
     }
 
     public ApartmentSearchFilter setMaxBathrooms(int maxBathrooms) {
-        this.maxBathrooms = Integer.toString(maxBathrooms);
+        this.maxBathrooms = maxBathrooms;
         return this;
     }
 
     public ApartmentSearchFilter setMinArea(int minArea) {
-        this.minArea = Integer.toString(minArea);
+        this.minArea = minArea;
         return this;
     }
 
     public ApartmentSearchFilter setMaxArea(int maxArea) {
-        this.maxArea = Integer.toString(maxArea);
+        this.maxArea = maxArea;
         return this;
     }
 
@@ -127,8 +128,13 @@ public class ApartmentSearchFilter implements Serializable {
         private final String value; // class value
         private final String where; // SQL where clause
 
-        private Filter(String var, String where) {
-            this.value = var;
+        private Filter(Boolean var, String where) {
+            this.value = var == null ? null : var ? "1" : "0";
+            this.where = where;
+        }
+
+        private Filter(Integer var, String where) {
+            this.value = var == null ? null : var.toString();
             this.where = where;
         }
 

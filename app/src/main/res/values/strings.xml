@@ -121,4 +121,19 @@
         <item>Area(high to low)</item>
     </string-array>
 
+    <!-- Search History -->
+    <string name="history_range_min">%d+</string>
+    <string name="history_range_max">0 to %d</string>
+    <string name="history_range_min_max">%1$d to %2$d</string>
+
+    <string name="history_price">$%s</string>
+    <string name="history_beds">%s bedrooms</string>
+    <string name="history_bathrooms">%s bathrooms</string>
+    <string name="history_area">%s sq ft</string>
+
+    <plurals name="history_options">
+        <item quantity="one">%1$d option</item>
+        <item quantity="other">%1$d options</item>
+    </plurals>
+
 </resources>

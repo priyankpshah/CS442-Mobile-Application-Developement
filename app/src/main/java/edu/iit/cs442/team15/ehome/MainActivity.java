@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     newFragment = SearchOnlineFragment.newInstance();
                     break;
                 case R.id.nav_saved_searches:
-                    newFragment = SearchHistoryFragment.newInstance("", "");
+                    newFragment = SearchHistoryFragment.newInstance();
                     break;
                 case R.id.nav_account_settings:
                     newFragment = AccountSettingsFragment.newInstance();
@@ -140,6 +140,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void onSearchHistorySelected(int searchHistoryId) {
+        Fragment f = EzHomeSearchFragment.newInstance(searchHistoryId);
+        fm.beginTransaction()
+                .replace(R.id.contentFragment, f)
+                .addToBackStack(null)
+                .commit();
     }
 
 }
