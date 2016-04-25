@@ -13,9 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
-import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class EzHomeSearchOptionsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -207,7 +205,6 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
                 if (validInput) {
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("filter", filter); // pass search options
-                    ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(), filter);
 
                     setResult(RESULT_OK, resultIntent);
                     finish();
