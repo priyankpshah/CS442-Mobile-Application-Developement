@@ -32,12 +32,13 @@ public class EzHomeSearchFragment extends Fragment {
     private ListView lv_ehome_search;
     private Button temp_search;
 
-    private int index_sort_rent=0;
-    private int index_sort_area=0;
+    private int index_sort_rent = 0;
+    private int index_sort_area = 0;
     private TextView tv_rent_title;
     private TextView tv_area_title;
     private MyAdapter adapter;
     private View v;
+
     public EzHomeSearchFragment() {
 
     }
@@ -54,17 +55,16 @@ public class EzHomeSearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // try to get user's last search settings
+        ApartmentSearchFilter filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId());
+        result = ApartmentDatabaseHelper.getInstance().getApartments(filter == null ? new ApartmentSearchFilter() : filter);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        initView(inflater, container);
 
-        initView(inflater,container);
-
-        // TODO show user's last search for search history instead
-        // TODO show SearchOptions if user has no search history
-        result = ApartmentDatabaseHelper.getInstance().getApartments(new ApartmentSearchFilter());
-        if(adapter==null)
+        if (adapter == null)
             adapter = new MyAdapter();
         lv_ehome_search.setAdapter(adapter);
 
@@ -72,20 +72,19 @@ public class EzHomeSearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent searchOptions = new Intent(getActivity(), EzHomeSearchOptionsActivity.class);
-                startActivityForResult(searchOptions, 1);
+                startActivityForResult(searchOptions, SEARCH_OPTIONS_REQUEST);
             }
         });
 
         tv_rent_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(index_sort_rent==0)
-                {
+                if (index_sort_rent == 0) {
                     Sort_by_rent1();
-                    index_sort_rent=1;
-                }else{
+                    index_sort_rent = 1;
+                } else {
                     Sort_by_rent();
-                    index_sort_rent=0;
+                    index_sort_rent = 0;
                 }
 
                 adapter.notifyDataSetChanged();
@@ -96,13 +95,12 @@ public class EzHomeSearchFragment extends Fragment {
         tv_area_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(index_sort_area==0)
-                {
+                if (index_sort_area == 0) {
                     Sort_by_area1();
-                    index_sort_area=1;
-                }else{
+                    index_sort_area = 1;
+                } else {
                     Sort_by_area();
-                    index_sort_area=0;
+                    index_sort_area = 0;
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -121,38 +119,37 @@ public class EzHomeSearchFragment extends Fragment {
         return v;
     }
 
-    private void initView(LayoutInflater inflater,ViewGroup container){
+    private void initView(LayoutInflater inflater, ViewGroup container) {
         v = inflater.inflate(R.layout.fragment_ezhome_search, container, false);
         temp_search = (Button) v.findViewById(R.id.tempButtonOptions);
-        lv_ehome_search = (ListView)v.findViewById(R.id.lv_ehomesearch);
-        tv_rent_title = (TextView)v.findViewById(R.id.tv_rent_title);
-        tv_area_title = (TextView)v.findViewById(R.id.tv_area_title);
+        lv_ehome_search = (ListView) v.findViewById(R.id.lv_ehomesearch);
+        tv_rent_title = (TextView) v.findViewById(R.id.tv_rent_title);
+        tv_area_title = (TextView) v.findViewById(R.id.tv_area_title);
         tv_rent_title.setClickable(true);
         tv_area_title.setClickable(true);
         tv_rent_title.setFocusable(true);
         tv_area_title.setFocusable(true);
     }
 
-    public void Sort_by_rent1()
-    {
+    public void Sort_by_rent1() {
         Collections.sort(result, new Comparator<Apartment>() {
             public int compare(Apartment arg0, Apartment arg1) {
                 if (arg0.rent > arg1.rent)
                     return 1;
-                else if(arg0.rent == arg1.rent)
+                else if (arg0.rent == arg1.rent)
                     return 0;
                 else
                     return -1;
             }
         });
     }
-    void Sort_by_area1()
-    {
+
+    void Sort_by_area1() {
         Collections.sort(result, new Comparator<Apartment>() {
             public int compare(Apartment arg0, Apartment arg1) {
                 if (arg0.squareFeet > arg1.squareFeet)
                     return 1;
-                else if(arg0.squareFeet == arg1.squareFeet)
+                else if (arg0.squareFeet == arg1.squareFeet)
                     return 0;
                 else
                     return -1;
@@ -161,13 +158,12 @@ public class EzHomeSearchFragment extends Fragment {
 
     }
 
-    void Sort_by_rent()
-    {
+    void Sort_by_rent() {
         Collections.sort(result, new Comparator<Apartment>() {
             public int compare(Apartment arg0, Apartment arg1) {
                 if (arg0.rent > arg1.rent)
                     return -1;
-                else if(arg0.rent == arg1.rent)
+                else if (arg0.rent == arg1.rent)
                     return 0;
                 else
                     return 1;
@@ -175,13 +171,13 @@ public class EzHomeSearchFragment extends Fragment {
         });
 
     }
-    void Sort_by_area()
-    {
-        Collections.sort(result,new Comparator<Apartment>(){
+
+    void Sort_by_area() {
+        Collections.sort(result, new Comparator<Apartment>() {
             public int compare(Apartment arg0, Apartment arg1) {
                 if (arg0.squareFeet > arg1.squareFeet)
                     return -1;
-                else if(arg0.squareFeet == arg1.squareFeet)
+                else if (arg0.squareFeet == arg1.squareFeet)
                     return 0;
                 else
                     return 1;
@@ -190,7 +186,7 @@ public class EzHomeSearchFragment extends Fragment {
         });
     }
 
-    private class MyAdapter extends BaseAdapter{
+    private class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return result.size();
@@ -208,20 +204,20 @@ public class EzHomeSearchFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
             ViewHolder holder;
-            if(convertView == null){
+
+            if (convertView == null) {
                 convertView = View.inflate(getActivity(), R.layout.item_list_ezhome_search, null);
                 holder = new ViewHolder();
-                holder.ItemId = (TextView)convertView.findViewById(R.id.tv_id);
-                holder.Itemarea = (TextView)convertView.findViewById(R.id.tv_area);
-                holder.Itemaddress = (TextView)convertView.findViewById(R.id.tv_address);
-                holder.Itemrent = (TextView)convertView.findViewById(R.id.tv_rent);
-                holder.Itemowner = (TextView)convertView.findViewById(R.id.tv_owner);
-                holder.Itemphone = (TextView)convertView.findViewById(R.id.tv_phone);
+                holder.ItemId = (TextView) convertView.findViewById(R.id.tv_id);
+                holder.Itemarea = (TextView) convertView.findViewById(R.id.tv_area);
+                holder.Itemaddress = (TextView) convertView.findViewById(R.id.tv_address);
+                holder.Itemrent = (TextView) convertView.findViewById(R.id.tv_rent);
+                holder.Itemowner = (TextView) convertView.findViewById(R.id.tv_owner);
+                holder.Itemphone = (TextView) convertView.findViewById(R.id.tv_phone);
                 convertView.setTag(holder);
-            }else{
-                holder = (ViewHolder)convertView.getTag();
+            } else {
+                holder = (ViewHolder) convertView.getTag();
             }
             holder.ItemId.setText(Integer.toString(result.get(position).id));
             holder.Itemarea.setText(Double.toString(result.get(position).squareFeet));
@@ -250,7 +246,7 @@ public class EzHomeSearchFragment extends Fragment {
                     ApartmentSearchFilter filter = (ApartmentSearchFilter) data.getSerializableExtra("filter");
 
                     result = ApartmentDatabaseHelper.getInstance().getApartments(filter);
-                    ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(),filter);
+                    ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(), filter);
 
                     if (result != null) {
                         adapter.notifyDataSetChanged();

@@ -190,7 +190,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     public ApartmentSearchFilter getLastSearchFilter(int userId) {
         SQLiteDatabase db = getReadableDatabase();
         final String orderBy = SearchHistory.ID + " DESC";
-        Cursor cur = db.query(SearchHistory.TABLE, null, SearchHistory.USER_ID + "=?", new String[]{Integer.toString(userId)}, null, null, orderBy);
+        Cursor cur = db.query(SearchHistory.TABLE, null, SearchHistory.USER_ID + "=?", new String[]{Integer.toString(userId)}, null, null, orderBy, "1");
 
         ApartmentSearchFilter filter = null;
         if (cur.moveToFirst()) {
