@@ -40,6 +40,8 @@ public class EzHomeSearchFragment extends Fragment {
     private MyAdapter adapter;
     private View v;
 
+    private TextView noSearchResults;
+
     public EzHomeSearchFragment() {
 
     }
@@ -150,6 +152,8 @@ public class EzHomeSearchFragment extends Fragment {
         tv_area_title.setClickable(true);
         tv_rent_title.setFocusable(true);
         tv_area_title.setFocusable(true);
+        noSearchResults = (TextView) v.findViewById(R.id.noSearchResults);
+        noSearchResults.setVisibility(result.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     public void Sort_by_rent1() {
@@ -247,6 +251,12 @@ public class EzHomeSearchFragment extends Fragment {
             holder.Itemowner.setText(result.get(position).owner.complexName);
             holder.Itemphone.setText(result.get(position).owner.ownerPhone);
             return convertView;
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            noSearchResults.setVisibility(result.isEmpty() ? View.VISIBLE : View.GONE);
         }
     }
 

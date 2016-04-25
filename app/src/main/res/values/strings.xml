@@ -121,6 +121,8 @@
         <item>Area(high to low)</item>
     </string-array>
 
+    <string name="no_search_results">No apartments found</string>
+
     <!-- Search History -->
     <string name="history_range_min">%d+</string>
     <string name="history_range_max">0 to %d</string>
