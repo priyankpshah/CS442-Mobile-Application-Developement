@@ -73,7 +73,6 @@
         android:textSize="15sp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:autoLink="phone"
         android:maxLines="2"
         android:ellipsize="end"
         />
