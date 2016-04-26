@@ -124,6 +124,8 @@
     <string name="no_search_results">No apartments found</string>
 
     <!-- Search History -->
+    <string name="menu_clear_history">Clear search history</string>
+
     <string name="history_range_min">%d+</string>
     <string name="history_range_max">0 to %d</string>
     <string name="history_range_min_max">%1$d to %2$d</string>

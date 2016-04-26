@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +26,7 @@ public class SearchHistoryFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private List<ApartmentSearchFilter> searchHistory;
+    private SearchFilterAdapter adapter;
 
     public SearchHistoryFragment() {
         // Required empty public constructor
@@ -45,6 +49,7 @@ public class SearchHistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -53,15 +58,17 @@ public class SearchHistoryFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_search_history, container, false);
 
         searchHistory = ApartmentDatabaseHelper.getInstance().getSearchHistory(SavedLogin.getInstance().getId());
+        adapter = new SearchFilterAdapter(getActivity(), searchHistory);
 
         ListView lvSearchHistory = (ListView) v.findViewById(R.id.lvSearchHistory);
-        lvSearchHistory.setAdapter(new SearchFilterAdapter(getActivity(), searchHistory));
+        lvSearchHistory.setAdapter(adapter);
         lvSearchHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mListener.onSearchHistorySelected(searchHistory.get(position).id);
             }
         });
+
         return v;
     }
 
@@ -69,6 +76,24 @@ public class SearchHistoryFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_search_history, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuClearHistory:
+                ApartmentDatabaseHelper.getInstance().clearSearchHistory(SavedLogin.getInstance().getId());
+                adapter.clear();
+                adapter.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public interface OnFragmentInteractionListener {
