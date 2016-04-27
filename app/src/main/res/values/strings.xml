@@ -52,7 +52,7 @@
     <string name="password_dialog_retry_message">The password was incorrect.\nPlease try again.</string>
     <string name="password_dialog_retry_positive">Retry</string>
 
-    <!-- ezHome Search -->
+    <!-- ezHome Search Details -->
     <string name="title_activity_ezhome_search_details">Search Details</string>
 
     <string name="button_ezprice_details">Details</string>
@@ -116,6 +116,8 @@
     </string-array>
 
     <!-- Search results -->
+    <string name="menu_search_options">Filter&#8230;</string>
+
     <string-array name="order_method">
         <item>Rent(low to high)</item>
         <item>Area(high to low)</item>

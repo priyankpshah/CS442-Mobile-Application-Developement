@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,7 +33,6 @@ public class EzHomeSearchFragment extends Fragment {
 
     private List<Apartment> result = new ArrayList<>();
     private ListView lv_ehome_search;
-    private Button temp_search;
 
     private int index_sort_rent = 0;
     private int index_sort_area = 0;
@@ -66,6 +67,7 @@ public class EzHomeSearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setHasOptionsMenu(true);
 
         ApartmentSearchFilter filter = null;
 
@@ -90,14 +92,6 @@ public class EzHomeSearchFragment extends Fragment {
         if (adapter == null)
             adapter = new MyAdapter();
         lv_ehome_search.setAdapter(adapter);
-
-        temp_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent searchOptions = new Intent(getActivity(), EzHomeSearchOptionsActivity.class);
-                startActivityForResult(searchOptions, SEARCH_OPTIONS_REQUEST);
-            }
-        });
 
         tv_rent_title.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +138,6 @@ public class EzHomeSearchFragment extends Fragment {
 
     private void initView(LayoutInflater inflater, ViewGroup container) {
         v = inflater.inflate(R.layout.fragment_ezhome_search, container, false);
-        temp_search = (Button) v.findViewById(R.id.tempButtonOptions);
         lv_ehome_search = (ListView) v.findViewById(R.id.lv_ehomesearch);
         tv_rent_title = (TextView) v.findViewById(R.id.tv_rent_title);
         tv_area_title = (TextView) v.findViewById(R.id.tv_area_title);
@@ -211,6 +204,43 @@ public class EzHomeSearchFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_ezhome_search, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuSearchOptions:
+                Intent searchOptions = new Intent(getActivity(), EzHomeSearchOptionsActivity.class);
+                startActivityForResult(searchOptions, SEARCH_OPTIONS_REQUEST);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case SEARCH_OPTIONS_REQUEST:
+                if (resultCode == Activity.RESULT_OK) {
+                    ApartmentSearchFilter filter = (ApartmentSearchFilter) data.getSerializableExtra("filter");
+
+                    result = ApartmentDatabaseHelper.getInstance().getApartments(filter);
+                    ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(), filter);
+
+                    if (result != null) {
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
     private class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {
@@ -260,32 +290,12 @@ public class EzHomeSearchFragment extends Fragment {
         }
     }
 
-    public final class ViewHolder {
+    private static final class ViewHolder {
         public TextView ItemId;
         public TextView Itemaddress;
         public TextView Itemrent;
         public TextView Itemarea;
         public TextView Itemowner;
         public TextView Itemphone;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case SEARCH_OPTIONS_REQUEST:
-                if (resultCode == Activity.RESULT_OK) {
-                    ApartmentSearchFilter filter = (ApartmentSearchFilter) data.getSerializableExtra("filter");
-
-                    result = ApartmentDatabaseHelper.getInstance().getApartments(filter);
-                    ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(), filter);
-
-                    if (result != null) {
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 }
