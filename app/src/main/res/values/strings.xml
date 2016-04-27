@@ -121,18 +121,27 @@
         <item>Area(high to low)</item>
     </string-array>
 
-    <string name="no_search_results">No apartments found</string>
+    <string name="no_search_results">No apartments found.</string>
 
     <!-- Search History -->
     <string name="menu_clear_history">Clear search history</string>
 
+    <string name="history_none">No search history available.</string>
+
     <string name="history_range_min">%d+</string>
-    <string name="history_range_max">0 to %d</string>
+    <string name="history_range_max">1 to %d</string>
     <string name="history_range_min_max">%1$d to %2$d</string>
+    <string name="history_range_equal">%d</string>
 
     <string name="history_price">$%s</string>
-    <string name="history_beds">%s bedrooms</string>
-    <string name="history_bathrooms">%s bathrooms</string>
+    <plurals name="history_beds">
+        <item quantity="one">%s bedroom</item>
+        <item quantity="other">%s bedrooms</item>
+    </plurals>
+    <plurals name="history_barthrooms">
+        <item quantity="one">%s bathroom</item>
+        <item quantity="other">%s bathrooms</item>
+    </plurals>
     <string name="history_area">%s sq ft</string>
 
     <plurals name="history_options">

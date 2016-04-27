@@ -27,6 +27,7 @@ public class SearchHistoryFragment extends Fragment {
 
     private List<ApartmentSearchFilter> searchHistory;
     private SearchFilterAdapter adapter;
+    private TextView noSearchHistory;
 
     public SearchHistoryFragment() {
         // Required empty public constructor
@@ -69,6 +70,8 @@ public class SearchHistoryFragment extends Fragment {
             }
         });
 
+        noSearchHistory = (TextView) v.findViewById(R.id.noSearchHistory);
+        noSearchHistory.setVisibility(searchHistory.isEmpty() ? View.VISIBLE : View.GONE);
         return v;
     }
 
@@ -90,6 +93,7 @@ public class SearchHistoryFragment extends Fragment {
                 ApartmentDatabaseHelper.getInstance().clearSearchHistory(SavedLogin.getInstance().getId());
                 adapter.clear();
                 adapter.notifyDataSetChanged();
+                noSearchHistory.setVisibility(View.VISIBLE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -132,10 +136,10 @@ public class SearchHistoryFragment extends Fragment {
             holder.cost.setText(temp == null ? "_" : getString(R.string.history_price, temp));
 
             temp = getRangeString(filter.minBeds, filter.maxBeds);
-            holder.beds.setText(temp == null ? "_" : getString(R.string.history_beds, temp));
+            holder.beds.setText(temp == null ? "_" : getResources().getQuantityString(R.plurals.history_beds, filter.maxBeds == null ? 2 : filter.maxBeds, temp));
 
             temp = getRangeString(filter.minBathrooms, filter.maxBathrooms);
-            holder.bathrooms.setText(temp == null ? "_" : getString(R.string.history_bathrooms, temp));
+            holder.bathrooms.setText(temp == null ? "_" : getResources().getQuantityString(R.plurals.history_barthrooms, filter.maxBathrooms == null ? 2 : filter.maxBathrooms, temp));
 
             temp = getRangeString(filter.minArea, filter.maxArea);
             holder.area.setText(temp == null ? "_" : getString(R.string.history_area, temp));
@@ -154,12 +158,20 @@ public class SearchHistoryFragment extends Fragment {
 
         @Nullable
         private String getRangeString(Integer n1, Integer n2) {
-            if (n1 != null && n2 != null)
-                return getString(R.string.history_range_min_max, n1, n2);
+            if (n1 != null && n2 != null) {
+                if (n1.equals(n2))
+                    return getString(R.string.history_range_equal, n2); // 1 or +
+                else
+                    return getString(R.string.history_range_min_max, n1, n2); // +
+            }
             if (n1 != null)
-                return getString(R.string.history_range_min, n1);
-            if (n2 != null)
-                return getString(R.string.history_range_max, n2);
+                return getString(R.string.history_range_min, n1); // +
+            if (n2 != null) {
+                if (n2 == 1)
+                    return getString(R.string.history_range_equal, n2); // 1
+                else
+                    return getString(R.string.history_range_max, n2); // +
+            }
 
             return null;
         }
