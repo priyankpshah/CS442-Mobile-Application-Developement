@@ -13,9 +13,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
-public class EzHomeSearchOptionsActivity extends AppCompatActivity implements View.OnClickListener {
+public class EzHomeSearchOptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private EditText minRent;
     private EditText maxRent;
@@ -45,60 +47,20 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
         // bed spinners
         minBedsSpinner = (Spinner) findViewById(R.id.filterMinBeds);
         minBedsSpinner.setAdapter(minRoomAdapter);
-        minBedsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int maxBeds = maxBedsSpinner.getSelectedItemPosition();
-                if (maxBeds != 0 && position > maxBeds)
-                    maxBedsSpinner.setSelection(position, true);
-            }
+        minBedsSpinner.setOnItemSelectedListener(this);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
         maxBedsSpinner = (Spinner) findViewById(R.id.filterMaxBeds);
         maxBedsSpinner.setAdapter(maxRoomAdapter);
-        maxBedsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0 && position < minBedsSpinner.getSelectedItemPosition())
-                    minBedsSpinner.setSelection(position, true);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        maxBedsSpinner.setOnItemSelectedListener(this);
 
         // bathrooms spinners
         minBathroomsSpinner = (Spinner) findViewById(R.id.filterMinBaths);
         minBathroomsSpinner.setAdapter(minRoomAdapter);
-        minBathroomsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int maxBathrooms = maxBathroomsSpinner.getSelectedItemPosition();
-                if (maxBathrooms != 0 && position > maxBathrooms)
-                    maxBathroomsSpinner.setSelection(position, true);
-            }
+        minBathroomsSpinner.setOnItemSelectedListener(this);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
         maxBathroomsSpinner = (Spinner) findViewById(R.id.filterMaxBaths);
         maxBathroomsSpinner.setAdapter(maxRoomAdapter);
-        maxBathroomsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0 && position < minBathroomsSpinner.getSelectedItemPosition())
-                    minBathroomsSpinner.setSelection(position, true);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        maxBathroomsSpinner.setOnItemSelectedListener(this);
 
         // area
         minAreaEditText = (EditText) findViewById(R.id.filterMinArea);
@@ -110,6 +72,57 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
 
         Button apply = (Button) findViewById(R.id.filterSearchButton);
         apply.setOnClickListener(this);
+
+        // set form to user's last search settings
+        ApartmentSearchFilter lastSearch = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId());
+        if (lastSearch != null) {
+            // cost
+            if (lastSearch.minCost != null)
+                minRent.setText(lastSearch.minCost.toString());
+            if (lastSearch.maxCost != null)
+                maxRent.setText(lastSearch.maxCost.toString());
+
+            // beds
+            if (lastSearch.minBeds != null)
+                minBedsSpinner.setSelection(lastSearch.minBeds);
+            if (lastSearch.maxBeds != null)
+                maxBedsSpinner.setSelection(lastSearch.maxBeds);
+
+            // bathrooms
+            if (lastSearch.minBathrooms != null)
+                minBathroomsSpinner.setSelection(lastSearch.minBathrooms);
+            if (lastSearch.maxBathrooms != null)
+                maxBathroomsSpinner.setSelection(lastSearch.maxBathrooms);
+
+            // sq ft
+            if (lastSearch.minArea != null)
+                minAreaEditText.setText(lastSearch.minArea.toString());
+            if (lastSearch.maxArea != null)
+                maxAreaEditText.setText(lastSearch.maxArea.toString());
+
+            // options
+            if (lastSearch.hasGym != null)
+                hasGym.setChecked(lastSearch.hasGym);
+            if (lastSearch.hasParking != null)
+                hasParking.setChecked(lastSearch.hasParking);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO ask user if they are sure they want to leave
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -214,20 +227,31 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Vi
     }
 
     @Override
-    public void onBackPressed() {
-        // TODO ask user if they are sure they want to leave
-        super.onBackPressed();
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.filterMinBeds:
+                int maxBeds = maxBedsSpinner.getSelectedItemPosition();
+                if (maxBeds != 0 && position > maxBeds)
+                    maxBedsSpinner.setSelection(position, true);
+                break;
+            case R.id.filterMaxBeds:
+                if (position != 0 && position < minBedsSpinner.getSelectedItemPosition())
+                    minBedsSpinner.setSelection(position, true);
+                break;
+            case R.id.filterMinBaths:
+                int maxBathrooms = maxBathroomsSpinner.getSelectedItemPosition();
+                if (maxBathrooms != 0 && position > maxBathrooms)
+                    maxBathroomsSpinner.setSelection(position, true);
+                break;
+            case R.id.filterMaxBaths:
+                if (position != 0 && position < minBathroomsSpinner.getSelectedItemPosition())
+                    minBathroomsSpinner.setSelection(position, true);
+                break;
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 
 }
