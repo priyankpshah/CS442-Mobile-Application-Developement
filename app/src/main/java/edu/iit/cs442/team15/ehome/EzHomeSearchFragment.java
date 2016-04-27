@@ -161,7 +161,7 @@ public class EzHomeSearchFragment extends Fragment {
             public int compare(Apartment arg0, Apartment arg1) {
                 if (arg0.rent > arg1.rent)
                     return 1;
-                else if (arg0.rent == arg1.rent)
+                else if (arg0.getTotalCost() == arg1.getTotalCost())
                     return 0;
                 else
                     return -1;
@@ -188,7 +188,7 @@ public class EzHomeSearchFragment extends Fragment {
             public int compare(Apartment arg0, Apartment arg1) {
                 if (arg0.rent > arg1.rent)
                     return -1;
-                else if (arg0.rent == arg1.rent)
+                else if (arg0.getTotalCost() == arg1.getTotalCost())
                     return 0;
                 else
                     return 1;
