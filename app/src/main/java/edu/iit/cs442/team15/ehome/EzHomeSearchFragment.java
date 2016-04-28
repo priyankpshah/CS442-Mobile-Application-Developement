@@ -264,22 +264,18 @@ public class EzHomeSearchFragment extends Fragment {
             if (convertView == null) {
                 convertView = View.inflate(getActivity(), R.layout.item_list_ezhome_search, null);
                 holder = new ViewHolder();
-                holder.ItemId = (TextView) convertView.findViewById(R.id.tv_id);
                 holder.Itemarea = (TextView) convertView.findViewById(R.id.tv_area);
                 holder.Itemaddress = (TextView) convertView.findViewById(R.id.tv_address);
                 holder.Itemrent = (TextView) convertView.findViewById(R.id.tv_rent);
                 holder.Itemowner = (TextView) convertView.findViewById(R.id.tv_owner);
-                holder.Itemphone = (TextView) convertView.findViewById(R.id.tv_phone);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.ItemId.setText(Integer.toString(result.get(position).id));
             holder.Itemarea.setText(Double.toString(result.get(position).squareFeet));
             holder.Itemaddress.setText(result.get(position).address);
             holder.Itemrent.setText(Double.toString(result.get(position).getTotalCost()));
             holder.Itemowner.setText(result.get(position).owner.complexName);
-            holder.Itemphone.setText(result.get(position).owner.ownerPhone);
             return convertView;
         }
 
@@ -291,11 +287,9 @@ public class EzHomeSearchFragment extends Fragment {
     }
 
     private static final class ViewHolder {
-        public TextView ItemId;
         public TextView Itemaddress;
         public TextView Itemrent;
         public TextView Itemarea;
         public TextView Itemowner;
-        public TextView Itemphone;
     }
 }

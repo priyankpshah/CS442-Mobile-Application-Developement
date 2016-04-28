@@ -5,18 +5,6 @@
     android:layout_height="100dp">
 
     <TextView
-        android:id="@+id/tv_id"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="@string/header_id"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:maxLines="2"
-        android:ellipsize="end"
-        />
-    <TextView
         android:id="@+id/tv_address"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -58,18 +46,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="@string/header_owner"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:maxLines="2"
-        android:ellipsize="end"
-        />
-    <TextView
-        android:id="@+id/tv_phone"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="@string/header_phone"
         android:textSize="15sp"
         android:layout_gravity="center"
         android:gravity="center"
