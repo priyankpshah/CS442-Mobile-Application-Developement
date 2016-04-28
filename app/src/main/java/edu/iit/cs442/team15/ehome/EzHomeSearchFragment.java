@@ -152,7 +152,7 @@ public class EzHomeSearchFragment extends Fragment {
     public void Sort_by_rent1() {
         Collections.sort(result, new Comparator<Apartment>() {
             public int compare(Apartment arg0, Apartment arg1) {
-                if (arg0.rent > arg1.rent)
+                if (arg0.getTotalCost() > arg1.getTotalCost())
                     return 1;
                 else if (arg0.getTotalCost() == arg1.getTotalCost())
                     return 0;
@@ -179,7 +179,7 @@ public class EzHomeSearchFragment extends Fragment {
     void Sort_by_rent() {
         Collections.sort(result, new Comparator<Apartment>() {
             public int compare(Apartment arg0, Apartment arg1) {
-                if (arg0.rent > arg1.rent)
+                if (arg0.getTotalCost() > arg1.getTotalCost())
                     return -1;
                 else if (arg0.getTotalCost() == arg1.getTotalCost())
                     return 0;
