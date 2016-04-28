@@ -40,7 +40,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
             sInstance = new ApartmentDatabaseHelper(context.getApplicationContext());
     }
 
-    public static synchronized ApartmentDatabaseHelper getInstance() {
+    public static ApartmentDatabaseHelper getInstance() {
         if (sInstance == null)
             throw new RuntimeException("ApartmentDatabaseHelper not initialized");
         return sInstance;
@@ -93,6 +93,8 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return count > 0;
     }
 
+    /* -------- Users -------- */
+
     public long addUser(User newUser) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -140,6 +142,61 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
         return user;
     }
+
+    /* -------- Favorites -------- */
+
+    // returns list of apartment ids of favorites
+    public List<Integer> getFavorites(int userId) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        final String selection = Favorites.USER_ID + "=?";
+        Cursor cur = db.query(Favorites.TABLE, new String[]{Favorites.APARTMENT_ID}, selection, new String[]{Integer.toString(userId)}, null, null, null);
+
+        List<Integer> result = new ArrayList<>();
+        if (cur.moveToFirst()) {
+            do {
+                result.add(cur.getInt(cur.getColumnIndex(Favorites.APARTMENT_ID)));
+            } while (cur.moveToNext());
+        }
+
+        cur.close();
+        db.close();
+
+        return result;
+    }
+
+    public long addFavorite(int userId, int apartmentId) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Favorites.USER_ID, userId);
+        values.put(Favorites.APARTMENT_ID, apartmentId);
+
+        return db.insert(Favorites.TABLE, null, values);
+    }
+
+    public int removeFavorite(int userId, int apartmentId) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        final String whereClause = Favorites.USER_ID + "=? AND " + Favorites.APARTMENT_ID + "=?";
+        return db.delete(Favorites.TABLE, whereClause, new String[]{Integer.toString(userId), Integer.toString(apartmentId)});
+    }
+
+    public boolean isFavorited(int userId, int apartmentId) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        final String selection = Favorites.USER_ID + "=? AND " + Favorites.APARTMENT_ID + "=?";
+        Cursor cur = db.query(Favorites.TABLE, null, selection, new String[]{Integer.toString(userId), Integer.toString(apartmentId)}, null, null, null, "1");
+
+        boolean result = cur.getCount() > 0;
+
+        cur.close();
+        db.close();
+
+        return result;
+    }
+
+    /* -------- Search History -------- */
 
     public long addSearchHistory(int userId, ApartmentSearchFilter filter) {
         SQLiteDatabase db = getWritableDatabase();
@@ -235,6 +292,8 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().delete(SearchHistory.TABLE, SearchHistory.USER_ID + "=?", new String[]{Integer.toString(userId)});
     }
 
+    /* -------- Apartments -------- */
+
     public Cursor getApartmentsCursor(ApartmentSearchFilter filter) {
         SQLiteDatabase db = getReadableDatabase();
 
@@ -280,12 +339,6 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     public Apartment getApartment(int id) {
         List<Apartment> result = getApartments(new ApartmentSearchFilter().setApartmentId(id));
         return result.isEmpty() ? null : result.get(0);
-    }
-
-    @Nullable
-    public Amenity getAmenity(int apartment_id) {
-        List<Apartment> result = getApartments(new ApartmentSearchFilter().setApartmentId(apartment_id));
-        return result.isEmpty() ? null : result.get(0).amenity;
     }
 
     public static final class Users {

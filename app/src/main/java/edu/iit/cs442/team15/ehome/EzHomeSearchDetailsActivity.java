@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,31 +16,35 @@ import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import edu.iit.cs442.team15.ehome.model.Amenity;
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class EzHomeSearchDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String EXTRA_APARTMENT_ID = "apartment_id";
 
-    FloatingActionButton call, text;
-    TextView name, address, area, bedrooms, bathrooms, ezPrice, rent, thermostat, cable, internet, gas, electricity;
-    CheckedTextView gym, parking;
+    private int apartmentId;
+    private FloatingActionButton call, text;
+    private TextView name, address, area, bedrooms, bathrooms, ezPrice, rent, thermostat, cable, internet, gas, electricity;
+    private CheckedTextView gym, parking;
+
+    private MenuItem favorites;
+    private boolean isFavorited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ezhome_search_details);
 
-        ApartmentDatabaseHelper adh = ApartmentDatabaseHelper.getInstance();
-        Apartment apartment = adh.getApartment(getIntent().getIntExtra(EXTRA_APARTMENT_ID, -1));
-        Amenity amenity = adh.getAmenity(getIntent().getIntExtra(EXTRA_APARTMENT_ID, -1));
+        apartmentId = getIntent().getIntExtra(EXTRA_APARTMENT_ID, -1);
+        Apartment apartment = ApartmentDatabaseHelper.getInstance().getApartment(apartmentId);
 
         Button details = (Button) findViewById(R.id.button_ezprice_details);
         details.setOnClickListener(this);
 
         // find views
+        // TODO add owner info from apartment.owner._
         //apartment = (TextView) findViewById(R.apartmentId.Apartment_name);
         address = (TextView) findViewById(R.id.ezhome_address);
         area = (TextView) findViewById(R.id.ezhome_area);
@@ -63,13 +68,13 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         bathrooms.setText(getString(R.string.ezhome_bathrooms, apartment.bathrooms));
 
         // ezPrice and details
-        ezPrice.setText(getString(R.string.ezhome_ezprice, apartment.rent + amenity.getTotalCost()));
+        ezPrice.setText(getString(R.string.ezhome_ezprice, apartment.getTotalCost()));
         rent.setText(getString(R.string.ezhome_rent, apartment.rent));
-        thermostat.setText(getString(R.string.ezhome_thermostat, amenity.thermostat));
-        cable.setText(getString(R.string.ezhome_cable, amenity.cable));
-        internet.setText(getString(R.string.ezhome_internet, amenity.internet));
-        gas.setText(getString(R.string.ezhome_gas, amenity.gas));
-        electricity.setText(getString(R.string.ezhome_electricity, amenity.electricity));
+        thermostat.setText(getString(R.string.ezhome_thermostat, apartment.amenity.thermostat));
+        cable.setText(getString(R.string.ezhome_cable, apartment.amenity.cable));
+        internet.setText(getString(R.string.ezhome_internet, apartment.amenity.internet));
+        gas.setText(getString(R.string.ezhome_gas, apartment.amenity.gas));
+        electricity.setText(getString(R.string.ezhome_electricity, apartment.amenity.electricity));
 
         //Call owner with the following method
         call = (FloatingActionButton) findViewById(R.id.Call);
@@ -94,7 +99,6 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
                 sendText.putExtra("sms_body", "I am Interested in leasing you property, Contact me!!");
             }
         });
-
     }
 
     @Override
@@ -110,14 +114,39 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_ezhome_details, menu);
+
+        favorites = menu.findItem(R.id.addToFavorites);
+        isFavorited = ApartmentDatabaseHelper.getInstance().isFavorited(SavedLogin.getInstance().getId(), apartmentId);
+        favorites.setIcon(isFavorited ? R.drawable.favorite : R.drawable.add_favorite);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.addToFavorites:
+                if (isFavorited) {
+                    if (ApartmentDatabaseHelper.getInstance().removeFavorite(SavedLogin.getInstance().getId(), apartmentId) > 0) {
+                        favorites.setIcon(R.drawable.add_favorite);
+                        isFavorited = false;
+                    }
+                } else {
+                    if (ApartmentDatabaseHelper.getInstance().addFavorite(SavedLogin.getInstance().getId(), apartmentId) > 0) {
+                        favorites.setIcon(R.drawable.favorite);
+                        isFavorited = true;
+                    }
+                }
+                return true;
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
 }

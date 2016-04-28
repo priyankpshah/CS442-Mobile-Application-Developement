@@ -55,6 +55,8 @@
     <!-- ezHome Search Details -->
     <string name="title_activity_ezhome_search_details">Search Details</string>
 
+    <string name="menu_favorites">Add to favorites</string>
+
     <string name="button_ezprice_details">Details</string>
 
     <string name="ezhome_address">Address: %s</string>
