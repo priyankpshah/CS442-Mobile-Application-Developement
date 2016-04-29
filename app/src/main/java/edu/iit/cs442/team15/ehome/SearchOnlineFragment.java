@@ -29,6 +29,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -49,6 +50,8 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
     private GoogleMap mMap;
     private Geocoder geocoder;
 
+    private ApartmentSearchFilter filter;
+    private Location filterLoc;
     private List<WebApartment> apartments;
 
     public SearchOnlineFragment() {
@@ -82,12 +85,12 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search_online, container, false);
 
-        ApartmentSearchFilter filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId(), false);
+        filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId(), false);
         if (filter == null) // no search history
             filter = new ApartmentSearchFilter().setEzhomeSearch(false);
 
         apartments = ApartmentDatabaseHelper.getInstance().getWebApartments(filter);
-        filterApartmentsByLocation(filter);
+        filterApartmentsByLocation();
 
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         map.getMapAsync(this);
@@ -134,7 +137,6 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
             userMarker = map.addMarker(new MarkerOptions()
                     .position(lastLatLng)
                     .title("You are here")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.search_online_marker_icon))
                     .snippet("Your last recorded location"));
 
             map.setMyLocationEnabled(true);
@@ -143,7 +145,6 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
             userMarker = map.addMarker(new MarkerOptions()
                     .position(new LatLng(Chicago.LATITUDE, Chicago.LONGITUDE))
                     .title("Chicago")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.search_online_marker_icon))
                     .snippet("You are here"));
         }
 
@@ -158,8 +159,23 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                     .snippet(apartment.getSnippet()));
         }
 
-        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+        // add filter marker if applicable
+        if (filterLoc != null) {
+            LatLng position = new LatLng(filterLoc.getLatitude(), filterLoc.getLongitude());
 
+            map.addMarker(new MarkerOptions()
+                    .position(position)
+                    .title(filter.location)
+                    .snippet("Search radius"));
+
+            map.addCircle(new CircleOptions()
+                    .center(position)
+                    .radius(filter.distance * Chicago.MILES_TO_METERS)
+                    .strokeWidth(0f)
+                    .fillColor(0x5590B6FD));
+        }
+
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             // Use default InfoWindow frame
             @Override
             public View getInfoWindow(Marker arg0) {
@@ -221,11 +237,13 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         switch (requestCode) {
             case SEARCH_OPTIONS_REQUEST_ONLINE:
                 if (resultCode == Activity.RESULT_OK) {
-                    ApartmentSearchFilter filter = (ApartmentSearchFilter) data.getSerializableExtra("filter");
+                    filter = (ApartmentSearchFilter) data.getSerializableExtra("filter");
 
                     ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(), filter);
                     apartments = ApartmentDatabaseHelper.getInstance().getWebApartments(filter);
-                    filterApartmentsByLocation(filter);
+                    filterLoc = null; // clear
+
+                    filterApartmentsByLocation();
 
                     mMap.clear(); // remove existing markers
                     onMapReady(mMap);
@@ -236,7 +254,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
-    private void filterApartmentsByLocation(ApartmentSearchFilter filter) {
+    private void filterApartmentsByLocation() {
         if (filter.location == null || filter.distance == null)
             return; // location filter not set by user
 
@@ -248,7 +266,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         }
 
         if (!addresses.isEmpty()) {
-            Location filterLoc = new Location("");
+            filterLoc = new Location("");
             filterLoc.setLatitude(addresses.get(0).getLatitude());
             filterLoc.setLongitude(addresses.get(0).getLongitude());
 

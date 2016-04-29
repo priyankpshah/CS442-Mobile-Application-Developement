@@ -10,6 +10,7 @@ public interface Chicago {
     double UPPER_RIGHT_LONG = -87.52121;
     double UPPER_RIGHT_LAT = 42.050754;
 
-    // conversion factor
+    // conversion factors
     double METERS_TO_MILES = 0.000621371;
+    double MILES_TO_METERS = 1609.34;
 }
