@@ -29,7 +29,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,6 +61,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBWISmIAoGEuGwN28toHkeRA5oGAGppN4M" />
 
+        <activity android:name=".SearchOnlineOptionsActivity"></activity>
     </application>
 
 </manifest>

@@ -159,7 +159,7 @@
     <string name="hint_min_online">Min</string>
     <string name="hint_max_online">Max</string>
     <string name="header_area_online">Location</string>
-    <string name="edit_search_online">Enter Location</string>
+    <string name="edit_search_online">Location</string>
 
 
 </resources>

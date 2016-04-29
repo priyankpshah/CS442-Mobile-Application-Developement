@@ -303,7 +303,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuSearchOptionsOnline:
-                Intent searchOptions = new Intent(getActivity(), OnlineSearchDetailsOptions.class);
+                Intent searchOptions = new Intent(getActivity(), SearchOnlineOptionsActivity.class);
                 startActivityForResult(searchOptions, SEARCH_OPTIONS_REQUEST_ONLINE);
                 return true;
             default:
