@@ -137,22 +137,6 @@ public class ApartmentSearchFilter implements Serializable {
             this.value = var == null ? null : var.toString();
             this.where = where;
         }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Filter filter = (Filter) o;
-
-            return where != null ? where.equals(filter.where) : filter.where == null;
-
-        }
-
-        @Override
-        public int hashCode() {
-            return where != null ? where.hashCode() : 0;
-        }
     }
 
 }

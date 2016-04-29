@@ -18,6 +18,7 @@ import edu.iit.cs442.team15.ehome.model.Amenity;
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.model.Owner;
 import edu.iit.cs442.team15.ehome.model.User;
+import edu.iit.cs442.team15.ehome.model.WebApartment;
 
 public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
@@ -339,6 +340,36 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     public Apartment getApartment(int id) {
         List<Apartment> result = getApartments(new ApartmentSearchFilter().setApartmentId(id));
         return result.isEmpty() ? null : result.get(0);
+    }
+
+    /* Web Apartments */
+
+    private Cursor getWebApartmentsCursor(WebApartmentSearchFilter filter) {
+        SQLiteDatabase db = getReadableDatabase();
+        return filter.query(db);
+    }
+
+    public List<WebApartment> getWebApartments(WebApartmentSearchFilter filter) {
+        Cursor cur = getWebApartmentsCursor(filter);
+
+        List<WebApartment> result = new ArrayList<>();
+        if (cur.moveToFirst()) {
+            do {
+                result.add(new WebApartment()
+                        .setName(cur.getString(cur.getColumnIndex(WebApartments.NAME)))
+                        .setAddress(cur.getString(cur.getColumnIndex(WebApartments.ADDRESS)))
+                        .setRent(cur.getDouble(cur.getColumnIndex(WebApartments.RENT)))
+                        .setLatitude(cur.getDouble(cur.getColumnIndex(WebApartments.LATITUDE)))
+                        .setLongitude(cur.getDouble(cur.getColumnIndex(WebApartments.LONGITUDE)))
+                        .setOwnerEmail(cur.getString(cur.getColumnIndex(WebApartments.OWNER_EMAIL)))
+                        .setOwnerPhone(cur.getString(cur.getColumnIndex(WebApartments.OWNER_PHONE)))
+                        .setOwnerWebsite(cur.getString(cur.getColumnIndex(WebApartments.OWNER_WEBSITE))));
+            } while (cur.moveToNext());
+        }
+
+        cur.close();
+
+        return result;
     }
 
     public static final class Users {
