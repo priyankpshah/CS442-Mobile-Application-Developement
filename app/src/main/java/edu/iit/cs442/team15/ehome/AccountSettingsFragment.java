@@ -28,7 +28,6 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
     private EditText aNewPassword;
     private EditText aConfirmNewPassword;
     private EditText aName;
-    private EditText aAddress;
     private EditText aPhone;
     private Button updateButton;
 
@@ -105,7 +104,6 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                 aNewPassword.setError(null);
                 aConfirmNewPassword.setError(null);
                 aName.setError(null);
-                aAddress.setError(null);
                 aPhone.setError(null);
 
                 // get current status of EditTexts
