@@ -242,7 +242,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
                 SearchHistory.TABLE,
                 null,
                 SearchHistory.USER_ID + "=? AND " + SearchHistory.IS_EZHOME_SEARCH + "=?",
-                new String[]{Integer.toString(userId), isEzhomeSearch ? "1" : "0"},
+                new String[]{Integer.toString(userId), isEzhomeSearch ? "TRUE" : "FALSE"},
                 null,
                 null,
                 SearchHistory.ID + " DESC",

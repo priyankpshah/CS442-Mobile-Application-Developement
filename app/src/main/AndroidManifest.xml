@@ -61,7 +61,13 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBWISmIAoGEuGwN28toHkeRA5oGAGppN4M" />
 
-        <activity android:name=".SearchOnlineOptionsActivity"></activity>
+        <activity
+            android:name=".SearchOnlineOptionsActivity"
+            android:label="@string/title_activity_ezhome_search_options">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

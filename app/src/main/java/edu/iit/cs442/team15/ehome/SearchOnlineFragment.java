@@ -1,6 +1,7 @@
 package edu.iit.cs442.team15.ehome;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -38,13 +39,15 @@ import java.util.List;
 import edu.iit.cs442.team15.ehome.model.WebApartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
+import edu.iit.cs442.team15.ehome.util.Chicago;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int SEARCH_OPTIONS_REQUEST_ONLINE = 1;
 
     private GoogleMap mMap;
-    private int userIcon;
+    private Geocoder geocoder;
 
     private List<WebApartment> apartments;
 
@@ -65,6 +68,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        geocoder = new Geocoder(context);
     }
 
     @Override
@@ -78,13 +82,15 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search_online, container, false);
 
-        // TODO use user search options
-        apartments = ApartmentDatabaseHelper.getInstance().getWebApartments(new ApartmentSearchFilter().setEzhomeSearch(false));
+        ApartmentSearchFilter filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId(), false);
+        if (filter == null) // no search history
+            filter = new ApartmentSearchFilter().setEzhomeSearch(false);
+
+        apartments = ApartmentDatabaseHelper.getInstance().getWebApartments(filter);
+        filterApartmentsByLocation(filter);
 
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         map.getMapAsync(this);
-
-        userIcon = R.drawable.search_online_marker_icon;
 
         return v;
     }
@@ -125,39 +131,30 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
             double lng = lastLoc.getLongitude();
             LatLng lastLatLng = new LatLng(lat, lng);
 
-            //  if (userMarker != null) userMarker.remove();
-
             userMarker = map.addMarker(new MarkerOptions()
                     .position(lastLatLng)
                     .title("You are here")
-                    .icon(BitmapDescriptorFactory.fromResource(userIcon))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.search_online_marker_icon))
                     .snippet("Your last recorded location"));
 
             map.setMyLocationEnabled(true);
         } else {
             // get Chicago's location as fallback
-            Address chicago = null;
-            try {
-                chicago = new Geocoder(getActivity()).getFromLocationName("Chicago", 1).get(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
             userMarker = map.addMarker(new MarkerOptions()
-                    .position(new LatLng(chicago.getLatitude(), chicago.getLongitude()))
+                    .position(new LatLng(Chicago.LATITUDE, Chicago.LONGITUDE))
                     .title("Chicago")
-                    .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                    .snippet(""));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.search_online_marker_icon))
+                    .snippet("You are here"));
         }
 
         // zoom in on user location or Chicago
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 12.5f));
 
         for (WebApartment apartment : apartments) {
-            Marker locMarker = map.addMarker(new MarkerOptions()
+            map.addMarker(new MarkerOptions()
                     .position(new LatLng(apartment.latitude, apartment.longitude))
                     .title(apartment.name)
-                    .icon(BitmapDescriptorFactory.fromResource(userIcon))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.search_online_marker_icon))
                     .snippet(apartment.getSnippet()));
         }
 
@@ -216,6 +213,54 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case SEARCH_OPTIONS_REQUEST_ONLINE:
+                if (resultCode == Activity.RESULT_OK) {
+                    ApartmentSearchFilter filter = (ApartmentSearchFilter) data.getSerializableExtra("filter");
+
+                    ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(), filter);
+                    apartments = ApartmentDatabaseHelper.getInstance().getWebApartments(filter);
+                    filterApartmentsByLocation(filter);
+
+                    mMap.clear(); // remove existing markers
+                    onMapReady(mMap);
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void filterApartmentsByLocation(ApartmentSearchFilter filter) {
+        if (filter.location == null || filter.distance == null)
+            return; // location filter not set by user
+
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocationName(filter.location, 1, Chicago.LOWER_LEFT_LAT, Chicago.LOWER_LEFT_LONG, Chicago.UPPER_RIGHT_LAT, Chicago.UPPER_RIGHT_LONG);
+        } catch (IOException e) {
+            return;
+        }
+
+        if (!addresses.isEmpty()) {
+            Location filterLoc = new Location("");
+            filterLoc.setLatitude(addresses.get(0).getLatitude());
+            filterLoc.setLongitude(addresses.get(0).getLongitude());
+
+            for (int i = 0; i < apartments.size(); i++) {
+                Location apartLoc = new Location("");
+                apartLoc.setLatitude(apartments.get(i).latitude);
+                apartLoc.setLongitude(apartments.get(i).longitude);
+
+                // remove item if it is out of bounds
+                if (filterLoc.distanceTo(apartLoc) * Chicago.METERS_TO_MILES > filter.distance)
+                    apartments.remove(i--); // decrement i because item is removed
+            }
         }
     }
 

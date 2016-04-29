@@ -97,6 +97,8 @@
     <string name="error_invalid_input">Invalid input.</string>
     <string name="error_max_rent_too_low">Max rent must be higher than min rent.</string>
     <string name="error_max_area_too_low">Max sq ft must be higher than min sq ft.</string>
+    <string name="error_invalid_location">Location not found.</string>
+    <string name="error_missing_distance">This filed is required if location is set.</string>
 
     <string name="toast_max_beds">Max bedrooms must be >= to min bedrooms.</string>
     <string name="toast_max_bathrooms">Max bathrooms must be >= to min bathrooms.</string>
@@ -160,6 +162,5 @@
     <string name="hint_max_online">Max</string>
     <string name="header_area_online">Location</string>
     <string name="edit_search_online">Location</string>
-
 
 </resources>

@@ -147,13 +147,13 @@ public class ApartmentSearchFilter implements Serializable {
                     new Filter(maxBeds, Apartments.BEDROOMS + "<=?"),
                     new Filter(minBathrooms, Apartments.BATHROOMS + ">=?"),
                     new Filter(maxBathrooms, Apartments.BATHROOMS + "<=?"),
-                    new Filter(minArea, Apartments.AREA + "<=CAST(? AS INTEGER)"),
-                    new Filter(maxArea, Apartments.AREA + ">=CAST(? AS INTEGER)"),
+                    new Filter(minArea, Apartments.AREA + ">=CAST(? AS INTEGER)"),
+                    new Filter(maxArea, Apartments.AREA + "<=CAST(? AS INTEGER)"),
             };
         } else {
             return new Filter[]{
-                    new Filter(minCost, WebApartments.RENT + "<=CAST(? AS NUMERIC)"),
-                    new Filter(maxCost, WebApartments.RENT + ">=CAST(? AS INTEGER)")
+                    new Filter(minCost, WebApartments.RENT + ">=CAST(? AS NUMERIC)"),
+                    new Filter(maxCost, WebApartments.RENT + "<=CAST(? AS INTEGER)")
             };
         }
     }
