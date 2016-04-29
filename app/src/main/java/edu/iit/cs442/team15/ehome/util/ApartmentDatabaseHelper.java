@@ -387,82 +387,82 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public static final class Users {
-        public static final String TABLE = "users";
-        public static final String ID = "id";
-        public static final String EMAIL = "email";
-        public static final String PASSWORD = "password";
-        public static final String NAME = "name";
-        public static final String PHONE = "phone";
+    public interface Users {
+        String TABLE = "users";
+        String ID = "id";
+        String EMAIL = "email";
+        String PASSWORD = "password";
+        String NAME = "name";
+        String PHONE = "phone";
     }
 
-    public static final class Favorites {
-        public static final String TABLE = "user_favorites";
-        public static final String USER_ID = "user_id";
-        public static final String APARTMENT_ID = "apartment_id";
+    public interface Favorites {
+        String TABLE = "user_favorites";
+        String USER_ID = "user_id";
+        String APARTMENT_ID = "apartment_id";
     }
 
-    public static final class SearchHistory {
-        public static final String TABLE = "search_history";
-        public static final String ID = "_id";
-        public static final String USER_ID = "user_id";
-        public static final String MIN_COST = "min_cost";
-        public static final String MAX_COST = "max_cost";
-        public static final String HAS_GYM = "has_gym";
-        public static final String HAS_PARKING = "has_parking";
-        public static final String MIN_BEDS = "min_beds";
-        public static final String MAX_BEDS = "max_beds";
-        public static final String MIN_BATHROOMS = "min_bathrooms";
-        public static final String MAX_BATHROOMS = "max_bathrooms";
-        public static final String MIN_AREA = "min_area";
-        public static final String MAX_AREA = "max_area";
-        public static final String DISTANCE = "distance";
-        public static final String LOCATION = "location";
-        public static final String IS_EZHOME_SEARCH = "is_ezhome_search";
+    public interface SearchHistory {
+        String TABLE = "search_history";
+        String ID = "_id";
+        String USER_ID = "user_id";
+        String MIN_COST = "min_cost";
+        String MAX_COST = "max_cost";
+        String HAS_GYM = "has_gym";
+        String HAS_PARKING = "has_parking";
+        String MIN_BEDS = "min_beds";
+        String MAX_BEDS = "max_beds";
+        String MIN_BATHROOMS = "min_bathrooms";
+        String MAX_BATHROOMS = "max_bathrooms";
+        String MIN_AREA = "min_area";
+        String MAX_AREA = "max_area";
+        String DISTANCE = "distance";
+        String LOCATION = "location";
+        String IS_EZHOME_SEARCH = "is_ezhome_search";
     }
 
-    public static final class Apartments {
-        public static final String TABLE = "apartments";
-        public static final String ID = "id";
-        public static final String ADDRESS = "address";
-        public static final String ZIP = "zip";
-        public static final String BEDROOMS = "bedrooms";
-        public static final String BATHROOMS = "bathrooms";
-        public static final String AREA = "square_feet";
-        public static final String RENT = "rent";
-        public static final String OWNER_ID = "owner_id";
+    public interface Apartments {
+        String TABLE = "apartments";
+        String ID = "id";
+        String ADDRESS = "address";
+        String ZIP = "zip";
+        String BEDROOMS = "bedrooms";
+        String BATHROOMS = "bathrooms";
+        String AREA = "square_feet";
+        String RENT = "rent";
+        String OWNER_ID = "owner_id";
     }
 
-    public static final class Owners {
-        public static final String TABLE = "owners";
-        public static final String ID = "id";
-        public static final String COMPLEX_NAME = "complex_name";
-        public static final String OWNER_PHONE = "owner_phone";
-        public static final String OWNER_EMAIL = "owner_email";
+    public interface Owners {
+        String TABLE = "owners";
+        String ID = "id";
+        String COMPLEX_NAME = "complex_name";
+        String OWNER_PHONE = "owner_phone";
+        String OWNER_EMAIL = "owner_email";
     }
 
-    public static final class Amenities {
-        public static final String TABLE = "amenities";
-        public static final String ID = "apartment_id";
-        public static final String PARKING = "parking";
-        public static final String GYM = "gym";
-        public static final String GAS = "gas";
-        public static final String ELECTRICITY = "electricity";
-        public static final String INTERNET = "internet";
-        public static final String CABLE = "cable";
-        public static final String THERMOSTAT = "thermostat";
+    public interface Amenities {
+        String TABLE = "amenities";
+        String ID = "apartment_id";
+        String PARKING = "parking";
+        String GYM = "gym";
+        String GAS = "gas";
+        String ELECTRICITY = "electricity";
+        String INTERNET = "internet";
+        String CABLE = "cable";
+        String THERMOSTAT = "thermostat";
     }
 
-    public static final class WebApartments {
-        public static final String TABLE = "web_apartments";
-        public static final String NAME = "name";
-        public static final String ADDRESS = "address";
-        public static final String RENT = "rent";
-        public static final String LATITUDE = "latitude";
-        public static final String LONGITUDE = "longitude";
-        public static final String OWNER_EMAIL = "owner_email";
-        public static final String OWNER_PHONE = "owner_phone";
-        public static final String OWNER_WEBSITE = "owner_website";
+    public interface WebApartments {
+        String TABLE = "web_apartments";
+        String NAME = "name";
+        String ADDRESS = "address";
+        String RENT = "rent";
+        String LATITUDE = "latitude";
+        String LONGITUDE = "longitude";
+        String OWNER_EMAIL = "owner_email";
+        String OWNER_PHONE = "owner_phone";
+        String OWNER_WEBSITE = "owner_website";
     }
 
 }
