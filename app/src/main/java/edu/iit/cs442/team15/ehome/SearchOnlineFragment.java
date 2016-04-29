@@ -38,7 +38,7 @@ import java.util.List;
 
 import edu.iit.cs442.team15.ehome.model.WebApartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
-import edu.iit.cs442.team15.ehome.util.WebApartmentSearchFilter;
+import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
 
 public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback {
 
@@ -80,7 +80,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         View v = inflater.inflate(R.layout.fragment_search_online, container, false);
 
         // TODO use user search options
-        apartments = ApartmentDatabaseHelper.getInstance().getWebApartments(new WebApartmentSearchFilter());
+        apartments = ApartmentDatabaseHelper.getInstance().getWebApartments(new ApartmentSearchFilter().setEzhomeSearch(false));
 
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         map.getMapAsync(this);

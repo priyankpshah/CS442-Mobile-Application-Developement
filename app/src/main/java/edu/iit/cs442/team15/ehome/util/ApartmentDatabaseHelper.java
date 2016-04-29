@@ -23,7 +23,7 @@ import edu.iit.cs442.team15.ehome.model.WebApartment;
 public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "offline_apartments";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     private static ApartmentDatabaseHelper sInstance; // singleton instance
 
@@ -344,12 +344,15 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     /* Web Apartments */
 
-    private Cursor getWebApartmentsCursor(WebApartmentSearchFilter filter) {
+    private Cursor getWebApartmentsCursor(ApartmentSearchFilter filter) {
+        if (!filter.isEzhomeSearch)
+            throw new RuntimeException("filter is not a web filter");
+
         SQLiteDatabase db = getReadableDatabase();
         return filter.query(db);
     }
 
-    public List<WebApartment> getWebApartments(WebApartmentSearchFilter filter) {
+    public List<WebApartment> getWebApartments(ApartmentSearchFilter filter) {
         Cursor cur = getWebApartmentsCursor(filter);
 
         List<WebApartment> result = new ArrayList<>();
@@ -401,6 +404,9 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         public static final String MAX_BATHROOMS = "max_bathrooms";
         public static final String MIN_AREA = "min_area";
         public static final String MAX_AREA = "max_area";
+        public static final String DISTANCE = "distance";
+        public static final String LOCATION = "location";
+        public static final String IS_EZHOME_SEARCH = "is_ezhome_search";
     }
 
     public static final class Apartments {

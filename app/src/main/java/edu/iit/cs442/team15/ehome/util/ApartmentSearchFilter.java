@@ -10,6 +10,7 @@ import java.util.List;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Amenities;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Apartments;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.Owners;
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper.WebApartments;
 
 /**
  * Provides a generic way to generate an SQL query for an apartment search
@@ -26,6 +27,9 @@ public class ApartmentSearchFilter implements Serializable {
     public Integer minBeds, maxBeds;
     public Integer minBathrooms, maxBathrooms;
     public Integer minArea, maxArea;
+    public Double distance; // filter this in code
+    public String location;
+    boolean isEzhomeSearch = true;
 
     public ApartmentSearchFilter setApartmentId(int apartmentId) {
         this.apartmentId = apartmentId;
@@ -82,16 +86,39 @@ public class ApartmentSearchFilter implements Serializable {
         return this;
     }
 
-    public Cursor query(SQLiteDatabase db) {
-        // join apartments, owners, and amenities tables together
-        final String table = Apartments.TABLE +
-                " JOIN " + Owners.TABLE + " ON " + Apartments.TABLE + "." + Apartments.OWNER_ID + "=" + Owners.TABLE + "." + Owners.ID +
-                " JOIN " + Amenities.TABLE + " ON " + Apartments.TABLE + "." + Apartments.ID + "=" + Amenities.TABLE + "." + Amenities.ID;
+    public ApartmentSearchFilter setDistance(double distance) {
+        this.distance = distance;
+        return this;
+    }
 
-        final String[] columns = {
-                "*",
-                "(" + Apartments.RENT + " + " + Amenities.GAS + " + " + Amenities.ELECTRICITY + " + " + Amenities.INTERNET + " + " + Amenities.CABLE + " + " + Amenities.THERMOSTAT + ") AS " + TOTAL_COST
-        };
+    public ApartmentSearchFilter setLocation(String location) {
+        this.location = location;
+        return this;
+    }
+
+    public ApartmentSearchFilter setEzhomeSearch(boolean ezhomeSearch) {
+        isEzhomeSearch = ezhomeSearch;
+        return this;
+    }
+
+    public Cursor query(SQLiteDatabase db) {
+        final String table;
+        final String[] columns;
+
+        if (isEzhomeSearch) {
+            // join apartments, owners, and amenities tables together
+            table = Apartments.TABLE +
+                    " JOIN " + Owners.TABLE + " ON " + Apartments.TABLE + "." + Apartments.OWNER_ID + "=" + Owners.TABLE + "." + Owners.ID +
+                    " JOIN " + Amenities.TABLE + " ON " + Apartments.TABLE + "." + Apartments.ID + "=" + Amenities.TABLE + "." + Amenities.ID;
+
+            columns = new String[]{
+                    "*",
+                    "(" + Apartments.RENT + " + " + Amenities.GAS + " + " + Amenities.ELECTRICITY + " + " + Amenities.INTERNET + " + " + Amenities.CABLE + " + " + Amenities.THERMOSTAT + ") AS " + TOTAL_COST
+            };
+        } else {
+            table = WebApartments.TABLE;
+            columns = new String[]{"*"};
+        }
 
         // build selection query and args
         final StringBuilder selection = new StringBuilder();
@@ -109,19 +136,26 @@ public class ApartmentSearchFilter implements Serializable {
     }
 
     private Filter[] getFilters() {
-        return new Filter[]{
-                new Filter(apartmentId, Apartments.TABLE + "." + Apartments.ID + "=?"),
-                new Filter(minCost, TOTAL_COST + ">=CAST(? AS INTEGER)"),
-                new Filter(maxCost, TOTAL_COST + "<=CAST(? AS INTEGER)"),
-                new Filter(hasGym, Amenities.GYM + "=?"),
-                new Filter(hasParking, Amenities.PARKING + "=?"),
-                new Filter(minBeds, Apartments.BEDROOMS + ">=?"),
-                new Filter(maxBeds, Apartments.BEDROOMS + "<=?"),
-                new Filter(minBathrooms, Apartments.BATHROOMS + ">=?"),
-                new Filter(maxBathrooms, Apartments.BATHROOMS + "<=?"),
-                new Filter(minArea, Apartments.AREA + "<=CAST(? AS INTEGER)"),
-                new Filter(maxArea, Apartments.AREA + ">=CAST(? AS INTEGER)"),
-        };
+        if (isEzhomeSearch) {
+            return new Filter[]{
+                    new Filter(apartmentId, Apartments.TABLE + "." + Apartments.ID + "=?"),
+                    new Filter(minCost, TOTAL_COST + ">=CAST(? AS INTEGER)"),
+                    new Filter(maxCost, TOTAL_COST + "<=CAST(? AS INTEGER)"),
+                    new Filter(hasGym, Amenities.GYM + "=?"),
+                    new Filter(hasParking, Amenities.PARKING + "=?"),
+                    new Filter(minBeds, Apartments.BEDROOMS + ">=?"),
+                    new Filter(maxBeds, Apartments.BEDROOMS + "<=?"),
+                    new Filter(minBathrooms, Apartments.BATHROOMS + ">=?"),
+                    new Filter(maxBathrooms, Apartments.BATHROOMS + "<=?"),
+                    new Filter(minArea, Apartments.AREA + "<=CAST(? AS INTEGER)"),
+                    new Filter(maxArea, Apartments.AREA + ">=CAST(? AS INTEGER)"),
+            };
+        } else {
+            return new Filter[]{
+                    new Filter(minCost, WebApartments.RENT + "<=CAST(? AS NUMERIC)"),
+                    new Filter(maxCost, WebApartments.RENT + ">=CAST(? AS INTEGER)")
+            };
+        }
     }
 
     private static final class Filter {
