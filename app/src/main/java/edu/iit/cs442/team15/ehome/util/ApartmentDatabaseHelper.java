@@ -345,7 +345,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     /* Web Apartments */
 
     private Cursor getWebApartmentsCursor(ApartmentSearchFilter filter) {
-        if (!filter.isEzhomeSearch)
+        if (filter.isEzhomeSearch)
             throw new RuntimeException("filter is not a web filter");
 
         SQLiteDatabase db = getReadableDatabase();
