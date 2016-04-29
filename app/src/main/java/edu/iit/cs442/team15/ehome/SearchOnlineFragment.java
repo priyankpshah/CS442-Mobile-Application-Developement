@@ -113,6 +113,8 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
             return;
         }
 
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
         LocationManager locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Location lastLoc = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
