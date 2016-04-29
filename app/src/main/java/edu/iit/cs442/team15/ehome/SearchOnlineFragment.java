@@ -2,6 +2,7 @@ package edu.iit.cs442.team15.ehome;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -15,6 +16,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -38,6 +42,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
     private Marker userMarker;
     LocationManager locMan;
     Location lastLoc;
+    private static final int SEARCH_OPTIONS_REQUEST_ONLINE = 1;
 
     public SearchOnlineFragment() {
         // Required empty public constructor
@@ -61,6 +66,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setHasOptionsMenu(true);
     }
 
     @Override
@@ -285,6 +291,23 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             onMapReady(mMap);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_ezhome_search_online, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuSearchOptionsOnline:
+                Intent searchOptions = new Intent(getActivity(), OnlineSearchDetailsOptions.class);
+                startActivityForResult(searchOptions, SEARCH_OPTIONS_REQUEST_ONLINE);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

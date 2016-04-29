@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="edu.iit.cs442.team15.ehome.AccountSettingsFragment">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+    <TextView
+        android:id="@+id/rentHeaderOnline"
+        style="@style/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/header_ezprice_online" />
+
+    <LinearLayout
+        android:id="@+id/filterRentOnline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp">
+
+        <EditText
+            android:id="@+id/filterMinRentOnline"
+            style="@style/NumInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:hint="@string/hint_min_online" />
+
+        <TextView
+            style="@style/To"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <EditText
+            android:id="@+id/filterMaxRentOnline"
+            style="@style/NumInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:hint="@string/hint_max_online" />
+
+    </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/areaHeaderOnline"
+            style="@style/header"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/header_area_online"
+            android:layout_marginTop="80dp" />
+
+        <LinearLayout
+            android:id="@+id/filterAreaOnline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:weightSum="1"
+            android:layout_alignTop="@+id/areaHeaderOnline">
+
+            <EditText
+                android:id="@+id/LocationSearchEdit"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:hint="@string/edit_search_online"
+                android:layout_marginTop="80dp"
+                android:layout_marginRight="200dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:id="@+id/online_details_search_button"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="41dp" />
+
+    </RelativeLayout>
+</ScrollView>
