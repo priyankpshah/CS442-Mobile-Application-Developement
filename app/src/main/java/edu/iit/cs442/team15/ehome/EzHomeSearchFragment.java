@@ -76,7 +76,7 @@ public class EzHomeSearchFragment extends Fragment {
 
         // try to get user's last search setting
         if (filter == null) {
-            filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId());
+            filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId(), true);
 
             if (filter == null)
                 filter = new ApartmentSearchFilter();

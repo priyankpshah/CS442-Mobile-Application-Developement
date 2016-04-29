@@ -214,6 +214,9 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
         values.put(SearchHistory.MAX_BATHROOMS, filter.maxBathrooms);
         values.put(SearchHistory.MIN_AREA, filter.minArea);
         values.put(SearchHistory.MAX_AREA, filter.maxArea);
+        values.put(SearchHistory.DISTANCE, filter.distance);
+        values.put(SearchHistory.LOCATION, filter.location);
+        values.put(SearchHistory.IS_EZHOME_SEARCH, filter.isEzhomeSearch);
 
         return db.insert(SearchHistory.TABLE, null, values);
     }
@@ -232,11 +235,18 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Nullable
-    public ApartmentSearchFilter getLastSearchFilter(int userId) {
+    public ApartmentSearchFilter getLastSearchFilter(int userId, boolean isEzhomeSearch) {
         SQLiteDatabase db = getReadableDatabase();
 
-        final String orderBy = SearchHistory.ID + " DESC";
-        Cursor cursor = db.query(SearchHistory.TABLE, null, SearchHistory.USER_ID + "=?", new String[]{Integer.toString(userId)}, null, null, orderBy, "1");
+        Cursor cursor = db.query(
+                SearchHistory.TABLE,
+                null,
+                SearchHistory.USER_ID + "=? AND " + SearchHistory.IS_EZHOME_SEARCH + "=?",
+                new String[]{Integer.toString(userId), isEzhomeSearch ? "1" : "0"},
+                null,
+                null,
+                SearchHistory.ID + " DESC",
+                "1");
         List<ApartmentSearchFilter> filters = cursorToFilters(cursor);
 
         cursor.close();
@@ -296,6 +306,8 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
     /* -------- Apartments -------- */
 
     public Cursor getApartmentsCursor(ApartmentSearchFilter filter) {
+        if (!filter.isEzhomeSearch)
+            throw new RuntimeException("filter is not an ezhome search filter");
         SQLiteDatabase db = getReadableDatabase();
 
         return filter.query(db);
