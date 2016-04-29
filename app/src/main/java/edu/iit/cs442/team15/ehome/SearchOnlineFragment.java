@@ -28,7 +28,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -152,24 +151,12 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         // zoom in on user location or Chicago
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 12.5f));
 
-        map.addCircle(new CircleOptions()
-                .center(userMarker.getPosition())
-                .radius(200)
-                .strokeWidth(0f)
-                .fillColor(0x5590B6FD));
-
         for (WebApartment apartment : apartments) {
             Marker locMarker = map.addMarker(new MarkerOptions()
                     .position(new LatLng(apartment.latitude, apartment.longitude))
                     .title(apartment.name)
                     .icon(BitmapDescriptorFactory.fromResource(userIcon))
                     .snippet(apartment.getSnippet()));
-
-            map.addCircle(new CircleOptions()
-                    .center(locMarker.getPosition())
-                    .radius(200)
-                    .strokeWidth(0f)
-                    .fillColor(0x5590B6FD));
         }
 
         map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
