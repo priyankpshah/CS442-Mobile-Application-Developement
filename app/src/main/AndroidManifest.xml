@@ -44,7 +44,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EzHomeSearchOptionsActivity"
-            android:label="@string/title_activity_ezhome_search_options">
+            android:label="@string/title_activity_ezhome_search_options"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
