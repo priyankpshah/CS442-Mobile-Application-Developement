@@ -163,7 +163,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         if (filterLoc != null) {
             LatLng position = new LatLng(filterLoc.getLatitude(), filterLoc.getLongitude());
 
-            map.addMarker(new MarkerOptions()
+            userMarker = map.addMarker(new MarkerOptions()
                     .position(position)
                     .title(filter.location)
                     .snippet("Search radius"));
@@ -173,6 +173,8 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                     .radius(filter.distance * Chicago.MILES_TO_METERS)
                     .strokeWidth(0f)
                     .fillColor(0x5590B6FD));
+
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 12.5f));
         }
 
         map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
