@@ -29,7 +29,7 @@ public class ApartmentSearchFilter implements Serializable {
     public Integer minArea, maxArea;
     public Double distance; // filter this in code
     public String location;
-    boolean isEzhomeSearch = true;
+    public boolean isEzhomeSearch = true;
 
     public ApartmentSearchFilter setApartmentId(int apartmentId) {
         this.apartmentId = apartmentId;

@@ -123,6 +123,7 @@ public class SearchHistoryFragment extends Fragment {
                 holder.bathrooms = (TextView) convertView.findViewById(R.id.historyBathrooms);
                 holder.area = (TextView) convertView.findViewById(R.id.historyArea);
                 holder.options = (TextView) convertView.findViewById(R.id.historyOptions);
+                holder.location = (TextView) convertView.findViewById(R.id.historyLocation);
 
                 convertView.setTag(holder);
             } else {
@@ -130,7 +131,7 @@ public class SearchHistoryFragment extends Fragment {
             }
 
             // TODO support web search?
-            holder.type.setText(R.string.nav_ezhome_search);
+            holder.type.setText(filter.isEzhomeSearch ? R.string.history_type_ezhome : R.string.history_type_web);
 
             String temp = getRangeString(filter.minCost, filter.maxCost);
             holder.cost.setText(temp == null ? "_" : getString(R.string.history_price, temp));
@@ -144,6 +145,7 @@ public class SearchHistoryFragment extends Fragment {
             temp = getRangeString(filter.minArea, filter.maxArea);
             holder.area.setText(temp == null ? "_" : getString(R.string.history_area, temp));
 
+            // set # of options
             int numOptions = 0;
             if (filter.hasParking != null && filter.hasParking)
                 numOptions++;
@@ -152,6 +154,9 @@ public class SearchHistoryFragment extends Fragment {
 
             if (numOptions > 0)
                 holder.options.setText(getResources().getQuantityString(R.plurals.history_options, numOptions, numOptions));
+
+            if (filter.location != null && filter.distance != null)
+                holder.location.setText(getString(R.string.history_location, filter.distance, filter.location));
 
             return convertView;
         }
@@ -184,6 +189,7 @@ public class SearchHistoryFragment extends Fragment {
         TextView bathrooms;
         TextView area;
         TextView options;
+        TextView location;
     }
 
 }

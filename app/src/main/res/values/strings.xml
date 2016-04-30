@@ -139,6 +139,9 @@
     <string name="history_range_min_max">%1$d to %2$d</string>
     <string name="history_range_equal">%d</string>
 
+    <string name="history_type_ezhome">ezHome</string>
+    <string name="history_type_web">Web</string>
+
     <string name="history_price">$%s</string>
     <plurals name="history_beds">
         <item quantity="one">%s bedroom</item>
@@ -155,8 +158,9 @@
         <item quantity="other">%1$d options</item>
     </plurals>
 
-    <!-- Search Option Online -->
+    <string name="history_location">Within %1$.2f mi. of %2$s.</string>
 
+    <!-- Search Option Online -->
     <string name="header_ezprice_online">Rent</string>
     <string name="hint_min_online">Min</string>
     <string name="hint_max_online">Max</string>

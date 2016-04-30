@@ -291,6 +291,12 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
                     filter.minArea = cur.getInt(cur.getColumnIndex(SearchHistory.MIN_AREA));
                 if (!cur.isNull(cur.getColumnIndex(SearchHistory.MAX_AREA)))
                     filter.maxArea = cur.getInt(cur.getColumnIndex(SearchHistory.MAX_AREA));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.DISTANCE)))
+                    filter.distance = cur.getDouble(cur.getColumnIndex(SearchHistory.DISTANCE));
+                if (!cur.isNull(cur.getColumnIndex(SearchHistory.LOCATION)))
+                    filter.location = cur.getString(cur.getColumnIndex(SearchHistory.LOCATION));
+
+                filter.isEzhomeSearch = cur.getInt(cur.getColumnIndex(SearchHistory.IS_EZHOME_SEARCH)) == 1;
 
                 result.add(filter);
             } while (cur.moveToNext());
