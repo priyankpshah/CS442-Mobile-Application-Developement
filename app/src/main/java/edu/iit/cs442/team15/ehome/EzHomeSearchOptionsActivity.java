@@ -74,7 +74,7 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Ad
         apply.setOnClickListener(this);
 
         // set form to user's last search settings
-        ApartmentSearchFilter lastSearch = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId());
+        ApartmentSearchFilter lastSearch = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId(), true);
         if (lastSearch != null) {
             // cost
             if (lastSearch.minCost != null)

@@ -1,6 +1,7 @@
 package edu.iit.cs442.team15.ehome;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,15 +35,25 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.List;
+
+import edu.iit.cs442.team15.ehome.model.WebApartment;
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
+import edu.iit.cs442.team15.ehome.util.Chicago;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
-    private int userIcon;
-    private Marker userMarker;
-    LocationManager locMan;
-    Location lastLoc;
+    private static final String ARG_SEARCH_HISTORY_ID = "search_history_id";
     private static final int SEARCH_OPTIONS_REQUEST_ONLINE = 1;
+
+    private GoogleMap mMap;
+    private Geocoder geocoder;
+
+    private ApartmentSearchFilter filter;
+    private Location filterLoc;
+    private List<WebApartment> apartments;
 
     public SearchOnlineFragment() {
         // Required empty public constructor
@@ -58,9 +69,18 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         return new SearchOnlineFragment();
     }
 
+    public static SearchOnlineFragment newInstance(int searchHistoryId) {
+        SearchOnlineFragment fragment = new SearchOnlineFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SEARCH_HISTORY_ID, searchHistoryId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        geocoder = new Geocoder(context);
     }
 
     @Override
@@ -74,10 +94,21 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search_online, container, false);
 
+        if (getArguments() != null)
+            filter = ApartmentDatabaseHelper.getInstance().getSearchFilter(getArguments().getInt(ARG_SEARCH_HISTORY_ID));
+
+        if (filter == null) {
+            filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId(), false);
+
+            if (filter == null) // no search history
+                filter = new ApartmentSearchFilter().setEzhomeSearch(false);
+        }
+
+        apartments = ApartmentDatabaseHelper.getInstance().getWebApartments(filter);
+        filterApartmentsByLocation();
+
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         map.getMapAsync(this);
-
-        userIcon = R.drawable.search_online_marker_icon;
 
         return v;
     }
@@ -106,155 +137,62 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
             return;
         }
 
-        locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lastLoc = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        LocationManager locMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Location lastLoc = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        Marker userMarker;
 
         if (lastLoc != null) {
             double lat = lastLoc.getLatitude();
             double lng = lastLoc.getLongitude();
             LatLng lastLatLng = new LatLng(lat, lng);
 
-            //  if (userMarker != null) userMarker.remove();
-
             userMarker = map.addMarker(new MarkerOptions()
                     .position(lastLatLng)
                     .title("You are here")
-                    .icon(BitmapDescriptorFactory.fromResource(userIcon))
                     .snippet("Your last recorded location"));
 
             map.setMyLocationEnabled(true);
         } else {
-            // get Chicago's location
-            Address chicago = null;
-            try {
-                chicago = new Geocoder(getActivity()).getFromLocationName("Chicago", 1).get(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            // get Chicago's location as fallback
             userMarker = map.addMarker(new MarkerOptions()
-                    .position(new LatLng(chicago.getLatitude(), chicago.getLongitude()))
+                    .position(new LatLng(Chicago.LATITUDE, Chicago.LONGITUDE))
                     .title("Chicago")
-                    .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                    .snippet("Chicago"));
+                    .snippet("You are here"));
         }
 
         // zoom in on user location or Chicago
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 12.5f), 100, null);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 12.5f));
 
-        map.addCircle(new CircleOptions()
-                .center(userMarker.getPosition())
-                .radius(200)
-                .strokeWidth(0f)
-                .fillColor(0x5590B6FD));
+        for (WebApartment apartment : apartments) {
+            map.addMarker(new MarkerOptions()
+                    .position(new LatLng(apartment.latitude, apartment.longitude))
+                    .title(apartment.name)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.search_online_marker_icon))
+                    .snippet(apartment.getSnippet()));
+        }
 
-        userMarker = map.addMarker(new MarkerOptions()
-                .position(new LatLng(41.8348969, -87.6142183))
-                .title("Lake Meadows Apartments")
-                .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("500 East 33rd Street, Chicago, IL 60616\n" +
-                        "Phn.: (312) 842-7333\n" + "Email ID: lakemeadowsleasing@dklivingapts.com\n" + "Cost: $1,865"));
-        LatLng lastLatLng1 = new LatLng(41.8348969, -87.6142183);
-        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng1), 3000, null);
+        // add filter marker if applicable
+        if (filterLoc != null) {
+            LatLng position = new LatLng(filterLoc.getLatitude(), filterLoc.getLongitude());
 
-        map.addCircle(new CircleOptions()
-                .center(userMarker.getPosition())
-                .radius(200)
-                .strokeWidth(0f)
-                .fillColor(0x5590B6FD));
+            userMarker = map.addMarker(new MarkerOptions()
+                    .position(position)
+                    .title(filter.location)
+                    .snippet("Search radius"));
 
+            map.addCircle(new CircleOptions()
+                    .center(position)
+                    .radius(filter.distance * Chicago.MILES_TO_METERS)
+                    .strokeWidth(0f)
+                    .fillColor(0x5590B6FD));
 
-        userMarker = map.addMarker(new MarkerOptions()
-                .position(new LatLng(41.8426694, -87.6162544))
-                .title("Prairie Shores Apartments")
-                .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("2851 S King Dr., Chicago, IL 60616\n" +
-                        "Phn.: (312) 842-7333\n" + "Email ID: prairieshoresleasing@dklivingapts.com\n" + "Cost: $1,865"));
-        LatLng lastLatLng2 = new LatLng(41.8426694, -87.6162544);
-        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng2), 3000, null);
-
-        map.addCircle(new CircleOptions()
-                .center(userMarker.getPosition())
-                .radius(200)
-                .strokeWidth(0f)
-                .fillColor(0x5590B6FD));
-
-
-        userMarker = map.addMarker(new MarkerOptions()
-                .position(new LatLng(41.835314, -87.62671))
-                .title("Illinois Institute of Technology")
-                .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("3222-3262 S State St, Chicago, IL 60616\n" + "Phn.: (312) 842-7333\n" + "Email ID: vedu16@gmail.com\n" + "Cost: $1,865"));
-        LatLng lastLatLng3 = new LatLng(41.835314, -87.62671);
-        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng3), 3000, null);
-
-        map.addCircle(new CircleOptions()
-                .center(userMarker.getPosition())
-                .radius(200)
-                .strokeWidth(0f)
-                .fillColor(0x5590B6FD));
-
-
-        userMarker = map.addMarker(new MarkerOptions()
-                .position(new LatLng(41.836544, -87.649508))
-                .title("Bridgeport")
-                .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("920 W 32nd St, Chicago, IL 60608\n" + "Phn.: (312) 842-7333\n" + "Email ID: vedu16@gmail.com\n" + "Cost: $1,865"));
-        LatLng lastLatLng4 = new LatLng(41.836544, -87.649508);
-        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng4), 3000, null);
-
-        map.addCircle(new CircleOptions()
-                .center(userMarker.getPosition())
-                .radius(200)
-                .strokeWidth(0f)
-                .fillColor(0x5590B6FD));
-
-        userMarker = map.addMarker(new MarkerOptions()
-                .position(new LatLng(41.8348975, -87.6142175))
-                .title("Allure Apartments")
-                .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("1401 S State St Chicago, IL, 60605\n" + "Phn.: (314) 842-7333\n" + "Email ID: allureapartments@gmail.com"));
-        LatLng lastLatLng5 = new LatLng(41.8348969, -87.6142183);
-        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng5), 3000, null);
-
-        map.addCircle(new CircleOptions()
-                .center(userMarker.getPosition())
-                .radius(200)
-                .strokeWidth(0f)
-                .fillColor(0x5590B6FD));
-
-        userMarker = map.addMarker(new MarkerOptions()
-                .position(new LatLng(41.837550, -87.648515))
-                .title("Catalyst Apartments")
-                .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("123 N Des Plaines St Chicago 60661\n" + "Phn.: (312) 942-7333\n" + "Email ID: catalystpartments@gmail.com"));
-        LatLng lastLatLng6 = new LatLng(41.837550, -87.648515);
-        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng6), 3000, null);
-
-        map.addCircle(new CircleOptions()
-                .center(userMarker.getPosition())
-                .radius(200)
-                .strokeWidth(0f)
-                .fillColor(0x5590B6FD));
-
-
-        userMarker = map.addMarker(new MarkerOptions()
-                .position(new LatLng(41.835565, -87.644525))
-                .title("Lake Shore Drive")
-                .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("500 N Lake Shore Dr Chicago 60611\n" + "Phn.: (312) 842-7443\n" + "Email ID: lakeshoredrive@gmail.com"));
-        LatLng lastLatLng7 = new LatLng(41.835565, -87.644525);
-        //map.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng7), 3000, null);
-
-        map.addCircle(new CircleOptions()
-                .center(userMarker.getPosition())
-                .radius(200)
-                .strokeWidth(0f)
-                .fillColor(0x5590B6FD));
-
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 12.5f));
+        }
 
         map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
             // Use default InfoWindow frame
             @Override
             public View getInfoWindow(Marker arg0) {
@@ -269,15 +207,15 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
                 View v = getActivity().getLayoutInflater().inflate(R.layout.search_online_custom_infowindow, null);
 
                 // Getting the position from the marker
-                LatLng latLng = userMarker.getPosition();
+                //LatLng latLng = userMarker.getPosition();
 
                 // Getting reference to the TextView to set latitude
                 TextView tv_name_desc = (TextView) v.findViewById(R.id.tv_name_desc);
 
                 tv_name_desc.setTextSize(18);
                 tv_name_desc.setTypeface(null, Typeface.BOLD);
-                tv_name_desc.setText("Name:" + arg0.getTitle() + "\n" + "Address & Contact Details:" + "\n" + arg0.getSnippet());
-                tv_name_desc.setShadowLayer(5, 5, 5, Color.WHITE);
+                tv_name_desc.setText(arg0.getTitle() + "\n" + arg0.getSnippet());
+                tv_name_desc.setShadowLayer(4, 0, 0, Color.BLACK);
 
                 // Returning the view containing InfoWindow contents
                 return v;
@@ -303,11 +241,61 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuSearchOptionsOnline:
-                Intent searchOptions = new Intent(getActivity(), OnlineSearchDetailsOptions.class);
+                Intent searchOptions = new Intent(getActivity(), SearchOnlineOptionsActivity.class);
                 startActivityForResult(searchOptions, SEARCH_OPTIONS_REQUEST_ONLINE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case SEARCH_OPTIONS_REQUEST_ONLINE:
+                if (resultCode == Activity.RESULT_OK) {
+                    filter = (ApartmentSearchFilter) data.getSerializableExtra("filter");
+
+                    ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(), filter);
+                    apartments = ApartmentDatabaseHelper.getInstance().getWebApartments(filter);
+                    filterLoc = null; // clear
+
+                    filterApartmentsByLocation();
+
+                    mMap.clear(); // remove existing markers
+                    onMapReady(mMap);
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void filterApartmentsByLocation() {
+        if (filter.location == null || filter.distance == null)
+            return; // location filter not set by user
+
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocationName(filter.location, 1, Chicago.LOWER_LEFT_LAT, Chicago.LOWER_LEFT_LONG, Chicago.UPPER_RIGHT_LAT, Chicago.UPPER_RIGHT_LONG);
+        } catch (IOException e) {
+            return;
+        }
+
+        if (!addresses.isEmpty()) {
+            filterLoc = new Location("");
+            filterLoc.setLatitude(addresses.get(0).getLatitude());
+            filterLoc.setLongitude(addresses.get(0).getLongitude());
+
+            for (int i = 0; i < apartments.size(); i++) {
+                Location apartLoc = new Location("");
+                apartLoc.setLatitude(apartments.get(i).latitude);
+                apartLoc.setLongitude(apartments.get(i).longitude);
+
+                // remove item if it is out of bounds
+                if (filterLoc.distanceTo(apartLoc) * Chicago.METERS_TO_MILES > filter.distance)
+                    apartments.remove(i--); // decrement i because item is removed
+            }
         }
     }
 

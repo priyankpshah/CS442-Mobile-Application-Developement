@@ -10,6 +10,14 @@ public class WebApartment {
     public String ownerPhone;
     public String ownerWebsite;
 
+    public String getSnippet() {
+        return address
+                + (rent > 0d ? "\nRent: " + rent : "")
+                + (ownerPhone != null ? "\nPhone: " + ownerPhone : "")
+                + (ownerEmail != null ? "\nEmail: " + ownerEmail : "")
+                + (ownerWebsite != null ? "\nWebsite: " + ownerWebsite : "");
+    }
+
     public WebApartment setName(String name) {
         this.name = name;
         return this;

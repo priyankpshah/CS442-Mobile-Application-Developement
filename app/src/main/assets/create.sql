@@ -1,4 +1,4 @@
-/* v3 - for reference only */
+/* v4 - for reference only */
 
 CREATE TABLE users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,6 +29,9 @@ CREATE TABLE search_history (
   max_bathrooms INTEGER DEFAULT NULL,
   min_area INTEGER DEFAULT NULL,
   max_area INTEGER DEFAULT NULL,
+  distance NUMERIC DEFAULT NULL,
+  location TEXT DEFAULT NULL,
+  is_ezhome_search BOOLEAN DEFAULT TRUE,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
