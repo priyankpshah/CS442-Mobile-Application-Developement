@@ -66,7 +66,7 @@ public class SearchHistoryFragment extends Fragment {
         lvSearchHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mListener.onSearchHistorySelected(searchHistory.get(position).id);
+                mListener.onSearchHistorySelected(searchHistory.get(position).id, searchHistory.get(position).isEzhomeSearch);
             }
         });
 
@@ -101,7 +101,7 @@ public class SearchHistoryFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onSearchHistorySelected(int searchHistoryId);
+        void onSearchHistorySelected(int searchHistoryId, boolean isEzhomeSearch);
     }
 
     private class SearchFilterAdapter extends ArrayAdapter<ApartmentSearchFilter> {

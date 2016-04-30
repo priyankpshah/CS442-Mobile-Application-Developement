@@ -143,8 +143,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onSearchHistorySelected(int searchHistoryId) {
-        Fragment f = EzHomeSearchFragment.newInstance(searchHistoryId);
+    public void onSearchHistorySelected(int searchHistoryId, boolean isEzhomeSearch) {
+        Fragment f = isEzhomeSearch ? EzHomeSearchFragment.newInstance(searchHistoryId) : SearchOnlineFragment.newInstance(searchHistoryId);
         fm.beginTransaction()
                 .replace(R.id.contentFragment, f)
                 .addToBackStack(null)

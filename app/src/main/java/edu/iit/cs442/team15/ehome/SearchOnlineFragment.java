@@ -45,6 +45,7 @@ import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback {
 
+    private static final String ARG_SEARCH_HISTORY_ID = "search_history_id";
     private static final int SEARCH_OPTIONS_REQUEST_ONLINE = 1;
 
     private GoogleMap mMap;
@@ -68,6 +69,14 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         return new SearchOnlineFragment();
     }
 
+    public static SearchOnlineFragment newInstance(int searchHistoryId) {
+        SearchOnlineFragment fragment = new SearchOnlineFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SEARCH_HISTORY_ID, searchHistoryId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -85,9 +94,15 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search_online, container, false);
 
-        filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId(), false);
-        if (filter == null) // no search history
-            filter = new ApartmentSearchFilter().setEzhomeSearch(false);
+        if (getArguments() != null)
+            filter = ApartmentDatabaseHelper.getInstance().getSearchFilter(getArguments().getInt(ARG_SEARCH_HISTORY_ID));
+
+        if (filter == null) {
+            filter = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId(), false);
+
+            if (filter == null) // no search history
+                filter = new ApartmentSearchFilter().setEzhomeSearch(false);
+        }
 
         apartments = ApartmentDatabaseHelper.getInstance().getWebApartments(filter);
         filterApartmentsByLocation();
