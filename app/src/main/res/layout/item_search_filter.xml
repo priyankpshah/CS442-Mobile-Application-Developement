@@ -1,96 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:padding="12dp">
+    android:padding="8dp">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:id="@+id/historyOuterLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/historyType"
-            style="@style/SearchHistoryTextView"
-            android:text="@string/history_type_ezhome" />
-
-        <Space
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="4dp" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/historyCost"
-            style="@style/SearchHistoryTextView" />
+            <TextView
+                android:id="@+id/historyType"
+                style="@style/SearchHistoryTextView"
+                android:text="@string/history_type_ezhome" />
 
-        <Space
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="4dp" />
+
+            <TextView
+                android:id="@+id/historyCost"
+                style="@style/SearchHistoryTextView" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="4dp" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            style="@style/SearchHistoryTextView"
-            android:visibility="invisible" />
+            <TextView
+                android:id="@+id/historyBeds"
+                style="@style/SearchHistoryTextView" />
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="4dp" />
+
+            <TextView
+                android:id="@+id/historyBathrooms"
+                style="@style/SearchHistoryTextView" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/historyArea"
+                style="@style/SearchHistoryTextView" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="4dp" />
+
+            <TextView
+                android:id="@+id/historyOptions"
+                style="@style/SearchHistoryTextView" />
+
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+    <TextView
+        android:id="@+id/historyLocation"
+        style="@style/SearchHistoryTextView"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/historyOuterLinearLayout"
+        android:layout_marginTop="4dp"
+        android:gravity="center_horizontal" />
 
-        <TextView
-            android:id="@+id/historyBeds"
-            style="@style/SearchHistoryTextView" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="4dp" />
-
-        <TextView
-            android:id="@+id/historyBathrooms"
-            style="@style/SearchHistoryTextView" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="4dp" />
-
-        <TextView
-            android:id="@+id/historyLocation"
-            style="@style/SearchHistoryTextView" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/historyArea"
-            style="@style/SearchHistoryTextView" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="4dp" />
-
-        <TextView
-            android:id="@+id/historyOptions"
-            style="@style/SearchHistoryTextView" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="4dp" />
-
-        <TextView
-            style="@style/SearchHistoryTextView"
-            android:visibility="invisible" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
