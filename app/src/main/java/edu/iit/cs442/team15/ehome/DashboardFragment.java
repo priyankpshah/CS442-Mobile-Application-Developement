@@ -123,7 +123,7 @@ public class DashboardFragment extends Fragment {
         static SwipeFragment newInstance(int position) {
             SwipeFragment swipeFragment = new SwipeFragment();
             Bundle bundle = new Bundle();
-            bundle.putInt("position", position);
+            bundle.putInt("position", position+1);
             swipeFragment.setArguments(bundle);
             return swipeFragment;
         }
