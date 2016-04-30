@@ -7,6 +7,7 @@
 
         <item
             android:id="@+id/nav_dashboard"
+            android:icon="@drawable/dashboard"
             android:title="@string/nav_dashboard" />
     </group>
 
@@ -16,12 +17,15 @@
 
         <item
             android:id="@+id/nav_ezhome_search"
+            android:icon="@drawable/ezhome_search"
             android:title="@string/nav_ezhome_search" />
         <item
             android:id="@+id/nav_search_online"
+            android:icon="@drawable/web_search"
             android:title="@string/nav_search_online" />
         <item
             android:id="@+id/nav_saved_searches"
+            android:icon="@drawable/search_history"
             android:title="@string/nav_saved_searches" />
     </group>
 
@@ -31,9 +35,11 @@
 
         <item
             android:id="@+id/nav_account_settings"
+            android:icon="@drawable/account_settings"
             android:title="@string/nav_account_settings" />
         <item
             android:id="@+id/nav_logout"
+            android:icon="@drawable/log_out"
             android:title="@string/nav_logout" />
     </group>
 

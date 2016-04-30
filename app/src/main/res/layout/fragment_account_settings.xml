@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/account_three"
     tools:context="edu.iit.cs442.team15.ehome.AccountSettingsFragment">
 
     <RelativeLayout
@@ -17,6 +18,7 @@
             style="@style/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#ffffff"
             android:text="@string/header_account" />
 
         <View
@@ -30,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/accountDivider"
             android:hint="@string/hint_email"
+            android:textColor="#ffffff"
             android:inputType="textEmailAddress"
             android:maxLines="1" />
 
@@ -39,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/accountEmail"
             android:fontFamily="sans-serif"
+            android:textColor="#ffffff"
             android:hint="@string/hint_new_password"
             android:inputType="textPassword"
             android:maxLines="1" />
@@ -49,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/accountNewPassword"
             android:fontFamily="sans-serif"
+            android:textColor="#ffffff"
             android:hint="@string/hint_confirm_new_password"
             android:inputType="textPassword"
             android:maxLines="1"
@@ -59,6 +64,7 @@
             style="@style/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#ffffff"
             android:layout_below="@id/accountConfirmNewPassword"
             android:text="@string/header_contact" />
 
@@ -72,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/contactDivider"
+            android:textColor="#ffffff"
             android:hint="@string/hint_name"
             android:maxLines="1" />
 
@@ -80,6 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/accountName"
+            android:textColor="#ffffff"
             android:hint="@string/hint_phone"
             android:inputType="phone"
             android:maxLines="1" />
@@ -89,6 +97,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:textColor="#ffffff"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:textSize="18dp"
             android:layout_below="@id/accountPhone"
             android:text="@string/button_update_account" />
 
