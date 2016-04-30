@@ -49,9 +49,6 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
 
         Button details = (Button) findViewById(R.id.button_ezprice_details);
         details.setOnClickListener(this);
-        ViewPager vp = (ViewPager)findViewById(R.id.imgpage);
-        ImageAdapter ap = new ImageAdapter(this);
-        vp.setAdapter(ap);
 
         address = (TextView) findViewById(R.id.ezhome_address);
         area = (TextView) findViewById(R.id.ezhome_area);
@@ -106,6 +103,11 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
                 sendText.putExtra("sms_body", "I am Interested in leasing you property, Contact me!!");
             }
         });
+        //Display multiple Images with swipe gesture, Adapter is located in ImageAdepter File.
+        ViewPager vp = (ViewPager)findViewById(R.id.imgpage);
+        ImageAdapter ap = new ImageAdapter(this);
+        vp.setAdapter(ap);
+
     }
 
     @Override
