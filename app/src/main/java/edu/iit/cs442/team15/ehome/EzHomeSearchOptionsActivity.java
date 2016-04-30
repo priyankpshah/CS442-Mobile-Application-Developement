@@ -1,6 +1,8 @@
 package edu.iit.cs442.team15.ehome;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -13,8 +15,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.List;
+
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
+import edu.iit.cs442.team15.ehome.util.Chicago;
 import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class EzHomeSearchOptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
@@ -27,6 +33,8 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Ad
     private Spinner maxBathroomsSpinner;
     private EditText minAreaEditText;
     private EditText maxAreaEditText;
+    private EditText distanceEditText;
+    private EditText locationEditText;
     private CheckBox hasGym;
     private CheckBox hasParking;
 
@@ -65,6 +73,10 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Ad
         // area
         minAreaEditText = (EditText) findViewById(R.id.filterMinArea);
         maxAreaEditText = (EditText) findViewById(R.id.filterMaxArea);
+
+        // location
+        distanceEditText = (EditText) findViewById(R.id.distance);
+        locationEditText = (EditText) findViewById(R.id.location);
 
         // options
         hasGym = (CheckBox) findViewById(R.id.filterHasGym);
@@ -138,6 +150,35 @@ public class EzHomeSearchOptionsActivity extends AppCompatActivity implements Ad
 
                 if (hasGym.isChecked())
                     filter.setHasGym(true);
+
+                // location
+                if (!locationEditText.getText().toString().isEmpty())
+                    try {
+                        List<Address> locations = new Geocoder(this).getFromLocationName(locationEditText.getText().toString(), 1, Chicago.LOWER_LEFT_LAT, Chicago.LOWER_LEFT_LONG, Chicago.UPPER_RIGHT_LAT, Chicago.UPPER_RIGHT_LONG);
+
+                        if (!locations.isEmpty()) {
+                            filter.setLocation(locationEditText.getText().toString());
+                        } else {
+                            locationEditText.setError(getText(R.string.error_invalid_location));
+                            validInput = false;
+                        }
+                    } catch (IOException e) {
+                        validInput = false;
+                    }
+
+                // distance
+                if (filter.location != null) { // ignore distance if no location
+                    if (distanceEditText.getText().toString().isEmpty()) {
+                        distanceEditText.setError(getText(R.string.error_missing_distance));
+                        validInput = false;
+                    } else try {
+                        double radius = Double.parseDouble(distanceEditText.getText().toString());
+                        filter.setDistance(radius);
+                    } catch (NumberFormatException e) {
+                        distanceEditText.setError(getText(R.string.error_invalid_input));
+                        validInput = false;
+                    }
+                }
 
                 // min area
                 int minArea = 0;
