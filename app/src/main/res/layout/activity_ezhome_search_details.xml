@@ -186,7 +186,6 @@
         android:background="#ffffff"
         android:src="@drawable/call"
         android:text="Call"
-        android:backgroundTintMode="src_over"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/sms" />
 
@@ -196,7 +195,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/text"
         android:text="Send Text"
-        android:backgroundTintMode="src_over"
         android:layout_alignTop="@+id/Call"
         android:layout_alignParentEnd="true" />
 
