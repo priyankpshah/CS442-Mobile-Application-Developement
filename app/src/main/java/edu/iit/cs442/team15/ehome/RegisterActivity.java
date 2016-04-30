@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -40,6 +41,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         rName = (EditText) findViewById(R.id.registerName);
         rPhone = (EditText) findViewById(R.id.registerPhone);
 
+        rEmail.setHintTextColor(getResources().getColor(R.color.white));
+        rPassword.setHintTextColor(getResources().getColor(R.color.white));
+        rConfirmPassword.setHintTextColor(getResources().getColor(R.color.white));
+        rName.setHintTextColor(getResources().getColor(R.color.white));
+        rPhone.setHintTextColor(getResources().getColor(R.color.white));
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE))
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
@@ -50,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
 
         Button submitButton = (Button) findViewById(R.id.submitButton);
+        submitButton.getBackground().setColorFilter(0xFF40FFC9, PorterDuff.Mode.MULTIPLY);
         submitButton.setOnClickListener(this);
     }
 

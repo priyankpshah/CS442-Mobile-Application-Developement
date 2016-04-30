@@ -67,9 +67,11 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
         View view = inflater.inflate(R.layout.fragment_account_settings, container, false);
 
         aEmail = (EditText) view.findViewById(R.id.accountEmail);
+        aEmail.setHintTextColor(getResources().getColor(R.color.white));
         aEmail.setText(user.email);
 
         aNewPassword = (EditText) view.findViewById(R.id.accountNewPassword);
+        aNewPassword.setHintTextColor(getResources().getColor(R.color.white));
         aNewPassword.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -83,11 +85,14 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
         });
 
         aConfirmNewPassword = (EditText) view.findViewById(R.id.accountConfirmNewPassword);
+        aConfirmNewPassword.setHintTextColor(getResources().getColor(R.color.white));
 
         aName = (EditText) view.findViewById(R.id.accountName);
+        aName.setHintTextColor(getResources().getColor(R.color.white));
         aName.setText(user.name);
 
         aPhone = (EditText) view.findViewById(R.id.accountPhone);
+        aPhone.setHintTextColor(getResources().getColor(R.color.white));
         aPhone.setText(user.phone);
 
         updateButton = (Button) view.findViewById(R.id.updateButton);
