@@ -3,6 +3,9 @@ package edu.iit.cs442.team15.ehome;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,6 +28,7 @@ import java.util.List;
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
+import edu.iit.cs442.team15.ehome.util.Chicago;
 import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class EzHomeSearchFragment extends Fragment {
@@ -33,6 +38,7 @@ public class EzHomeSearchFragment extends Fragment {
 
     private List<Apartment> result = new ArrayList<>();
     private ListView lv_ehome_search;
+    private Geocoder geocoder;
 
     private int index_sort_rent = 0;
     private int index_sort_area = 0;
@@ -62,6 +68,7 @@ public class EzHomeSearchFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        geocoder = new Geocoder(context);
     }
 
     @Override
@@ -83,6 +90,7 @@ public class EzHomeSearchFragment extends Fragment {
         }
 
         result = ApartmentDatabaseHelper.getInstance().getApartments(filter);
+        filterApartmentsByLocation(filter);
     }
 
     @Override
@@ -229,6 +237,7 @@ public class EzHomeSearchFragment extends Fragment {
                     ApartmentSearchFilter filter = (ApartmentSearchFilter) data.getSerializableExtra("filter");
 
                     result = ApartmentDatabaseHelper.getInstance().getApartments(filter);
+                    filterApartmentsByLocation(filter);
                     ApartmentDatabaseHelper.getInstance().addSearchHistory(SavedLogin.getInstance().getId(), filter);
 
                     if (result != null) {
@@ -292,4 +301,43 @@ public class EzHomeSearchFragment extends Fragment {
         public TextView Itemarea;
         public TextView Itemowner;
     }
+
+    private void filterApartmentsByLocation(ApartmentSearchFilter filter) {
+        if (filter.location == null || filter.distance == null)
+            return; // location filter not set by user
+
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocationName(filter.location, 1, Chicago.LOWER_LEFT_LAT, Chicago.LOWER_LEFT_LONG, Chicago.UPPER_RIGHT_LAT, Chicago.UPPER_RIGHT_LONG);
+        } catch (IOException e) {
+            return;
+        }
+
+        if (!addresses.isEmpty()) {
+            Location filterLoc = new Location("");
+            filterLoc.setLatitude(addresses.get(0).getLatitude());
+            filterLoc.setLongitude(addresses.get(0).getLongitude());
+
+            for (int i = 0; i < result.size(); i++) {
+                try {
+                    addresses = geocoder.getFromLocationName(result.get(i).address, 1, Chicago.LOWER_LEFT_LAT, Chicago.LOWER_LEFT_LONG, Chicago.UPPER_RIGHT_LAT, Chicago.UPPER_RIGHT_LONG);
+                } catch (IOException e) {
+                    return; // TODO figure out exactly what to do here
+                }
+
+                if (addresses.isEmpty()) {
+                    result.remove(i--); // address not found
+                } else {
+                    Location apartLoc = new Location("");
+                    apartLoc.setLatitude(addresses.get(0).getLatitude());
+                    apartLoc.setLongitude(addresses.get(0).getLongitude());
+
+                    // remove item if it is out of bounds
+                    if (filterLoc.distanceTo(apartLoc) * Chicago.METERS_TO_MILES > filter.distance)
+                        result.remove(i--); // decrement i because item is removed
+                }
+            } // end for
+        }
+    }
+
 }
