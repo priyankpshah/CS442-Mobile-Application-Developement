@@ -12,34 +12,39 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/Call"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/button_ezprice_details">
 
-        <LinearLayout
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:scrollbars="vertical">
 
-            <!--TODO replace with image slider-->
-            <ImageView
-                android:id="@+id/imageView"
+            <android.support.v4.view.ViewPager
+                android:id="@+id/imgpage"
                 android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:src="@drawable/ps5" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider2">
+            </android.support.v4.view.ViewPager>
+
 
             <TextView
                 android:id="@+id/ezhome_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ezhome_address" />
+                android:text="@string/ezhome_address"
+                android:textStyle="bold"
+                android:textColor="@color/header_text"/>
+            <TextView
+                android:id="@+id/ezhome_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ezhome_area"
+                android:textStyle="bold"
+                android:textColor="@color/header_text"
+                />
 
-            <!--<TextView
-            android:id="@+id/Apartment_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Apartment: " />-->
 
             <!-- TODO add description of what ezPrice actually is -->
             <LinearLayout
@@ -50,95 +55,114 @@
                     android:id="@+id/ezhome_ezprice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ezhome_ezprice" />
+                    android:text="@string/ezhome_ezprice"
+                    android:textStyle="bold"
+                    android:textColor="@color/header_text"/>
 
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <Button
-                    android:id="@+id/button_ezprice_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/button_ezprice_details" />
-
             </LinearLayout>
 
-            <LinearLayout
+            <TableLayout
                 android:id="@+id/ezprice_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical"
-                android:visibility="gone">
-
+                android:visibility="gone"
+                android:textStyle="bold"
+                android:textColor="@color/header_text">
+                <TableRow>
                 <TextView
                     android:id="@+id/ezhome_rent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ezhome_rent" />
+                    android:text="@string/ezhome_rent"
+                    android:textStyle="bold"
+                    android:gravity="right"
+                    android:textColor="@color/header_text"/>
 
                 <TextView
                     android:id="@+id/ezhome_thermostat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/ezhome_thermostat" />
-
+                    android:text="@string/ezhome_thermostat"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="90dp"
+                    android:textColor="@color/header_text"/>
+                </TableRow>
+                <TableRow>
                 <TextView
                     android:id="@+id/ezhome_cable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ezhome_cable" />
+                    android:text="@string/ezhome_cable"
+                    android:textStyle="bold"
+                    android:textColor="@color/header_text"/>
 
                 <TextView
                     android:id="@+id/ezhome_internet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ezhome_internet" />
-
+                    android:text="@string/ezhome_internet"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="90dp"
+                    android:textColor="@color/header_text"/>
+                </TableRow>
+                <TableRow>
                 <TextView
                     android:id="@+id/ezhome_gas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/ezhome_gas" />
+                    android:text="@string/ezhome_gas"
+                    android:textStyle="bold"
+                    android:textColor="@color/header_text"/>
 
                 <TextView
                     android:id="@+id/ezhome_electricity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/ezhome_electricity" />
+                    android:text="@string/ezhome_electricity"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="90dp"
+                    android:textColor="@color/header_text"/>
+                </TableRow>
+            </TableLayout>
 
-            </LinearLayout>
 
-            <TextView
-                android:id="@+id/ezhome_area"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ezhome_area" />
-
+            <TableRow>
             <TextView
                 android:id="@+id/ezhome_bedrooms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ezhome_bedrooms" />
+                android:text="@string/ezhome_bedrooms"
+                android:textStyle="bold"
+                android:textColor="@color/header_text"/>
 
-            <TextView
-                android:id="@+id/ezhome_bathrooms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ezhome_bathrooms" />
-
+                <TextView
+                    android:id="@+id/ezhome_bathrooms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ezhome_bathrooms"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="100dp"
+                    android:textColor="@color/header_text"/>
+            </TableRow>
+            <TableRow>
             <CheckedTextView
                 android:id="@+id/ezhome_parking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                 android:gravity="center_vertical"
-                android:text="@string/ezhome_parking" />
+                android:text="@string/ezhome_parking"
+                android:textStyle="bold"/>
 
             <CheckedTextView
                 android:id="@+id/ezhome_gym"
@@ -146,9 +170,12 @@
                 android:layout_height="wrap_content"
                 android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                 android:gravity="center_vertical"
-                android:text="@string/ezhome_gym" />
-
-        </LinearLayout>
+                android:text="@string/ezhome_gym"
+                android:textStyle="bold"
+                android:checked="false"
+                android:layout_marginLeft="100dp"/>
+            </TableRow>
+        </TableLayout>
 
     </ScrollView>
 
@@ -156,20 +183,30 @@
         android:id="@+id/Call"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/sms"
-        android:background="@color/common_google_signin_btn_text_dark_pressed"
+        android:background="#ffffff"
         android:src="@drawable/call"
-        android:text="Call" />
+        android:text="Call"
+        android:backgroundTintMode="src_over"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/sms" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/sms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:background="@color/common_google_signin_btn_text_dark_pressed"
         android:src="@drawable/text"
-        android:text="Send Text" />
+        android:text="Send Text"
+        android:backgroundTintMode="src_over"
+        android:layout_alignTop="@+id/Call"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/button_ezprice_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_ezprice_details"
+        android:textStyle="bold"
+        android:layout_alignBottom="@+id/Call"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

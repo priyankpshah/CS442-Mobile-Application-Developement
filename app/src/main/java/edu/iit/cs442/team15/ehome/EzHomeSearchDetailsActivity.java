@@ -3,14 +3,18 @@ package edu.iit.cs442.team15.ehome;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import java.util.Random;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
@@ -18,6 +22,7 @@ import android.widget.TextView;
 
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.ImageAdapter;
 import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class EzHomeSearchDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,7 +33,9 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
     private FloatingActionButton call, text;
     private TextView name, address, area, bedrooms, bathrooms, ezPrice, rent, thermostat, cable, internet, gas, electricity;
     private CheckedTextView gym, parking;
+    static final int NUM_ITEMS = 5;
 
+    ViewPager viewPager;
     private MenuItem favorites;
     private boolean isFavorited;
 
@@ -42,10 +49,10 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
 
         Button details = (Button) findViewById(R.id.button_ezprice_details);
         details.setOnClickListener(this);
+        ViewPager vp = (ViewPager)findViewById(R.id.imgpage);
+        ImageAdapter ap = new ImageAdapter(this);
+        vp.setAdapter(ap);
 
-        // find views
-        // TODO add owner info from apartment.owner._
-        //apartment = (TextView) findViewById(R.apartmentId.Apartment_name);
         address = (TextView) findViewById(R.id.ezhome_address);
         area = (TextView) findViewById(R.id.ezhome_area);
         bedrooms = (TextView) findViewById(R.id.ezhome_bedrooms);
