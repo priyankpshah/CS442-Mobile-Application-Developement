@@ -170,11 +170,55 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/locationHeader"
+            style="@style/header"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/filterArea"
+            android:text="@string/header_area_online" />
+
+        <LinearLayout
+            android:id="@+id/filterLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/locationHeader"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Within "
+                android:textColor="#222"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="radius"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" mi. of:"
+                android:textColor="#222"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/filterLocation"
+            android:hint="@string/edit_search_online" />
+
+        <TextView
             android:id="@+id/optionsHeader"
             style="@style/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/filterArea"
+            android:layout_below="@id/location"
             android:text="@string/header_options" />
 
         <LinearLayout
