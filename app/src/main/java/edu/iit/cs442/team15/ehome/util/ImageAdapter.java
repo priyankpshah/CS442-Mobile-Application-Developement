@@ -6,22 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import edu.iit.cs442.team15.ehome.R;
 
-/**
- * Created by Priyank on 4/29/2016.
- */
 public class ImageAdapter extends PagerAdapter {
-    Context mcontext;
-    final Random rand = new Random();
+    Context mContext;
 
-
-    public ImageAdapter(Context context){
-        this.mcontext = context;
+    public ImageAdapter(Context context) {
+        this.mContext = context;
     }
+
     @Override
     public int getCount() {
         return sliderImagesId.length;
@@ -29,20 +22,23 @@ public class ImageAdapter extends PagerAdapter {
 
     private int[] sliderImagesId = new int[]{
             R.drawable.img1, R.drawable.img2, R.drawable.img3,
-            R.drawable.img4, R.drawable.img5, R.drawable.img6,
+            R.drawable.img4, R.drawable.img5, R.drawable.img6
     };
+
     @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == ((ImageView)object);
+    public boolean isViewFromObject(View v, Object obj) {
+        return v == ((ImageView) obj);
     }
+
     @Override
     public Object instantiateItem(ViewGroup container, int i) {
-        ImageView mImageView = new ImageView(mcontext);
+        ImageView mImageView = new ImageView(mContext);
         mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         mImageView.setImageResource(sliderImagesId[i]);
         ((ViewPager) container).addView(mImageView, 0);
         return mImageView;
     }
+
     @Override
     public void destroyItem(ViewGroup container, int i, Object obj) {
         ((ViewPager) container).removeView((ImageView) obj);

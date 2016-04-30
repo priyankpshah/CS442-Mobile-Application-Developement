@@ -8,26 +8,28 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/imgpage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="170dp"/>
+
+
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/button_ezprice_details">
+        android:layout_marginTop="330dp"
+        android:layout_above="@+id/button_ezprice_details"
+        android:layout_below="@+id/imgpage">
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:scrollbars="vertical">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/imgpage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/divider2">
-            </android.support.v4.view.ViewPager>
-
 
             <TextView
                 android:id="@+id/ezhome_address"
@@ -183,12 +185,11 @@
         android:id="@+id/Call"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
         android:src="@drawable/call"
         android:text="Call"
-        android:backgroundTintMode="src_over"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/sms" />
+
+        android:layout_below="@+id/scrollView"
+        android:layout_alignParentStart="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/sms"
@@ -196,7 +197,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/text"
         android:text="Send Text"
-        android:backgroundTintMode="src_over"
+
         android:layout_alignTop="@+id/Call"
         android:layout_alignParentEnd="true" />
 
@@ -206,7 +207,7 @@
         android:layout_height="wrap_content"
         android:text="@string/button_ezprice_details"
         android:textStyle="bold"
-        android:layout_alignBottom="@+id/Call"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
