@@ -20,6 +20,10 @@ public class ApartmentSearchFilter implements Serializable {
 
     public static final String TOTAL_COST = "ezprice";
 
+    public static final String ALL_APARTMENT_INFO_TABLE = Apartments.TABLE +
+            " JOIN " + Owners.TABLE + " ON " + Apartments.TABLE + "." + Apartments.OWNER_ID + "=" + Owners.TABLE + "." + Owners.ID +
+            " JOIN " + Amenities.TABLE + " ON " + Apartments.TABLE + "." + Apartments.ID + "=" + Amenities.TABLE + "." + Amenities.ID;
+
     public int id;
     public Integer apartmentId;
     public Integer minCost, maxCost;
@@ -107,9 +111,7 @@ public class ApartmentSearchFilter implements Serializable {
 
         if (isEzhomeSearch) {
             // join apartments, owners, and amenities tables together
-            table = Apartments.TABLE +
-                    " JOIN " + Owners.TABLE + " ON " + Apartments.TABLE + "." + Apartments.OWNER_ID + "=" + Owners.TABLE + "." + Owners.ID +
-                    " JOIN " + Amenities.TABLE + " ON " + Apartments.TABLE + "." + Apartments.ID + "=" + Amenities.TABLE + "." + Amenities.ID;
+            table = ALL_APARTMENT_INFO_TABLE;
 
             columns = new String[]{
                     "*",

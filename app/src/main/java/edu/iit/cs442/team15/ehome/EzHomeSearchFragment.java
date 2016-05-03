@@ -250,6 +250,7 @@ public class EzHomeSearchFragment extends Fragment {
         }
     }
 
+    // NOTE: may need to copy changes to this class to DashboardFragment.FavoritesAdapter
     private class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {

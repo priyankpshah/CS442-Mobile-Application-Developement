@@ -15,7 +15,7 @@
             android:id="@+id/favoritesHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Favorites"
+            android:text="@string/dashboard_favorites_header"
             android:textColor="@color/header_text"
             android:textSize="16sp" />
 
@@ -25,6 +25,7 @@
             android:layout_below="@id/favoritesHeader" />
 
         <TextView
+            android:id="@+id/noFavorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -32,7 +33,13 @@
             android:layout_alignParentStart="true"
             android:layout_below="@id/divider0"
             android:gravity="center"
-            android:text="You have no favorites." />
+            android:text="@string/dashboard_no_favorites" />
+
+        <ListView
+            android:id="@+id/favoritesListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/divider0" />
 
     </RelativeLayout>
 
@@ -45,7 +52,7 @@
             android:id="@+id/recommendationHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recommendations"
+            android:text="@string/dashboard_recommendations_header"
             android:textColor="@color/header_text"
             android:textSize="16sp" />
 
@@ -58,8 +65,7 @@
             android:id="@+id/pager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/divider2">
-        </android.support.v4.view.ViewPager>
+            android:layout_below="@+id/divider2" />
 
     </RelativeLayout>
 

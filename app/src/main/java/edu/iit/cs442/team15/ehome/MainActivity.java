@@ -1,7 +1,6 @@
 package edu.iit.cs442.team15.ehome;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -138,17 +137,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
     public void onSearchHistorySelected(int searchHistoryId, boolean isEzhomeSearch) {
         Fragment f = isEzhomeSearch ? EzHomeSearchFragment.newInstance(searchHistoryId) : SearchOnlineFragment.newInstance(searchHistoryId);
         fm.beginTransaction()
                 .replace(R.id.contentFragment, f)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onApartmentClicked(int apartmentId) {
+        Intent detailsIntent = new Intent(this, EzHomeSearchDetailsActivity.class);
+        detailsIntent.putExtra(EzHomeSearchDetailsActivity.EXTRA_APARTMENT_ID, apartmentId);
+
+        startActivity(detailsIntent);
     }
 
 }

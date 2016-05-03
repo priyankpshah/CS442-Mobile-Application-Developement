@@ -146,24 +146,46 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
 
     /* -------- Favorites -------- */
 
-    // returns list of apartment ids of favorites
-    public List<Integer> getFavorites(int userId) {
+    public List<Apartment> getFavorites(int userId) {
         SQLiteDatabase db = getReadableDatabase();
 
+        final String table = "(" + ApartmentSearchFilter.ALL_APARTMENT_INFO_TABLE + ") JOIN " + Favorites.TABLE
+                + " ON " + Apartments.TABLE + "." + Apartments.ID + " = " + (Favorites.TABLE + "." + Favorites.APARTMENT_ID);
         final String selection = Favorites.USER_ID + "=?";
-        Cursor cur = db.query(Favorites.TABLE, new String[]{Favorites.APARTMENT_ID}, selection, new String[]{Integer.toString(userId)}, null, null, null);
 
-        List<Integer> result = new ArrayList<>();
-        if (cur.moveToFirst()) {
+        Cursor r = db.query(table, null, selection, new String[]{Integer.toString(userId)}, null, null, null);
+
+        ArrayList<Apartment> apartments = new ArrayList<>();
+        if (r.moveToFirst()) {
             do {
-                result.add(cur.getInt(cur.getColumnIndex(Favorites.APARTMENT_ID)));
-            } while (cur.moveToNext());
+                apartments.add(new Apartment()
+                        .setId(r.getInt(r.getColumnIndex(Amenities.ID))) // corresponds to apartment id
+                        .setAddress(r.getString(r.getColumnIndex(Apartments.ADDRESS)))
+                        .setZip(r.getInt(r.getColumnIndex(Apartments.ZIP)))
+                        .setBedrooms(r.getInt(r.getColumnIndex(Apartments.BEDROOMS)))
+                        .setBathrooms(r.getInt(r.getColumnIndex(Apartments.BATHROOMS)))
+                        .setSquareFeet(r.getDouble(r.getColumnIndex(Apartments.AREA)))
+                        .setRent(r.getInt(r.getColumnIndex(Apartments.RENT)))
+                        .setOwner(new Owner()
+                                .setId(r.getInt(r.getColumnIndex(Owners.ID)))
+                                .setComplexName(r.getString(r.getColumnIndex(Owners.COMPLEX_NAME)))
+                                .setOwnerPhone(r.getString(r.getColumnIndex(Owners.OWNER_PHONE)))
+                                .setOwnerEmail(r.getString(r.getColumnIndex(Owners.OWNER_EMAIL))))
+                        .setAmenity(new Amenity()
+                                .setParking(r.getInt(r.getColumnIndex(Amenities.PARKING)) == 1)
+                                .setGym(r.getInt(r.getColumnIndex(Amenities.GYM)) == 1)
+                                .setGas(r.getDouble(r.getColumnIndex(Amenities.GAS)))
+                                .setElectricity(r.getDouble(r.getColumnIndex(Amenities.ELECTRICITY)))
+                                .setInternet(r.getDouble(r.getColumnIndex(Amenities.INTERNET)))
+                                .setCable(r.getDouble(r.getColumnIndex(Amenities.CABLE)))
+                                .setThermostat(r.getDouble(r.getColumnIndex(Amenities.THERMOSTAT)))));
+            } while (r.moveToNext());
         }
 
-        cur.close();
+        r.close();
         db.close();
 
-        return result;
+        return apartments;
     }
 
     public long addFavorite(int userId, int apartmentId) {

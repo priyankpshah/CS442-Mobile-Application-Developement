@@ -52,6 +52,11 @@
     <string name="password_dialog_retry_message">The password was incorrect.\nPlease try again.</string>
     <string name="password_dialog_retry_positive">Retry</string>
 
+    <!-- Dashboard -->
+    <string name="dashboard_favorites_header">Favorites</string>
+    <string name="dashboard_no_favorites">You have no favorites.</string>
+    <string name="dashboard_recommendations_header">Recommendations</string>
+
     <!-- ezHome Search Details -->
     <string name="title_activity_ezhome_search_details">Search Details</string>
 
