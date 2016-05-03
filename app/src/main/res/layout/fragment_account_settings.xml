@@ -99,7 +99,7 @@
             android:layout_alignParentEnd="true"
             android:textColor="#ffffff"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:layout_below="@id/accountPhone"
             android:text="@string/button_update_account" />
 
