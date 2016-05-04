@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="32dp"
-    tools:context="edu.iit.cs442.team15.ehome.LoginActivity">
+    tools:context="edu.iit.cs442.team15.ehome.LoginActivity"
+    >
 
     <Space
         android:layout_width="wrap_content"
@@ -18,7 +19,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:layout_marginTop="100dp"/>
 
     <EditText
         android:id="@+id/loginPassword"
@@ -27,14 +29,16 @@
         android:fontFamily="sans-serif"
         android:hint="@string/hint_password"
         android:inputType="textPassword"
-        android:maxLines="1" />
+        android:maxLines="1"
+        />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/button_login" />
+        android:text="@string/button_login"
+        />
 
     <Space
         android:layout_width="wrap_content"
