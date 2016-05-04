@@ -165,11 +165,14 @@
 
     <string name="history_location">Within %1$.2f mi. of %2$s</string>
 
-    <!-- Search Option Online -->
+    <!-- Search Online -->
     <string name="header_ezprice_online">Rent</string>
     <string name="hint_min_online">Min</string>
     <string name="hint_max_online">Max</string>
     <string name="header_area_online">Location</string>
-    <string name="edit_search_online">Location</string>
+    <string name="hint_location_within">Within </string>
+    <string name="hint_location_radius">radius</string>
+    <string name="hint_location_miles_of"> mi. of:</string>
+    <string name="hint_location">Location</string>
 
 </resources>

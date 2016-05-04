@@ -70,7 +70,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Within "
+                android:text="@string/hint_location_within"
                 android:textColor="#222"
                 android:textSize="18sp" />
 
@@ -78,13 +78,13 @@
                 android:id="@+id/distanceOnline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="radius"
+                android:hint="@string/hint_location_radius"
                 android:inputType="numberDecimal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" mi. of:"
+                android:text="@string/hint_location_miles_of"
                 android:textColor="#222"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -94,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/filterAreaOnline"
-            android:hint="@string/edit_search_online" />
+            android:hint="@string/hint_location" />
 
         <Button
             android:id="@+id/searchButtonOnline"
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/locationOnline"
             android:layout_centerHorizontal="true"
-            android:text="Search" />
+            android:text="@string/button_search" />
 
     </RelativeLayout>
 
