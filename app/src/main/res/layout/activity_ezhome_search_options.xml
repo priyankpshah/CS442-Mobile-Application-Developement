@@ -71,9 +71,7 @@
                 android:id="@+id/filterMinBeds"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:background="#f0dad2"
-                android:popupBackground="#f0dad2" />
+                android:layout_weight="3" />
 
             <TextView
                 style="@style/To"
@@ -85,9 +83,7 @@
                 android:id="@+id/filterMaxBeds"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:background="#f0dad2"
-                android:popupBackground="#f0dad2" />
+                android:layout_weight="3" />
 
         </LinearLayout>
 
@@ -110,9 +106,7 @@
                 android:id="@+id/filterMinBaths"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:background="#f0dad2"
-                android:popupBackground="#f0dad2" />
+                android:layout_weight="3" />
 
             <TextView
                 style="@style/To"
@@ -124,9 +118,7 @@
                 android:id="@+id/filterMaxBaths"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:background="#f0dad2"
-                android:popupBackground="#f0dad2" />
+                android:layout_weight="3" />
 
         </LinearLayout>
 

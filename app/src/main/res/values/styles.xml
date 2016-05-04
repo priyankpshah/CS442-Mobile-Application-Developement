@@ -32,7 +32,6 @@
 
     <!-- ezHome Search Options -->
     <style name="NumInput">
-        <item name="android:background">@drawable/custom_edittext</item>
         <item name="android:inputType">number</item>
         <item name="android:maxLength">9</item>
         <item name="android:maxLines">1</item>
