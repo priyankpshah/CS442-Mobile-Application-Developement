@@ -44,6 +44,20 @@
         <item name="android:textColor">#000</item>
     </style>
 
+    <!-- ezHome Search -->
+    <style name="EzHomeSearchTextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minLines">2</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">#222</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <!-- Search History -->
     <style name="SearchHistoryTextView">
         <item name="android:layout_width">wrap_content</item>

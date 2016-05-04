@@ -12,57 +12,35 @@
 
         <TextView
             android:id="@+id/tv_address_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="center"
+            style="@style/EzHomeSearchTextView"
             android:maxEms="6"
             android:singleLine="true"
-            android:text="@string/header_address"
-            android:textSize="15sp" />
+            android:text="@string/header_address" />
 
         <TextView
             android:id="@+id/tv_rent_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="center"
+            style="@style/EzHomeSearchTextView"
             android:maxEms="6"
             android:singleLine="true"
-            android:text="@string/header_ezprice"
-            android:textSize="15sp" />
+            android:text="@string/header_ezprice" />
 
         <TextView
             android:id="@+id/tv_area_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="center"
+            style="@style/EzHomeSearchTextView"
             android:maxEms="6"
             android:singleLine="true"
-            android:text="@string/header_area"
-            android:textSize="15sp" />
+            android:text="@string/header_area" />
 
         <TextView
             android:id="@+id/tv_owner_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="center"
+            style="@style/EzHomeSearchTextView"
             android:maxEms="6"
             android:singleLine="true"
-            android:text="@string/header_owner"
-            android:textSize="15sp" />
+            android:text="@string/header_owner" />
 
     </LinearLayout>
+
+    <View style="@style/divider" />
 
     <TextView
         android:id="@+id/noSearchResults"
