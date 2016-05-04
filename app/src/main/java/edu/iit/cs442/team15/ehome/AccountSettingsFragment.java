@@ -131,8 +131,6 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                     validInput = false;
                 }
 
-                // TODO check Address?
-
                 // check Name
                 if (!Validation.isName(newInfo.name)) {
                     if (newInfo.name.trim().isEmpty())

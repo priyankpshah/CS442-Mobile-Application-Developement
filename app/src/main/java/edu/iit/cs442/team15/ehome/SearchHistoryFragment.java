@@ -130,7 +130,6 @@ public class SearchHistoryFragment extends Fragment {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            // TODO support web search?
             holder.type.setText(filter.isEzhomeSearch ? R.string.history_type_ezhome : R.string.history_type_web);
 
             String temp = getRangeString(filter.minCost, filter.maxCost);
