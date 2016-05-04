@@ -12,6 +12,8 @@
     <string name="nav_account_settings">Account Settings</string>
     <string name="nav_logout">Logout</string>
 
+    <string name="nav_content_description_user_image">Profile Picture</string>
+
     <!-- Account forms in LoginActivity, RegisterActivity and AccountSettingsFragment -->
     <string name="button_create_account">Create Account</string>
     <string name="button_login">Login</string>
