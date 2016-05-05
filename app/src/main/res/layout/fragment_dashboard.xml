@@ -13,26 +13,20 @@
 
         <TextView
             android:id="@+id/favoritesHeader"
+            style="@style/Header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dashboard_favorites_header"
-            android:textColor="@color/header_text"
-            android:textSize="16sp" />
+            android:text="@string/dashboard_favorites_header" />
 
         <View
             android:id="@+id/divider0"
-            style="@style/divider"
+            style="@style/Divider"
             android:layout_below="@id/favoritesHeader" />
 
         <TextView
             android:id="@+id/noFavorites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
+            style="@style/NoItemsFound"
             android:layout_below="@id/divider0"
-            android:gravity="center"
             android:text="@string/dashboard_no_favorites" />
 
         <ListView
@@ -50,15 +44,14 @@
 
         <TextView
             android:id="@+id/recommendationHeader"
+            style="@style/Header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dashboard_recommendations_header"
-            android:textColor="@color/header_text"
-            android:textSize="16sp" />
+            android:text="@string/dashboard_recommendations_header" />
 
         <View
             android:id="@+id/divider2"
-            style="@style/divider"
+            style="@style/Divider"
             android:layout_below="@id/recommendationHeader" />
 
         <android.support.v4.view.ViewPager

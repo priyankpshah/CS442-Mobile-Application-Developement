@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="false"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -35,8 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ezhome_address"
-                android:textStyle="bold"
-                android:textColor="@color/header_text"/>
+                android:textStyle="bold" />
             <Space
                 android:layout_width="0dp"
                 android:layout_height="2dp"
@@ -48,7 +46,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ezhome_area"
                 android:textStyle="bold"
-                android:textColor="@color/header_text"
                 />
             <TextView
                 android:id="@+id/ezhome_ezprice"
@@ -56,7 +53,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ezhome_ezprice"
                 android:textStyle="bold"
-                android:textColor="@color/header_text"
                 android:layout_marginLeft="70dp"/>
             </TableRow>
 
@@ -79,8 +75,7 @@
                 android:animateLayoutChanges="true"
                 android:orientation="vertical"
                 android:visibility="gone"
-                android:textStyle="bold"
-                android:textColor="@color/header_text">
+                android:textStyle="bold">
                 <TableRow>
                 <TextView
                     android:id="@+id/ezhome_rent"
@@ -88,8 +83,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/ezhome_rent"
                     android:textStyle="bold"
-                    android:gravity="right"
-                    android:textColor="@color/header_text"/>
+                    android:gravity="right" />
 
                 <TextView
                     android:id="@+id/ezhome_thermostat"
@@ -98,8 +92,7 @@
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                     android:text="@string/ezhome_thermostat"
                     android:textStyle="bold"
-                    android:layout_marginLeft="90dp"
-                    android:textColor="@color/header_text"/>
+                    android:layout_marginLeft="90dp" />
                 </TableRow>
                 <TableRow>
                 <TextView
@@ -107,8 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ezhome_cable"
-                    android:textStyle="bold"
-                    android:textColor="@color/header_text"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/ezhome_internet"
@@ -116,8 +108,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/ezhome_internet"
                     android:textStyle="bold"
-                    android:layout_marginLeft="90dp"
-                    android:textColor="@color/header_text"/>
+                    android:layout_marginLeft="90dp" />
                 </TableRow>
                 <TableRow>
                 <TextView
@@ -126,8 +117,7 @@
                     android:layout_height="wrap_content"
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                     android:text="@string/ezhome_gas"
-                    android:textStyle="bold"
-                    android:textColor="@color/header_text"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/ezhome_electricity"
@@ -136,8 +126,7 @@
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                     android:text="@string/ezhome_electricity"
                     android:textStyle="bold"
-                    android:layout_marginLeft="90dp"
-                    android:textColor="@color/header_text"/>
+                    android:layout_marginLeft="90dp" />
                 </TableRow>
             </TableLayout>
 
@@ -148,8 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ezhome_bedrooms"
-                android:textStyle="bold"
-                android:textColor="@color/header_text"/>
+                android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/ezhome_bathrooms"
@@ -157,8 +145,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/ezhome_bathrooms"
                     android:textStyle="bold"
-                    android:layout_marginLeft="70dp"
-                    android:textColor="@color/header_text"/>
+                    android:layout_marginLeft="70dp" />
             </TableRow>
             <TableRow>
             <CheckedTextView
@@ -192,7 +179,7 @@
         android:src="@drawable/call"
         android:layout_below="@+id/scrollView"
         android:layout_alignParentStart="true"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"/>/>
+        style="@style/Base.Widget.AppCompat.Button.Borderless" />
 
     <ImageButton
         android:id="@+id/sms"

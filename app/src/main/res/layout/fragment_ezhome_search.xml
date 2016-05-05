@@ -40,15 +40,12 @@
 
     </LinearLayout>
 
-    <View style="@style/divider" />
+    <View style="@style/Divider" />
 
     <TextView
         android:id="@+id/noSearchResults"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/no_search_results"
-        android:visibility="gone" />
+        style="@style/NoItemsFound"
+        android:text="@string/no_search_results" />
 
     <ListView
         android:id="@+id/lv_ehomesearch"
