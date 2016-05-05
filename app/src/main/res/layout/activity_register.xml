@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:text="@string/button_create_account"
             android:textSize="18sp"
-            android:layout_below="@+id/registerConfirmPassword"
+            android:layout_below="@+id/registerPhone"
             android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
