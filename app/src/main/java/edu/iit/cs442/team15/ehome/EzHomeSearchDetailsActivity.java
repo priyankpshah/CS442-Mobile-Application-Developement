@@ -16,7 +16,9 @@ import android.widget.CheckedTextView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import edu.iit.cs442.team15.ehome.model.Amenity;
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ImageAdapter;
@@ -76,7 +78,11 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         internet.setText(getString(R.string.ezhome_internet, apartment.amenity.internet));
         gas.setText(getString(R.string.ezhome_gas, apartment.amenity.gas));
         electricity.setText(getString(R.string.ezhome_electricity, apartment.amenity.electricity));
+        Boolean parkingval = apartment.amenity.parking;
+        Boolean Gymval = apartment.amenity.gym;
 
+        gym.setChecked(Gymval);
+        parking.setChecked(parkingval);
         //Call owner with the following method
         call = (ImageButton)findViewById(R.id.Call);
 
