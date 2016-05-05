@@ -7,7 +7,7 @@
     android:bottomRightRadius="14dp"
     />
 <solid
-    android:color="#076918"
+    android:color="@color/colorPrimary"
     />
 <size
     android:width="90dp"
@@ -15,6 +15,6 @@
     />
 <stroke
     android:width="3dp"
-    android:color="#FFFFFF"
+    android:color="@color/colorTextAndIcons"
     />
 </shape>

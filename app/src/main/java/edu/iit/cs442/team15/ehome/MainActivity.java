@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     newFragment = EzHomeSearchFragment.newInstance();
                     break;
                 case R.id.nav_search_online:
-//                    islocationEnabled();
+                    islocationEnabled();
                     newFragment = SearchOnlineFragment.newInstance();
                     break;
                 case R.id.nav_saved_searches:
@@ -134,26 +134,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 //TO-DO: Need to add context in if and else conditions
-//    private boolean islocationEnabled() {
-//        Context context = null;
-//        int locationmode = 0;
-//        String locationprovider;
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            try {
-//                locationmode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
-//
-//            } catch (Settings.SettingNotFoundException snf) {
-//                snf.printStackTrace();
-//            }
-//            return locationmode != Settings.Secure.LOCATION_MODE_OFF;
-//        }
-//        else
-//        {
-//            locationprovider = Settings.Secure.getString(context.getContentResolver(),Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-//            return !TextUtils.isEmpty(locationprovider);
-//        }
-//
-//    }
+    private boolean islocationEnabled() {
+        Context context = null;
+        int locationmode = 0;
+        String locationprovider;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                locationmode = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
+
+            } catch (Settings.SettingNotFoundException snf) {
+                snf.printStackTrace();
+            }
+            return locationmode != Settings.Secure.LOCATION_MODE_OFF;
+        }
+        else
+        {
+            locationprovider = Settings.Secure.getString(getContentResolver(),Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+            return !TextUtils.isEmpty(locationprovider);
+        }
+
+    }
 
     @Override
     public void onAccountUpdated() {

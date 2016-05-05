@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="32dp"
-    tools:context="edu.iit.cs442.team15.ehome.LoginActivity">
+    tools:context="edu.iit.cs442.team15.ehome.LoginActivity"
+    android:background="@drawable/background">
 
     <Space
         android:layout_width="match_parent"
@@ -45,7 +46,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/button_login" />
+        android:text="@string/button_login"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
 
     <Space
         android:layout_width="wrap_content"
