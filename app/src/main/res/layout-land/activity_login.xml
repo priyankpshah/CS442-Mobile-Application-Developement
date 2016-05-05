@@ -36,6 +36,7 @@
             android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/login_edit_text"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:maxLines="1" />
@@ -44,6 +45,7 @@
             android:id="@+id/loginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/login_edit_text"
             android:fontFamily="sans-serif"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
