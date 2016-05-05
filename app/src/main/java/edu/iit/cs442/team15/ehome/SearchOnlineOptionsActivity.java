@@ -13,8 +13,10 @@ import android.widget.EditText;
 import java.io.IOException;
 import java.util.List;
 
+import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ApartmentSearchFilter;
 import edu.iit.cs442.team15.ehome.util.Chicago;
+import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 public class SearchOnlineOptionsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,6 +40,20 @@ public class SearchOnlineOptionsActivity extends AppCompatActivity implements Vi
 
         search = (Button) findViewById(R.id.searchButtonOnline);
         search.setOnClickListener(this);
+
+        // restore user's previous search settings
+        ApartmentSearchFilter lastSearch = ApartmentDatabaseHelper.getInstance().getLastSearchFilter(SavedLogin.getInstance().getId(), false);
+        if (lastSearch != null) {
+            if (lastSearch.minCost != null)
+                minRent.setText(lastSearch.minCost.toString());
+            if (lastSearch.maxCost != null)
+                maxRent.setText(lastSearch.maxCost.toString());
+
+            if (lastSearch.distance != null && lastSearch.location != null) {
+                distance.setText(lastSearch.distance.toString());
+                location.setText(lastSearch.location);
+            }
+        }
 
         geocoder = new Geocoder(this);
     }
