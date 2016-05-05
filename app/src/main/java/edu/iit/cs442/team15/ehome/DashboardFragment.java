@@ -3,15 +3,12 @@ package edu.iit.cs442.team15.ehome;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,6 +16,7 @@ import java.util.List;
 
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.ImageAdapter;
 import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
 
@@ -36,12 +34,10 @@ public class DashboardFragment extends Fragment {
 
     private List<Apartment> favorites;
     private TextView noFavorites;
-    private FavoritesAdapter adapter;
+    private FavoritesAdapter favoritesAdapter;
 
-    private static final int NUM_ITEMS = 5;
-    ImageFragmentPagerAdapter imageFragmentPagerAdapter;
-    ViewPager viewPager;
-    public static final String[] IMAGE_NAME = {"apartment_one", "apartment_two", "apartment_three", "apartment_four", "apartment_five", "apartment_six"};
+    ViewPager recommendations;
+    ImageAdapter recommendationsAdapter;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -78,11 +74,11 @@ public class DashboardFragment extends Fragment {
         noFavorites = (TextView) v.findViewById(R.id.noFavorites);
         noFavorites.setVisibility(favorites.isEmpty() ? View.VISIBLE : View.GONE);
 
-        if (adapter == null)
-            adapter = new FavoritesAdapter();
+        if (favoritesAdapter == null)
+            favoritesAdapter = new FavoritesAdapter();
 
         ListView favoritesListView = (ListView) v.findViewById(R.id.favoritesListView);
-        favoritesListView.setAdapter(adapter);
+        favoritesListView.setAdapter(favoritesAdapter);
         favoritesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -91,9 +87,21 @@ public class DashboardFragment extends Fragment {
         });
 
         // Recommendations
-        imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getChildFragmentManager());
-        viewPager = (ViewPager) v.findViewById(R.id.pager);
-        viewPager.setAdapter(imageFragmentPagerAdapter);
+        int[] imageIds = {
+                R.drawable.apartment_one, R.drawable.apartment_two, R.drawable.apartment_three,
+                R.drawable.apartment_four, R.drawable.apartment_five, R.drawable.apartment_six
+        };
+
+        final int[] apartmentIds = {1, 2, 3, 4, 5, 6};
+
+        recommendationsAdapter = new ImageAdapter(getActivity(), imageIds, new ImageAdapter.OnImageClickedListener() {
+            @Override
+            public void onImageClicked(int position) {
+                mListener.onApartmentClicked(apartmentIds[position]);
+            }
+        });
+        recommendations = (ViewPager) v.findViewById(R.id.pager);
+        recommendations.setAdapter(recommendationsAdapter);
 
         return v;
     }
@@ -102,7 +110,7 @@ public class DashboardFragment extends Fragment {
     public void onResume() {
         super.onResume();
         favorites = ApartmentDatabaseHelper.getInstance().getFavorites(SavedLogin.getInstance().getId());
-        adapter.notifyDataSetChanged();
+        favoritesAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -166,44 +174,6 @@ public class DashboardFragment extends Fragment {
         public TextView rent;
         public TextView area;
         public TextView owner;
-    }
-
-    public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
-        public ImageFragmentPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_ITEMS;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return SwipeFragment.newInstance(position);
-        }
-    }
-
-    public static class SwipeFragment extends Fragment {
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View swipeView = inflater.inflate(R.layout.swap_fragment, container, false);
-            ImageView imageView = (ImageView) swipeView.findViewById(R.id.imageView);
-            Bundle bundle = getArguments();
-            int position = bundle.getInt("position");
-            String imageFileName = IMAGE_NAME[position];
-            int imgResId = getResources().getIdentifier(imageFileName, "drawable", "edu.iit.cs442.team15.ehome");
-            imageView.setImageResource(imgResId);
-            return swipeView;
-        }
-
-        public static SwipeFragment newInstance(int position) {
-            SwipeFragment swipeFragment = new SwipeFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("position", position + 1);
-            swipeFragment.setArguments(bundle);
-            return swipeFragment;
-        }
     }
 
 }

@@ -3,18 +3,14 @@ package edu.iit.cs442.team15.ehome;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import java.util.Random;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
@@ -109,8 +105,13 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
             }
         });
         //Display multiple Images with swipe gesture, Adapter is located in ImageAdepter File.
+        int[] imageIds = new int[]{
+                R.drawable.img1, R.drawable.img2, R.drawable.img3,
+                R.drawable.img4, R.drawable.img5, R.drawable.img6
+        };
+
         ViewPager vp = (ViewPager)findViewById(R.id.imgpage);
-        ImageAdapter ap = new ImageAdapter(this);
+        ImageAdapter ap = new ImageAdapter(this, imageIds, null);
         vp.setAdapter(ap);
 
     }
