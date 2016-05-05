@@ -91,7 +91,7 @@ public class DashboardFragment extends Fragment {
         });
 
         // Recommendations
-        imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getFragmentManager());
+        imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getChildFragmentManager());
         viewPager = (ViewPager) v.findViewById(R.id.pager);
         viewPager.setAdapter(imageFragmentPagerAdapter);
 
@@ -180,15 +180,13 @@ public class DashboardFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            SwipeFragment fragment = new SwipeFragment();
             return SwipeFragment.newInstance(position);
         }
     }
 
     public static class SwipeFragment extends Fragment {
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View swipeView = inflater.inflate(R.layout.swap_fragment, container, false);
             ImageView imageView = (ImageView) swipeView.findViewById(R.id.imageView);
             Bundle bundle = getArguments();
@@ -199,7 +197,7 @@ public class DashboardFragment extends Fragment {
             return swipeView;
         }
 
-        static SwipeFragment newInstance(int position) {
+        public static SwipeFragment newInstance(int position) {
             SwipeFragment swipeFragment = new SwipeFragment();
             Bundle bundle = new Bundle();
             bundle.putInt("position", position + 1);
