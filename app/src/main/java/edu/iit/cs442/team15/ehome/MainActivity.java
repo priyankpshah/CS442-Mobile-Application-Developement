@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -149,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onApartmentClicked(int apartmentId) {
-        Log.d("tom", apartmentId + "");
         Intent detailsIntent = new Intent(this, EzHomeSearchDetailsActivity.class);
         detailsIntent.putExtra(EzHomeSearchDetailsActivity.EXTRA_APARTMENT_ID, apartmentId);
 
