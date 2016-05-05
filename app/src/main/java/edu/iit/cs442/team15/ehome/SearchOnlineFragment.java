@@ -152,6 +152,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
             userMarker = map.addMarker(new MarkerOptions()
                     .position(lastLatLng)
                     .title("You are here")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.search_online_location_marker))
                     .snippet("Your last recorded location"));
 
             map.setMyLocationEnabled(true);
@@ -160,6 +161,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
             userMarker = map.addMarker(new MarkerOptions()
                     .position(new LatLng(Chicago.LATITUDE, Chicago.LONGITUDE))
                     .title("Chicago")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.search_online_location_marker))
                     .snippet("You are here"));
         }
 
