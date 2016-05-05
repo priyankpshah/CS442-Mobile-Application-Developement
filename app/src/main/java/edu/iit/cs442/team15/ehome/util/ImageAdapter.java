@@ -1,29 +1,29 @@
 package edu.iit.cs442.team15.ehome.util;
+
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import edu.iit.cs442.team15.ehome.R;
-
 public class ImageAdapter extends PagerAdapter {
-    Context mContext;
 
-    public ImageAdapter(Context context) {
+    private Context mContext;
+    private int[] imageIds;
+    private OnImageClickedListener mListener;
+
+    public ImageAdapter(Context context, @NonNull int[] imageIds, @Nullable OnImageClickedListener mListener) {
         this.mContext = context;
+        this.imageIds = imageIds;
+        this.mListener = mListener;
     }
 
     @Override
     public int getCount() {
-        return sliderImagesId.length;
+        return imageIds.length;
     }
-
-    private int[] sliderImagesId = new int[]{
-            R.drawable.img1, R.drawable.img2, R.drawable.img3,
-            R.drawable.img4, R.drawable.img5, R.drawable.img6
-    };
 
     @Override
     public boolean isViewFromObject(View v, Object obj) {
@@ -31,16 +31,31 @@ public class ImageAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int i) {
-        ImageView mImageView = new ImageView(mContext);
-        mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        mImageView.setImageResource(sliderImagesId[i]);
-        ((ViewPager) container).addView(mImageView, 0);
-        return mImageView;
+    public Object instantiateItem(ViewGroup container, final int i) {
+        ImageView imageView = new ImageView(mContext);
+
+        //imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setImageResource(imageIds[i]);
+        if (mListener != null)
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onImageClicked(i);
+                }
+            });
+
+        container.addView(imageView, 0);
+
+        return imageView;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int i, Object obj) {
-        ((ViewPager) container).removeView((ImageView) obj);
+        container.removeView((ImageView) obj);
     }
+
+    public interface OnImageClickedListener {
+        void onImageClicked(int position);
+    }
+
 }

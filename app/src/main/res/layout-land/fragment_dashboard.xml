@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    tools:context="edu.iit.cs442.team15.ehome.DashboardFragment">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/favoritesHeader"
+            style="@style/Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dashboard_favorites_header" />
+
+        <View
+            android:id="@+id/divider0"
+            style="@style/Divider"
+            android:layout_below="@id/favoritesHeader" />
+
+        <TextView
+            android:id="@+id/noFavorites"
+            style="@style/NoItemsFound"
+            android:layout_below="@id/divider0"
+            android:text="@string/dashboard_no_favorites" />
+
+        <ListView
+            android:id="@+id/favoritesListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/divider0" />
+
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="@dimen/activity_horizontal_margin"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/recommendationHeader"
+            style="@style/Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dashboard_recommendations_header" />
+
+        <View
+            android:id="@+id/divider2"
+            style="@style/Divider"
+            android:layout_below="@id/recommendationHeader" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider2" />
+
+    </RelativeLayout>
+
+</LinearLayout>

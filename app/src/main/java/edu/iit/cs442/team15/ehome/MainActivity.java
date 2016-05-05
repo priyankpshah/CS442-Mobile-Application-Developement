@@ -1,10 +1,7 @@
 package edu.iit.cs442.team15.ehome;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -105,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     newFragment = EzHomeSearchFragment.newInstance();
                     break;
                 case R.id.nav_search_online:
-                    islocationEnabled();
                     newFragment = SearchOnlineFragment.newInstance();
                     break;
                 case R.id.nav_saved_searches:
@@ -132,27 +127,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-//TO-DO: Need to add context in if and else conditions
-    private boolean islocationEnabled() {
-        Context context = null;
-        int locationmode = 0;
-        String locationprovider;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                locationmode = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
-
-            } catch (Settings.SettingNotFoundException snf) {
-                snf.printStackTrace();
-            }
-            return locationmode != Settings.Secure.LOCATION_MODE_OFF;
-        }
-        else
-        {
-            locationprovider = Settings.Secure.getString(getContentResolver(),Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-            return !TextUtils.isEmpty(locationprovider);
-        }
-
     }
 
     @Override
