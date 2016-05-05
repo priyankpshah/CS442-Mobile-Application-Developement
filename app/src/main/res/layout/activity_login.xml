@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:padding="32dp"
     tools:context="edu.iit.cs442.team15.ehome.LoginActivity"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    >
 
     <Space
         android:layout_width="match_parent"
@@ -17,7 +18,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/app_name" />
+        android:contentDescription="@string/app_name"
+        android:background="@drawable/logo"/>
 
     <Space
         android:layout_width="wrap_content"
