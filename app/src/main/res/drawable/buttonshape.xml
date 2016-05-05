@@ -10,11 +10,11 @@
     android:color="#076918"
     />
 <size
-    android:width="120dp"
-    android:height="40dp"
+    android:width="90dp"
+    android:height="30dp"
     />
 <stroke
     android:width="3dp"
-    android:color="#000000"
+    android:color="#FFFFFF"
     />
 </shape>
