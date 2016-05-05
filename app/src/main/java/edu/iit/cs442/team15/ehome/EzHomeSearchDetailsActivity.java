@@ -17,6 +17,7 @@ import android.view.View;
 import java.util.Random;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
     public static final String EXTRA_APARTMENT_ID = "apartment_id";
 
     private int apartmentId;
-    private FloatingActionButton call, text;
+    private ImageButton call, text;
     private TextView name, address, area, bedrooms, bathrooms, ezPrice, rent, thermostat, cable, internet, gas, electricity;
     private CheckedTextView gym, parking;
     static final int NUM_ITEMS = 5;
@@ -81,20 +82,24 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         electricity.setText(getString(R.string.ezhome_electricity, apartment.amenity.electricity));
 
         //Call owner with the following method
-        call = (FloatingActionButton) findViewById(R.id.Call);
+        call = (ImageButton)findViewById(R.id.Call);
+
         call.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
+            @Override
+            public void onClick(View v) {
                 Intent makeCall = new Intent(Intent.ACTION_CALL);
                 String phNum = "tel:" + "3126473207";
                 makeCall.setData(Uri.parse(phNum));
                 if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                     startActivity(makeCall);
+
                 }
             }
         });
 
+
         //Send message to owner
-        text = (FloatingActionButton) findViewById(R.id.sms);
+        text = (ImageButton)findViewById(R.id.sms);
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
