@@ -23,16 +23,11 @@
             android:text="@string/header_account"
             android:textColor="@color/colorPrimaryLight" />
 
-        <View
-            android:id="@+id/accountDivider"
-            style="@style/Divider"
-            android:layout_below="@id/accountGroup" />
-
         <EditText
             android:id="@+id/registerEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/accountDivider"
+            android:layout_below="@id/accountGroup"
             android:background="@drawable/login_edit_text"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
@@ -71,16 +66,11 @@
             android:text="@string/header_contact"
             android:textColor="@color/colorPrimaryLight" />
 
-        <View
-            android:id="@+id/contactDivider"
-            style="@style/Divider"
-            android:layout_below="@id/contactGroup" />
-
         <EditText
             android:id="@+id/registerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/contactDivider"
+            android:layout_below="@id/contactGroup"
             android:background="@drawable/login_edit_text"
             android:hint="@string/hint_name"
             android:maxLines="1" />
