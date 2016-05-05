@@ -23,15 +23,17 @@
         android:id="@+id/navHeaderName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/colorTextAndIcons" />
+        android:textColor="@color/colorTextAndIcons"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/navHeaderEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorTextAndIcons" />
+        android:textColor="@color/colorTextAndIcons"
+        android:textSize="15sp" />
 
 </LinearLayout>
