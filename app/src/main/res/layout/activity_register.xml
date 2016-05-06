@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
     tools:context=".RegisterActivity">
 
@@ -19,18 +20,15 @@
             style="@style/Header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/header_account" />
-
-        <View
-            android:id="@+id/accountDivider"
-            style="@style/Divider"
-            android:layout_below="@id/accountGroup" />
+            android:text="@string/header_account"
+            android:textColor="@color/colorPrimaryLight" />
 
         <EditText
             android:id="@+id/registerEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/accountDivider"
+            android:layout_below="@id/accountGroup"
+            android:background="@drawable/login_edit_text"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:maxLines="1" />
@@ -39,7 +37,9 @@
             android:id="@+id/registerPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:layout_below="@id/registerEmail"
+            android:background="@drawable/login_edit_text"
             android:fontFamily="sans-serif"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
@@ -50,6 +50,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerPassword"
+
+            android:background="@drawable/login_edit_text"
             android:fontFamily="sans-serif"
             android:hint="@string/hint_confirm_password"
             android:inputType="textPassword"
@@ -61,18 +63,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerConfirmPassword"
-            android:text="@string/header_contact" />
-
-        <View
-            android:id="@+id/contactDivider"
-            style="@style/Divider"
-            android:layout_below="@id/contactGroup" />
+            android:text="@string/header_contact"
+            android:textColor="@color/colorPrimaryLight" />
 
         <EditText
             android:id="@+id/registerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/contactDivider"
+            android:layout_below="@id/contactGroup"
+            android:background="@drawable/login_edit_text"
             android:hint="@string/hint_name"
             android:maxLines="1" />
 
@@ -81,6 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/registerName"
+            android:background="@drawable/login_edit_text"
+
             android:hint="@string/hint_phone"
             android:inputType="phone"
             android:maxLines="1" />
@@ -93,6 +94,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/registerPhone"
             android:text="@string/button_create_account"
+            android:textColor="@color/colorPrimaryLight"
             android:textSize="18sp" />
 
     </RelativeLayout>

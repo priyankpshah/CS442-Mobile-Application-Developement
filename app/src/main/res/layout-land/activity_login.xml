@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:fillViewport="true"
     tools:context="edu.iit.cs442.team15.ehome.LoginActivity">
 
@@ -22,7 +23,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="128dp"
+            android:layout_height="192dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/logo" />
 
@@ -35,6 +36,7 @@
             android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/login_edit_text"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:maxLines="1" />
@@ -43,6 +45,7 @@
             android:id="@+id/loginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/login_edit_text"
             android:fontFamily="sans-serif"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
@@ -50,10 +53,13 @@
 
         <Button
             android:id="@+id/loginButton"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/button_login" />
+            android:text="@string/button_login"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="18sp" />
 
         <Space
             android:layout_width="wrap_content"
@@ -66,7 +72,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/button_create_account" />
+            android:text="@string/button_create_account"
+            android:textColor="@color/colorPrimaryLight" />
 
     </LinearLayout>
 

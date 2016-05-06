@@ -16,7 +16,7 @@
 
     <!-- Account forms in LoginActivity, RegisterActivity and AccountSettingsFragment -->
     <string name="button_create_account">Create Account</string>
-    <string name="button_login">Login</string>
+    <string name="button_login">Log In</string>
     <string name="button_update_account">Update Account</string>
 
     <string name="header_account">Account</string>
