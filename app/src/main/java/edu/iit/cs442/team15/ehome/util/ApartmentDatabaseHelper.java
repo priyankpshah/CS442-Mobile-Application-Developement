@@ -354,7 +354,7 @@ public final class ApartmentDatabaseHelper extends SQLiteOpenHelper {
                         .setBedrooms(r.getInt(r.getColumnIndex(Apartments.BEDROOMS)))
                         .setBathrooms(r.getInt(r.getColumnIndex(Apartments.BATHROOMS)))
                         .setSquareFeet(r.getDouble(r.getColumnIndex(Apartments.AREA)))
-                        .setRent(r.getInt(r.getColumnIndex(Apartments.RENT)))
+                        .setRent(r.getDouble(r.getColumnIndex(Apartments.RENT)))
                         .setOwner(new Owner()
                                 .setId(r.getInt(r.getColumnIndex(Owners.ID)))
                                 .setComplexName(r.getString(r.getColumnIndex(Owners.COMPLEX_NAME)))

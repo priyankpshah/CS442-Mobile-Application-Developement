@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/imgpage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="190dp"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="310dp"
+        android:layout_above="@+id/button_ezprice_details"
+        android:layout_below="@+id/imgpage">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:scrollbars="vertical">
+
+            <TextView
+                android:id="@+id/ezhome_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ezhome_address"
+                android:textStyle="bold" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_weight="1" />
+            <TableRow>
+                <TextView
+                    android:id="@+id/ezhome_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ezhome_area"
+                    android:textStyle="bold"
+                    />
+                <TextView
+                    android:id="@+id/ezhome_ezprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ezhome_ezprice"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="70dp"/>
+            </TableRow>
+
+            <!-- TODO add description of what ezPrice actually is -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <TableLayout
+                android:id="@+id/ezprice_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:textStyle="bold">
+                <TableRow>
+                    <TextView
+                        android:id="@+id/ezhome_rent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ezhome_rent"
+                        android:textStyle="bold"/>
+
+
+
+                    <TextView
+                        android:id="@+id/ezhome_thermostat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                        android:text="@string/ezhome_thermostat"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="100dp" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:id="@+id/ezhome_cable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ezhome_cable"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ezhome_internet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ezhome_internet"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="100dp" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:id="@+id/ezhome_gas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                        android:text="@string/ezhome_gas"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ezhome_electricity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                        android:text="@string/ezhome_electricity"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="100dp" />
+                </TableRow>
+            </TableLayout>
+
+
+            <TableRow>
+                <TextView
+                    android:id="@+id/ezhome_bedrooms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ezhome_bedrooms"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ezhome_bathrooms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ezhome_bathrooms"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="70dp" />
+            </TableRow>
+            <TableRow>
+                <CheckedTextView
+                    android:id="@+id/ezhome_parking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:gravity="center_vertical"
+                    android:text="@string/ezhome_parking"
+                    android:textStyle="bold"
+                    />
+
+                <CheckedTextView
+                    android:id="@+id/ezhome_gym"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:gravity="center_vertical"
+                    android:text="@string/ezhome_gym"
+                    android:textStyle="bold"
+                    android:checked="false"
+                    android:layout_marginLeft="70dp"
+                    android:checkMarkTint="@color/colorPrimary"/>
+            </TableRow>
+        </TableLayout>
+
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/Call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/call"
+        android:layout_below="@+id/scrollView"
+        android:layout_alignParentStart="true"
+        style="@style/Base.Widget.AppCompat.Button.Borderless" />
+
+    <ImageButton
+        android:id="@+id/sms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/text"
+        android:layout_alignTop="@+id/Call"
+        android:layout_alignParentEnd="true"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
+    <!--<Button-->
+
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/button_ezprice_details"-->
+    <!--android:textStyle="bold"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--style="@style/Base.Widget.AppCompat.Button.Borderless"-->
+    <!--android:background="@color/white"-->
+    <!--/>-->
+    <Button
+        android:id="@+id/button_ezprice_details"
+        android:text="@string/button_ezprice_details"
+
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        />
+
+</RelativeLayout>

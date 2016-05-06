@@ -80,7 +80,7 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         electricity.setText(getString(R.string.ezhome_electricity, apartment.amenity.electricity));
         Boolean parkingval = apartment.amenity.parking;
         Boolean Gymval = apartment.amenity.gym;
-
+        Toast.makeText(getApplicationContext(),"Rent: "+apartment.rent,Toast.LENGTH_LONG).show();
         gym.setChecked(Gymval);
         parking.setChecked(parkingval);
         //Call owner with the following method

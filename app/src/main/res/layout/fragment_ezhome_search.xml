@@ -15,28 +15,50 @@
             style="@style/EzHomeSearchTextView"
             android:maxEms="6"
             android:singleLine="true"
-            android:text="@string/header_address" />
+            android:text="@string/header_address"
+            android:textStyle="bold"/>
+        <View
+            android:id="@+id/div1"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/tv_rent_title"
+            android:background="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_rent_title"
             style="@style/EzHomeSearchTextView"
             android:maxEms="6"
             android:singleLine="true"
-            android:text="@string/header_ezprice" />
+            android:text="@string/header_ezprice"
+            android:textStyle="bold" />
+        <View
+            android:id="@+id/div2"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/tv_area_title"
+            android:background="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_area_title"
             style="@style/EzHomeSearchTextView"
             android:maxEms="6"
             android:singleLine="true"
-            android:text="@string/header_area" />
+            android:text="@string/header_area"
+            android:textStyle="bold"/>
+        <View
+            android:id="@+id/div3"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/tv_owner_title"
+            android:background="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_owner_title"
             style="@style/EzHomeSearchTextView"
             android:maxEms="6"
             android:singleLine="true"
-            android:text="@string/header_owner" />
+            android:text="@string/header_owner"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

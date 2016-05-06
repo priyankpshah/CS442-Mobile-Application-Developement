@@ -92,7 +92,7 @@ public class DashboardFragment extends Fragment {
                 R.drawable.apartment_four, R.drawable.apartment_five, R.drawable.apartment_six
         };
 
-        final int[] apartmentIds = {1, 2, 3, 4, 5, 6};
+        final int[] apartmentIds = {8, 7, 11, 10, 5, 6};
 
         recommendationsAdapter = new ImageAdapter(getActivity(), imageIds, new ImageAdapter.OnImageClickedListener() {
             @Override

@@ -82,8 +82,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ezhome_rent"
-                    android:textStyle="bold"
-                    android:gravity="right" />
+                    android:textStyle="bold"/>
+
+
 
                 <TextView
                     android:id="@+id/ezhome_thermostat"
@@ -92,7 +93,7 @@
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                     android:text="@string/ezhome_thermostat"
                     android:textStyle="bold"
-                    android:layout_marginLeft="90dp" />
+                    android:layout_marginLeft="100dp" />
                 </TableRow>
                 <TableRow>
                 <TextView
@@ -108,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/ezhome_internet"
                     android:textStyle="bold"
-                    android:layout_marginLeft="90dp" />
+                    android:layout_marginLeft="100dp" />
                 </TableRow>
                 <TableRow>
                 <TextView
@@ -126,7 +127,7 @@
                     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                     android:text="@string/ezhome_electricity"
                     android:textStyle="bold"
-                    android:layout_marginLeft="90dp" />
+                    android:layout_marginLeft="100dp" />
                 </TableRow>
             </TableLayout>
 

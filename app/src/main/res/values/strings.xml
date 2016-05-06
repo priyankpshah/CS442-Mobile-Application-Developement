@@ -93,7 +93,7 @@
     <string name="header_ezprice">ezPrice</string>
     <string name="header_beds">Beds</string>
     <string name="header_bathrooms">Bathrooms</string>
-    <string name="header_area">Square Feet</string>
+    <string name="header_area">Area</string>
     <string name="header_options">Options</string>
 
     <string name="hint_min">Min</string>
