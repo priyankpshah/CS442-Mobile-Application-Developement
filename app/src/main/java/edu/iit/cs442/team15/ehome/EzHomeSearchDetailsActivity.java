@@ -25,6 +25,7 @@ import edu.iit.cs442.team15.ehome.model.Amenity;
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.model.User;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
+import edu.iit.cs442.team15.ehome.util.Chicago;
 import edu.iit.cs442.team15.ehome.util.ImageAdapter;
 import edu.iit.cs442.team15.ehome.util.SavedLogin;
 
@@ -122,6 +123,7 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
                 catch (Exception e)
                 {
                     Toast.makeText(EzHomeSearchDetailsActivity.this,"Out of Network, Can't Send SMS",Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
                 }
             }
         });
@@ -130,10 +132,12 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String address = apartment.address;
-                Intent i = new Intent();
-                i.putExtra(address,"address");
-                Toast.makeText(getApplication(),"MAP CALLED",Toast.LENGTH_LONG).show();
+                String destaddress = apartment.address;
+                //String curaddress = "";
+                Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse("geo:"+ Chicago.LATITUDE+","+Chicago.LONGITUDE+"?q="+destaddress));
+                i.setPackage("com.google.android.apps.maps");
+                //i.setClassName("com.google.android.apps.maps","com.google.android.maps.MapsActivity");
+                startActivity(i);
 
             }
         });
