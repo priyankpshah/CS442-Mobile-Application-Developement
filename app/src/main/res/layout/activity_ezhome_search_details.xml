@@ -175,46 +175,56 @@
 
     </ScrollView>
 
-    <ImageButton
+    <Button
         android:id="@+id/Call"
-        android:layout_width="wrap_content"
+        android:layout_width="75sp"
         android:layout_height="wrap_content"
-        android:src="@drawable/call"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:layout_alignTop="@+id/button_search_map"
-        android:layout_alignParentStart="true" />
+        android:text="CALL"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
 
-    <ImageButton
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"        android:layout_alignTop="@+id/sms"
+        android:layout_toStartOf="@+id/sms" />
+
+    <Button
         android:id="@+id/sms"
-        android:layout_width="wrap_content"
+        android:layout_width="75sp"
         android:layout_height="wrap_content"
-        android:src="@drawable/text"
-        android:layout_alignTop="@+id/Call"
-        android:layout_alignParentEnd="true"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+        android:text="SMS"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:layout_alignTop="@+id/button_ezprice_details"
+        android:layout_alignEnd="@+id/scrollView" />
 
     <Button
         android:id="@+id/button_search_map"
         android:text="MAP"
-
         android:textColor="#FFFFFF"
-        android:textSize="22sp"
-        android:layout_width="105dp"
+        android:textSize="20sp"
+        android:layout_width="85dp"
         android:layout_height="35dp"
         android:background="@drawable/buttonshape"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
         android:shadowRadius="5"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/button_ezprice_details" />
+        android:layout_alignTop="@+id/Call"
+        android:layout_toEndOf="@+id/button_ezprice_details" />
     <Button
         android:id="@+id/button_ezprice_details"
         android:text="@string/button_ezprice_details"
-
         android:textColor="#FFFFFF"
-        android:textSize="22sp"
-        android:layout_width="105dp"
+        android:textSize="20sp"
+        android:layout_width="85dp"
         android:layout_height="35dp"
         android:background="@drawable/buttonshape"
         android:shadowColor="#A8A8A8"
@@ -222,6 +232,6 @@
         android:shadowDy="0"
         android:shadowRadius="5"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/sms" />
+         />
 
 </RelativeLayout>

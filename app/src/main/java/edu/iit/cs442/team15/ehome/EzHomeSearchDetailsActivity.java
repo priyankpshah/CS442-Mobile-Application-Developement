@@ -31,11 +31,11 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
     public static final String EXTRA_APARTMENT_ID = "apartment_id";
 
     private int apartmentId;
-    private ImageButton call, text;
+    private Button call, text,map;
     private TextView name, address, area, bedrooms, bathrooms, ezPrice, rent, thermostat, cable, internet, gas, electricity;
     private CheckedTextView gym, parking;
     static final int NUM_ITEMS = 5;
-    Button map;
+
 
     ViewPager viewPager;
     private MenuItem favorites;
@@ -47,7 +47,7 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         setContentView(R.layout.activity_ezhome_search_details);
 
         apartmentId = getIntent().getIntExtra(EXTRA_APARTMENT_ID, -1);
-        Apartment apartment = ApartmentDatabaseHelper.getInstance().getApartment(apartmentId);
+        final Apartment apartment = ApartmentDatabaseHelper.getInstance().getApartment(apartmentId);
 
         Button details = (Button) findViewById(R.id.button_ezprice_details);
         details.setOnClickListener(this);
@@ -83,12 +83,12 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         electricity.setText(getString(R.string.ezhome_electricity, apartment.amenity.electricity));
         Boolean parkingval = apartment.amenity.parking;
         Boolean Gymval = apartment.amenity.gym;
-        Toast.makeText(getApplicationContext(),"Rent: "+apartment.rent,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),"Rent: "+apartment.rent,Toast.LENGTH_LONG).show();
         gym.setChecked(Gymval);
         parking.setChecked(parkingval);
-        //Call owner with the following method
-        call = (ImageButton)findViewById(R.id.Call);
 
+        //Call owner with the following method
+        call = (Button)findViewById(R.id.Call);
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,14 +105,24 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
 
         //Send message to owner
         final User currentUser = ApartmentDatabaseHelper.getInstance().getUser(SavedLogin.getInstance().getEmail());
-        text = (ImageButton)findViewById(R.id.sms);
+        text = (Button)findViewById(R.id.sms);
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String PhNO = "3126473207";
+                String PhNO = "+13126473207";
                 SmsManager smsMan = SmsManager.getDefault();
                 smsMan.sendTextMessage(PhNO, null, "I am Interested in leasing you property, Contact me@ "+currentUser.phone,null,null);
-                
+            }
+        });
+
+        map = (Button)findViewById(R.id.button_search_map);
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String address = apartment.address;
+                Intent i = new Intent();
+                i.putExtra(address,"address");
+                Toast.makeText(getApplication(),"MAP CALLED",Toast.LENGTH_LONG).show();
 
             }
         });
