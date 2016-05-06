@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import edu.iit.cs442.team15.ehome.model.Amenity;
 import edu.iit.cs442.team15.ehome.model.Apartment;
+import edu.iit.cs442.team15.ehome.model.User;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
 import edu.iit.cs442.team15.ehome.util.ImageAdapter;
 import edu.iit.cs442.team15.ehome.util.SavedLogin;
@@ -33,6 +35,7 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
     private TextView name, address, area, bedrooms, bathrooms, ezPrice, rent, thermostat, cable, internet, gas, electricity;
     private CheckedTextView gym, parking;
     static final int NUM_ITEMS = 5;
+    Button map;
 
     ViewPager viewPager;
     private MenuItem favorites;
@@ -101,13 +104,16 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
 
 
         //Send message to owner
+        final User currentUser = ApartmentDatabaseHelper.getInstance().getUser(SavedLogin.getInstance().getEmail());
         text = (ImageButton)findViewById(R.id.sms);
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sendText = new Intent(Intent.ACTION_VIEW);
-                sendText.putExtra("address", "3126473207");
-                sendText.putExtra("sms_body", "I am Interested in leasing you property, Contact me!!");
+                String PhNO = "3126473207";
+                SmsManager smsMan = SmsManager.getDefault();
+                smsMan.sendTextMessage(PhNO, null, "I am Interested in leasing you property, Contact me@ "+currentUser.phone,null,null);
+                
+
             }
         });
         //Display multiple Images with swipe gesture, Adapter is located in ImageAdepter File.
