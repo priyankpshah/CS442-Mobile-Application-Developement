@@ -8,7 +8,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -97,7 +96,6 @@ public class EzHomeSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         initView(inflater, container);
-        ShareActionProvider mShareActionProvider;
         if (adapter == null)
             adapter = new MyAdapter();
         lv_ehome_search.setAdapter(adapter);
@@ -275,18 +273,18 @@ public class EzHomeSearchFragment extends Fragment {
             if (convertView == null) {
                 convertView = View.inflate(getActivity(), R.layout.item_list_ezhome_search, null);
                 holder = new ViewHolder();
-                holder.Itemarea = (TextView) convertView.findViewById(R.id.tv_area);
-                holder.Itemaddress = (TextView) convertView.findViewById(R.id.tv_address);
-                holder.Itemrent = (TextView) convertView.findViewById(R.id.tv_rent);
-                holder.Itemowner = (TextView) convertView.findViewById(R.id.tv_owner);
+                holder.area = (TextView) convertView.findViewById(R.id.tv_area);
+                holder.address = (TextView) convertView.findViewById(R.id.tv_address);
+                holder.rent = (TextView) convertView.findViewById(R.id.tv_rent);
+                holder.owner = (TextView) convertView.findViewById(R.id.tv_owner);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.Itemarea.setText(Double.toString(result.get(position).squareFeet));
-            holder.Itemaddress.setText(result.get(position).address);
-            holder.Itemrent.setText(Double.toString(result.get(position).getTotalCost()));
-            holder.Itemowner.setText(result.get(position).owner.complexName);
+            holder.area.setText(getString(R.string.format_area, result.get(position).squareFeet));
+            holder.address.setText(result.get(position).address);
+            holder.rent.setText(getString(R.string.format_rent, result.get(position).getTotalCost()));
+            holder.owner.setText(result.get(position).owner.complexName);
             return convertView;
         }
 
@@ -298,10 +296,10 @@ public class EzHomeSearchFragment extends Fragment {
     }
 
     private static final class ViewHolder {
-        public TextView Itemaddress;
-        public TextView Itemrent;
-        public TextView Itemarea;
-        public TextView Itemowner;
+        public TextView address;
+        public TextView rent;
+        public TextView area;
+        public TextView owner;
     }
 
     private void filterApartmentsByLocation(ApartmentSearchFilter filter) {

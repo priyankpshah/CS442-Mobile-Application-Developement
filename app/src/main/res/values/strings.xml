@@ -93,7 +93,7 @@
     <string name="header_ezprice">ezPrice</string>
     <string name="header_beds">Beds</string>
     <string name="header_bathrooms">Bathrooms</string>
-    <string name="header_area">Area</string>
+    <string name="header_area">Sq Ft</string>
     <string name="header_options">Options</string>
 
     <string name="hint_min">Min</string>
@@ -133,6 +133,9 @@
         <item>Rent(low to high)</item>
         <item>Area(high to low)</item>
     </string-array>
+
+    <string name="format_rent">$%.0f</string>
+    <string name="format_area">%.0f sq ft</string>
 
     <string name="no_search_results">No apartments found.</string>
 

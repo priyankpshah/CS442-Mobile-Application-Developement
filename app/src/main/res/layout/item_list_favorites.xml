@@ -27,16 +27,6 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/tv_area"
-        style="@style/EzHomeSearchTextView"
-        android:layout_weight="1"
-        android:text="@string/header_area" />
-
-    <Space
-        android:layout_width="4dp"
-        android:layout_height="match_parent" />
-
-    <TextView
         android:id="@+id/tv_rent"
         style="@style/EzHomeSearchTextView"
         android:layout_weight="1"

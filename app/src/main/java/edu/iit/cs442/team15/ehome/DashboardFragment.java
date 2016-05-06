@@ -145,9 +145,8 @@ public class DashboardFragment extends Fragment {
             ViewHolder holder;
 
             if (convertView == null) {
-                convertView = View.inflate(getActivity(), R.layout.item_list_ezhome_search, null);
+                convertView = View.inflate(getActivity(), R.layout.item_list_favorites, null);
                 holder = new ViewHolder();
-                holder.area = (TextView) convertView.findViewById(R.id.tv_area);
                 holder.address = (TextView) convertView.findViewById(R.id.tv_address);
                 holder.rent = (TextView) convertView.findViewById(R.id.tv_rent);
                 holder.owner = (TextView) convertView.findViewById(R.id.tv_owner);
@@ -155,9 +154,8 @@ public class DashboardFragment extends Fragment {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.area.setText(Double.toString(favorites.get(position).squareFeet));
             holder.address.setText(favorites.get(position).address);
-            holder.rent.setText(Double.toString(favorites.get(position).getTotalCost()));
+            holder.rent.setText(getString(R.string.format_rent, favorites.get(position).getTotalCost()));
             holder.owner.setText(favorites.get(position).owner.complexName);
             return convertView;
         }
@@ -172,7 +170,6 @@ public class DashboardFragment extends Fragment {
     private static final class ViewHolder {
         public TextView address;
         public TextView rent;
-        public TextView area;
         public TextView owner;
     }
 

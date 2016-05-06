@@ -8,57 +8,45 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_address_title"
-            style="@style/EzHomeSearchTextView"
-            android:maxEms="6"
-            android:singleLine="true"
-            android:text="@string/header_address"
-            android:textStyle="bold"/>
-        <View
-            android:id="@+id/div1"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/tv_rent_title"
-            android:background="@color/colorPrimary" />
-
-        <TextView
-            android:id="@+id/tv_rent_title"
-            style="@style/EzHomeSearchTextView"
-            android:maxEms="6"
-            android:singleLine="true"
-            android:text="@string/header_ezprice"
-            android:textStyle="bold" />
-        <View
-            android:id="@+id/div2"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/tv_area_title"
-            android:background="@color/colorPrimary" />
-
-        <TextView
-            android:id="@+id/tv_area_title"
-            style="@style/EzHomeSearchTextView"
-            android:maxEms="6"
-            android:singleLine="true"
-            android:text="@string/header_area"
-            android:textStyle="bold"/>
-        <View
-            android:id="@+id/div3"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/tv_owner_title"
-            android:background="@color/colorPrimary" />
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
 
         <TextView
             android:id="@+id/tv_owner_title"
             style="@style/EzHomeSearchTextView"
+            android:layout_weight="1.5"
             android:maxEms="6"
             android:singleLine="true"
             android:text="@string/header_owner"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_address_title"
+            style="@style/EzHomeSearchTextView"
+            android:layout_weight="2"
+            android:maxEms="6"
+            android:singleLine="true"
+            android:text="@string/header_address"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_area_title"
+            style="@style/EzHomeSearchTextView"
+            android:layout_weight="1"
+            android:maxEms="6"
+            android:singleLine="true"
+            android:text="@string/header_area"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_rent_title"
+            style="@style/EzHomeSearchTextView"
+            android:layout_weight="1"
+            android:maxEms="6"
+            android:singleLine="true"
+            android:text="@string/header_ezprice"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
