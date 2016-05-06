@@ -114,9 +114,15 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
                 String PhNO = "+13126473207";
                 String message = "I am Interested in leasing you property, Contact me: "+currentUser.phone;
                 //Toast.makeText(EzHomeSearchDetailsActivity.this,message,Toast.LENGTH_LONG).show();
-                SmsManager smsMan = SmsManager.getDefault();
-                ArrayList<String> parts= smsMan.divideMessage(message);
-                smsMan.sendMultipartTextMessage(PhNO, null, parts, null, null);
+                try {
+                    SmsManager smsMan = SmsManager.getDefault();
+                    ArrayList<String> parts = smsMan.divideMessage(message);
+                    smsMan.sendMultipartTextMessage(PhNO, null, parts, null, null);
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(EzHomeSearchDetailsActivity.this,"Out of Network, Can't Send SMS",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
