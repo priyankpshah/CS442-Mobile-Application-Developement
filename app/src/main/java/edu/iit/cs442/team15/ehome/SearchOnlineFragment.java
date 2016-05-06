@@ -183,6 +183,7 @@ public class SearchOnlineFragment extends Fragment implements OnMapReadyCallback
             userMarker = map.addMarker(new MarkerOptions()
                     .position(position)
                     .title(filter.location)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.search_online_location_marker))
                     .snippet("Search radius"));
 
             map.addCircle(new CircleOptions()
