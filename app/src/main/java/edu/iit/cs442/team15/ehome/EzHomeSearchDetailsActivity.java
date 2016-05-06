@@ -8,20 +8,14 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-
-import edu.iit.cs442.team15.ehome.model.Amenity;
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.model.User;
 import edu.iit.cs442.team15.ehome.util.ApartmentDatabaseHelper;
@@ -108,7 +102,6 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
             }
         });
 
-
         //Send message to owner
         final User currentUser = ApartmentDatabaseHelper.getInstance().getUser(SavedLogin.getInstance().getEmail());
         text = (Button)findViewById(R.id.sms);
@@ -117,8 +110,12 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
             public void onClick(View v) {
                 String PhNO = "+13126473207";
                 String message = "I am Interested in leasing you property, Contact me: "+currentUser.phone;
+                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                sendIntent.setData(Uri.parse("sms:" + PhNO));
+                sendIntent.putExtra("sms_body", message);
+                startActivity(sendIntent);
                 //Toast.makeText(EzHomeSearchDetailsActivity.this,message,Toast.LENGTH_LONG).show();
-                try {
+                /*try {
                     SmsManager smsMan = SmsManager.getDefault();
                     ArrayList<String> parts = smsMan.divideMessage(message);
                     smsMan.sendMultipartTextMessage(PhNO, null, parts, null, null);
@@ -127,7 +124,7 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
                 {
                     Toast.makeText(EzHomeSearchDetailsActivity.this,"Out of Network, Can't Send SMS",Toast.LENGTH_LONG).show();
                     e.printStackTrace();
-                }
+                }*/
             }
         });
 
