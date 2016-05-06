@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import edu.iit.cs442.team15.ehome.model.Amenity;
 import edu.iit.cs442.team15.ehome.model.Apartment;
 import edu.iit.cs442.team15.ehome.model.User;
@@ -110,8 +112,11 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
             @Override
             public void onClick(View v) {
                 String PhNO = "+13126473207";
+                String message = "I am Interested in leasing you property, Contact me: "+currentUser.phone;
+                //Toast.makeText(EzHomeSearchDetailsActivity.this,message,Toast.LENGTH_LONG).show();
                 SmsManager smsMan = SmsManager.getDefault();
-                smsMan.sendTextMessage(PhNO, null, "I am Interested in leasing you property, Contact me@ "+currentUser.phone,null,null);
+                ArrayList<String> parts= smsMan.divideMessage(message);
+                smsMan.sendMultipartTextMessage(PhNO, null, parts, null, null);
             }
         });
 
