@@ -59,8 +59,8 @@
     <string name="dashboard_no_favorites">You have no favorites.</string>
     <string name="dashboard_recommendations_header">Recommendations</string>
 
-    <!-- ezHome Search Details -->
-    <string name="title_activity_ezhome_search_details">Search Details</string>
+    <!-- ezHome Apartment Details -->
+    <string name="title_activity_ezhome_search_details">Apartment Details</string>
 
     <string name="menu_favorites">Add to favorites</string>
 
@@ -72,7 +72,7 @@
     <string name="ezhome_bathrooms">Bathrooms: %d</string>
     <string name="ezhome_parking">Parking: </string>
     <string name="ezhome_gym">Gym: </string>
-
+    <string name="ezhome_owner">Owner Name: %s</string>
     <string name="ezhome_ezprice">ezPrice: $%.2f</string>
     <string name="ezhome_rent">Rent: $%.2f</string>
     <string name="ezhome_totalCost">Total Cost: $%.2f</string>

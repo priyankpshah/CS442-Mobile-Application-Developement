@@ -35,7 +35,7 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
 
     private int apartmentId;
     private Button call, text,map;
-    private TextView name, address, area, bedrooms, bathrooms, ezPrice, rent, thermostat, cable, internet, gas, electricity;
+    private TextView name, address, area, bedrooms, bathrooms, ezPrice, rent, thermostat, cable, internet, gas, electricity,ownerinfo;
     private CheckedTextView gym, parking;
     static final int NUM_ITEMS = 5;
 
@@ -61,6 +61,7 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         bathrooms = (TextView) findViewById(R.id.ezhome_bathrooms);
         parking = (CheckedTextView) findViewById(R.id.ezhome_parking);
         gym = (CheckedTextView) findViewById(R.id.ezhome_gym);
+        ownerinfo = (TextView)findViewById(R.id.ownerinfo);
 
         ezPrice = (TextView) findViewById(R.id.ezhome_ezprice);
         rent = (TextView) findViewById(R.id.ezhome_rent);
@@ -70,13 +71,15 @@ public class EzHomeSearchDetailsActivity extends AppCompatActivity implements Vi
         gas = (TextView) findViewById(R.id.ezhome_gas);
         electricity = (TextView) findViewById(R.id.ezhome_electricity);
 
+
         // show apartment info
         address.setText(getString(R.string.ezhome_address, apartment.address));
         area.setText(getString(R.string.ezhome_area, apartment.squareFeet));
         bedrooms.setText(getString(R.string.ezhome_bedrooms, apartment.bedrooms));
         bathrooms.setText(getString(R.string.ezhome_bathrooms, apartment.bathrooms));
+        ownerinfo.setText(getString(R.string.ezhome_owner,apartment.owner.complexName));
 
-        // ezPrice and details
+                // ezPrice and details
         ezPrice.setText(getString(R.string.ezhome_ezprice, apartment.getTotalCost()));
         rent.setText(getString(R.string.ezhome_rent, apartment.rent));
         thermostat.setText(getString(R.string.ezhome_thermostat, apartment.amenity.thermostat));
